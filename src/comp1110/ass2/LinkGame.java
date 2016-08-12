@@ -20,7 +20,20 @@ public class LinkGame {
      */
     static boolean isPiecePlacementWellFormed(String piecePlacement) {
         // FIXME Task 3: determine whether a piece placement is well-formed
-        return false;
+
+        if (piecePlacement.length()%3!=0){
+        return false;}
+        else{
+            if (piecePlacement.charAt(0)>='A'&&piecePlacement.charAt(0)<='X'&&
+                    piecePlacement.charAt(1)>='A'&&piecePlacement.charAt(1)<='L'&&
+                    piecePlacement.charAt(2)>='A'&&piecePlacement.charAt(2)<='L'){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
     }
 
     /**

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>comp1110.ass2</OriginalElement>
+  <nodes>
+    <node x="-334.0" y="309.0">comp1110.ass2.Puzzle</node>
+    <node x="558.0" y="-162.0">comp1110.ass2.gittest</node>
+    <node x="-78.0" y="275.0">comp1110.ass2.LinkGame</node>
+    <node x="148.0" y="-82.0">comp1110.ass2.Orientation</node>
+    <node x="571.0" y="-61.0">comp1110.ass2.gui</node>
+    <node x="-43.0" y="90.0">comp1110.ass2.Unit</node>
+    <node x="-156.0" y="-232.0">comp1110.ass2.PiecePlacement</node>
+    <node x="-480.0" y="-46.0">comp1110.ass2.Piece</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="comp1110.ass2.PiecePlacement" target="comp1110.ass2.Orientation">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="comp1110.ass2.PiecePlacement" target="comp1110.ass2.Piece">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="comp1110.ass2.Piece" target="comp1110.ass2.Unit">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="comp1110.ass2.gittest" target="comp1110.ass2.gittest">
+      <point x="0.0" y="0.0" />
+      <point x="615.0" y="-187.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="138.5" y="117.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

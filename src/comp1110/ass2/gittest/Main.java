@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         A a = new A();
         B b = new B();
-        C a = new C();
+        C c = new C();
 
     }
 }

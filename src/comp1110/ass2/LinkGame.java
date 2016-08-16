@@ -13,27 +13,15 @@ public class LinkGame {
      * - it consists of exactly three characters
      * - the first character is in the range A .. X
      * - the second character is in the range A .. L
-     * - the third character is in the range A .. L
+     * - the third character is in the range A .. F if the second character is A, otherwise
+     *   in the range A .. L
      *
      * @param piecePlacement A string describing a piece placement
      * @return True if the piece placement is well-formed
      */
     static boolean isPiecePlacementWellFormed(String piecePlacement) {
         // FIXME Task 3: determine whether a piece placement is well-formed
-
-        if (piecePlacement.length()!=3){
-        return false;}
-        else{
-            if (piecePlacement.charAt(0)>='A'&&piecePlacement.charAt(0)<='X'&&
-                    piecePlacement.charAt(1)>='A'&&piecePlacement.charAt(1)<='L'&&
-                    piecePlacement.charAt(2)>='A'&&piecePlacement.charAt(2)<='L'){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-
+        return false;
     }
 
     /**
@@ -47,28 +35,7 @@ public class LinkGame {
      */
     static boolean isPlacementWellFormed(String placement) {
         // FIXME Task 4: determine whether a placement is well-formed
-        int sublength = 3;
-        Boolean a = true;
-        if (placement.length() % sublength != 0)
-            a = false;
-        int length = placement.length() / sublength;
-        String[] sublist = new String[length];
-        String[] testlist = new String[length];
-        for (int i = 0; i < length; i++) {
-            sublist[i] = placement.substring(sublength * i, sublength * (i + 1));
-            for (int j = i + 1; j < length; j++) {
-                testlist[j] = placement.substring(sublength * j, sublength * (j + 1));
-                if (sublist[i].equals(testlist[j])) {
-                    a = false;
-                }
-            }
-            if (!(sublist[i].charAt(0) >= 'A' && sublist[i].charAt(0) <= 'X' &&
-                    sublist[i].charAt(1) >= 'A' && sublist[i].charAt(1) <= 'L' &&
-                    sublist[i].charAt(2) >= 'A' && sublist[i].charAt(2) <= 'L')) {
-                a =false;
-            }
-        }
-        return a;
+        return false;
     }
 
     /**

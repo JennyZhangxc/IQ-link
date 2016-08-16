@@ -30,13 +30,9 @@ public class LinkGame {
                     piecePlacement.charAt(2)>='A'&&piecePlacement.charAt(2)<='L'){
                 return true;
             }
-            else if(piecePlacement.charAt(0)>='A'&&piecePlacement.charAt(0)<='X'&&
-                    piecePlacement.charAt(1)=='A'&&
-                    piecePlacement.charAt(2)>='A'&&piecePlacement.charAt(2)<='F'){
-                return true;}
-            else{
-                return false;
-            }
+            else return piecePlacement.charAt(0) >= 'A' && piecePlacement.charAt(0) <= 'X' &&
+                    piecePlacement.charAt(1) == 'A' &&
+                    piecePlacement.charAt(2) >= 'A' && piecePlacement.charAt(2) <= 'F';
         }
 
     }
@@ -89,8 +85,6 @@ public class LinkGame {
      * listed in the normal order of links for that piece.
      */
     static int[] getPegsForPiecePlacement(String piecePlacement) {
-        // FIXME Task 6: determine the pegs touched by a piece placement
-//        return null;
         ArrayList<Integer> peg_locations=new ArrayList<>();
         String[] sublist = new String[piecePlacement.length()/3];
         for(int position=0; position<piecePlacement.length()/3;position++) {

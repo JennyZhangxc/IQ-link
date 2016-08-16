@@ -1,9 +1,10 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.Puzzle;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class Board extends Application {
+public class Board extends Puzzle {
     private static final int BOARD_WIDTH = 933;
     private static final int BOARD_HEIGHT = 700;
 

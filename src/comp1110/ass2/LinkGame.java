@@ -22,19 +22,18 @@ public class LinkGame {
      * @return True if the piece placement is well-formed
      */
     static boolean isPiecePlacementWellFormed(String piecePlacement) {
-        if (piecePlacement.length()!=3){
-        return false;}
-        else{
-            if (piecePlacement.charAt(0)>='A'&&piecePlacement.charAt(0)<='X'&&
-                    piecePlacement.charAt(1)>'A'&&piecePlacement.charAt(1)<='L'&&
-                    piecePlacement.charAt(2)>='A'&&piecePlacement.charAt(2)<='L'){
-                return true;
-            }
-            else return piecePlacement.charAt(0) >= 'A' && piecePlacement.charAt(0) <= 'X' &&
-                    piecePlacement.charAt(1) == 'A' &&
-                    piecePlacement.charAt(2) >= 'A' && piecePlacement.charAt(2) <= 'F';
-        }
-
+        return piecePlacement.length() == 3 &&
+                (       piecePlacement.charAt(0) >= 'A' &&
+                        piecePlacement.charAt(0) <= 'X' &&
+                        piecePlacement.charAt(1) > 'A' &&
+                        piecePlacement.charAt(1) <= 'L' &&
+                        piecePlacement.charAt(2) >= 'A' &&
+                        piecePlacement.charAt(2) <= 'L' ||
+                                piecePlacement.charAt(0) >= 'A' &&
+                                piecePlacement.charAt(0) <= 'X' &&
+                                piecePlacement.charAt(1) == 'A' &&
+                                piecePlacement.charAt(2) >= 'A' &&
+                                piecePlacement.charAt(2) <= 'F');
     }
 
     /**
@@ -109,122 +108,89 @@ public class LinkGame {
                 r_b = 7;
             }
             int[] positions = new int[3];
+            positions[1] = location_o;
             if (sublist[position].charAt(1) >= 'A' && sublist[position].charAt(1) <= 'C') {
                 switch (sublist[position].charAt(2)) {
                     case ('A'):
                     case ('G'):
                         positions[0] = location_o - 1;
-                        positions[1] = location_o;
                         positions[2] = location_o + 1;
                         break;
                     case ('B'):
                     case ('H'):
                         positions[0] = location_o + l_a;
-                        positions[1] = location_o;
                         positions[2] = location_o + r_b;
                         break;
                     case ('C'):
                     case ('I'):
                         positions[0] = location_o + r_a;
-                        positions[1] = location_o;
                         positions[2] = location_o + l_b;
                         break;
                     case ('D'):
                     case ('J'):
                         positions[0] = location_o + 1;
-                        positions[1] = location_o;
                         positions[2] = location_o - 1;
                         break;
                     case ('E'):
                     case ('K'):
                         positions[0] = location_o + r_b;
-                        positions[1] = location_o;
                         positions[2] = location_o + l_a;
                         break;
                     case ('F'):
                     case ('L'):
                         positions[0] = location_o + l_b;
-                        positions[1] = location_o;
                         positions[2] = location_o + r_a;
                         break;
-                }
-                for(int i=0;i<positions.length;i++){
-                    if (Math.abs(positions[i]%6-o_column)<=1){
-                        peg_locations.add(positions[i]);
-                    }
-                    else{
-                        peg_locations.add(-1);
-                    }
                 }
             }
             if (sublist[position].charAt(1) >= 'D' && sublist[position].charAt(1) <= 'H') {
                 switch (sublist[position].charAt(2)) {
                     case ('A'):
                         positions[0] = location_o - 1;
-                        positions[1] = location_o;
                         positions[2] = location_o +r_a;
                         break;
                     case ('I'):
                         positions[2] = location_o - 1;
-                        positions[1] = location_o;
                         positions[0] = location_o +r_a;
                         break;
                     case ('B'):
                         positions[0] = location_o + l_a;
-                        positions[1] = location_o;
                         positions[2] = location_o + 1;
                         break;
                     case ('J'):
                         positions[2] = location_o + l_a;
-                        positions[1] = location_o;
                         positions[0] = location_o + 1;
                         break;
                     case ('C'):
                         positions[0] = location_o + r_a;
-                        positions[1] = location_o;
                         positions[2] = location_o + r_b;
                         break;
                     case ('K'):
                         positions[2] = location_o + r_a;
-                        positions[1] = location_o;
                         positions[0] = location_o + r_b;
                         break;
                     case ('D'):
                         positions[0] = location_o + 1;
-                        positions[1] = location_o;
                         positions[2] = location_o + l_b;
                     case ('L'):
                         positions[2] = location_o + 1;
-                        positions[1] = location_o;
                         positions[0] = location_o + l_b;
                         break;
                     case ('E'):
                         positions[0] = location_o + r_b;
-                        positions[1] = location_o;
                         positions[2] = location_o - 1;
                     case ('G'):
                         positions[2] = location_o + r_b;
-                        positions[1] = location_o;
                         positions[0] = location_o - 1;
                         break;
                     case ('F'):
                         positions[0] = location_o + l_b;
-                        positions[1] = location_o;
                         positions[2] = location_o + l_a;
                         break;
                     case ('H'):
                         positions[2] = location_o + l_b;
-                        positions[1] = location_o;
                         positions[0] = location_o + l_a;
                         break;
-                }
-                for(int i=0;i<positions.length;i++){
-                    if (Math.abs(positions[i]%6-o_column)<=1){
-                        peg_locations.add(positions[i]);
-                    }
-                    else{
-                        peg_locations.add(-1);
-                    }
                 }
             }
             if (sublist[position].charAt(1) >= 'I' && sublist[position].charAt(1) <= 'L') {
@@ -288,13 +254,13 @@ public class LinkGame {
                         positions[0] = location_o - 1;
                         break;
                 }
-                for(int i=0;i<positions.length;i++){
-                    if (Math.abs(positions[i]%6-o_column)<=1){
-                        peg_locations.add(positions[i]);
-                    }
-                    else{
-                        peg_locations.add(-1);
-                    }
+            }
+            for(int i:positions){
+                if (Math.abs(i%6-o_column)<=1){
+                    peg_locations.add(i);
+                }
+                else{
+                    peg_locations.add(-1);
                 }
             }
         }

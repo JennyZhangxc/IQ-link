@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  * class does not play a game, it just illustrates various piece
  * placements.
  */
-public class Viewer extends Board {
+public class Viewer extends Application {
 
     /* board layout */
     private static final int SQUARE_SIZE = 100;

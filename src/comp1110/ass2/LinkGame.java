@@ -75,13 +75,13 @@ public class LinkGame {
 
     /**
      * Return a array of peg locations according to which pegs the given piece placement touches.
-     * The values in the array should be ordered according to the links that constitute the
+     * The values in the array should be ordered according to the units that constitute the
      * piece.
      * The code needs to account for the origin of the piece, the piece shape, and the piece
      * orientation.
      * @param piecePlacement A valid string describing a piece placement
      * @return An array of integers corresponding to the pegs which the piece placement touches,
-     * listed in the normal order of links for that piece.
+     * listed in the normal order of units for that piece.
      */
     static int[] getPegsForPiecePlacement(String piecePlacement) {
         ArrayList<Integer> peg_locations=new ArrayList<>();

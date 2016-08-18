@@ -17,6 +17,7 @@ public class Puzzle {
 
     }
     public PiecePlacement getSolution(){
-        return new PiecePlacement();
+        //return new PiecePlacement();
+        return null;
     }
 }

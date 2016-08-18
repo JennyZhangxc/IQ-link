@@ -13,7 +13,8 @@ public class Board extends Application{
 
     // FIXME Task 9: Implement starting placements
     PiecePlacement start_placements(){
-        return new PiecePlacement();
+        //return new PiecePlacement();
+        return null;
     }
     Puzzle start(){
         return new Puzzle();

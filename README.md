@@ -53,12 +53,15 @@ The following sequence shows the progression of a solution to the game above.
 #### Pieces
 
 The game comprises **12 playing pieces**, each of which consists of three **units**.
-The center unit is defined to be the **origin** of the piece (the placement of
+The center unit (index = 1) is defined to be the **origin** of the piece (the placement of
 the piece is defined in terms of the placement of the center unit).  A unit may
 either be a **ball**, or a **ring**.  Each ball has one or two 
 **connections** extending from it.  Each ring has zero, one, or two **openings**.
 A ball and a ring may be placed on the same peg so long as the ball's *connection*
-fits exactly in one of the ring's *openings*.
+fits exactly in one of the ring's *openings*.  The units that form a piece are
+numbered 0, 1 and 2, with 1 being the origin (the center unit), 0 being the 
+unit to its left in the default ('A') orientation, and 2 being the remaining 
+unit.
 
 For example, the illustration below shows three of the pieces from the completed
 game above.  The ball at the left end of the green piece has a *connection* to

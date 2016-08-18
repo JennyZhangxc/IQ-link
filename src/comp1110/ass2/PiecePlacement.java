@@ -7,6 +7,7 @@ public class PiecePlacement {
     private int origin;
     private Piece piece;
     private Orientation orientation;
+    private LinkGame linkGame;
 
     PiecePlacement(String pieceplacement) {
         origin = pieceplacement.charAt(0)-'A';
@@ -18,4 +19,15 @@ public class PiecePlacement {
 
     void updateCoverageAndErrors(Puzzle puzzle, int[] coverage, boolean[] errors) {
     }
+
+    static PiecePlacement[] getPlacements(String placement) {
+//        if (!isPlacementWellFormed(placement)) throw new IllegalArgumentException("Bad placement string: "+placement);
+//
+//        PiecePlacement[] placements = new PiecePlacement[placement.length()/3];
+//        for (int p = 0; p < placements.length; p++) {
+//            placements[p] = new PiecePlacement(placement.substring(p*3,(p+1)*3));
+//        }
+        return null;
+    }
+
 }

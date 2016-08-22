@@ -1,7 +1,5 @@
 package comp1110.ass2.gui;
 
-import com.sun.xml.internal.stream.Entity;
-import com.sun.xml.internal.xsom.impl.scd.Iterators;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,6 +17,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sun.corba.se.impl.util.Utility.printStackTrace;
+
 /**
  * A very simple viewer for piece placements in the link game.
  *
@@ -34,7 +34,6 @@ public class Viewer extends Application {
     private static final double ROW_HEIGHT = SQUARE_SIZE * 0.8660254; // 60 degrees
     private static final int VIEWER_WIDTH = 750;
     private static final int VIEWER_HEIGHT = 500;
-    private boolean Flag = false;
 
     private static final String URI_BASE = "assets/";
 
@@ -52,8 +51,8 @@ public class Viewer extends Application {
     void makePlacement(String placement) {
         // FIXME Task 5: implement the simple placement viewer
         int length=placement.length()/3;
-        if(length%3==0){
-            Flag = true;
+        if(length%3!=0){
+            System.out.println("Wrong input");
         }
         List<String> list=new ArrayList<>();
         for(int i=0;i<length;i++){
@@ -100,7 +99,7 @@ public class Viewer extends Application {
         }
         catch (Exception e)
         {
-            System.out.println(e);
+            printStackTrace();
         }
 
     }

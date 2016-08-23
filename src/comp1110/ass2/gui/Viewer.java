@@ -1,8 +1,6 @@
 package comp1110.ass2.gui;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -19,7 +16,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 
 /**
  * A very simple viewer for piece placements in the link game.
@@ -41,8 +37,8 @@ public class Viewer extends Application {
 
     private final Group root = new Group();
     private final Group controls = new Group();
-    TextField textField;
-    Group group=new Group();
+    private TextField textField;
+    private Group group=new Group();
 
 
     /**
@@ -51,8 +47,7 @@ public class Viewer extends Application {
      * @param placement  A valid placement string
      */
 
-    void makePlacement(String placement) {
-        // FIXME Task 5: implement the simple placement viewer
+    private void makePlacement(String placement) {
         if(root.getChildren().contains(group)){
             root.getChildren().remove(group);
         }
@@ -67,8 +62,8 @@ public class Viewer extends Application {
             list.add(placement.substring(i*3,(i+1)*3));
         }
         List<Integer> index = new ArrayList<>();
-        for (int j = 0; j < list.size(); j++) {
-            index.add(Character.getNumericValue(list.get(j).charAt(0)) - 10);
+        for (String piece : list) {
+            index.add(Character.getNumericValue(piece.charAt(0)) - 10);
 
         }
         int[][] position = new int[length][2];
@@ -81,7 +76,7 @@ public class Viewer extends Application {
 
         for (int i = 0; i < length; i++) {
             char piece=list.get(i).charAt(1);
-            Image image = new Image("file:src/comp1110/ass2/gui/assets/"+piece+".png");
+            Image image = new Image(Board.class.getResource(URI_BASE + piece + ".png").toString());
             ImageView iv1 = new ImageView();
             iv1.setImage(image);
             iv1.setFitHeight(PIECE_IMAGE_SIZE);
@@ -113,12 +108,9 @@ public class Viewer extends Application {
         textField = new TextField ();
         textField.setPrefWidth(300);
         Button button = new Button("Refresh");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                makePlacement(textField.getText());
-                textField.clear();
-            }
+        button.setOnAction(e -> {
+            makePlacement(textField.getText());
+            textField.clear();
         });
         HBox hb = new HBox();
         hb.getChildren().addAll(label1, textField, button);

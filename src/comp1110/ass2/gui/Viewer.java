@@ -12,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -51,8 +53,9 @@ public class Viewer extends Application {
     void makePlacement(String placement) {
         // FIXME Task 5: implement the simple placement viewer
         int length=placement.length()/3;
-        if(length%3!=0){
+        if(placement.length()%3!=0){
             System.out.println("Wrong input");
+            return;
         }
         List<String> list=new ArrayList<>();
         for(int i=0;i<length;i++){
@@ -81,10 +84,10 @@ public class Viewer extends Application {
                 iv1.setFitHeight(PIECE_IMAGE_SIZE);
                 iv1.setFitWidth(PIECE_IMAGE_SIZE);
                 if(position[i][0]%2==0){
-                    iv1.relocate(position[i][1]*SQUARE_SIZE-SQUARE_SIZE/2,position[i][0]*ROW_HEIGHT-SQUARE_SIZE);
+                    iv1.relocate(position[i][1]*SQUARE_SIZE-SQUARE_SIZE/2,position[i][0]*ROW_HEIGHT-ROW_HEIGHT);
                 }
                 else{
-                    iv1.relocate(position[i][1]*SQUARE_SIZE,position[i][0]*ROW_HEIGHT-SQUARE_SIZE);
+                    iv1.relocate(position[i][1]*SQUARE_SIZE,position[i][0]*ROW_HEIGHT-ROW_HEIGHT);
                 }
                 char orientation =list.get(i).charAt(2);
                 int angle = (Character.getNumericValue(orientation)-10)*60;
@@ -133,9 +136,19 @@ public class Viewer extends Application {
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
 
+        for(int i =0;i<24;i++) {
+            if((i/6)%2==0){
+                Circle r = new Circle(((i%6)+1)*SQUARE_SIZE, (i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 30);
+                r.setFill(Color.GRAY);
+                root.getChildren().add(r);}
+            else{
+                Circle r = new Circle(((i%6)+1)*SQUARE_SIZE+SQUARE_SIZE/2,(i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 30);
+                r.setFill(Color.GRAY);
+                root.getChildren().add(r);}
+        }
+
         root.getChildren().add(controls);
 
-        makePlacement("BAAHBATCJRDKWEB");
         makeControls();
 
         primaryStage.setScene(scene);

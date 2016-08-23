@@ -42,6 +42,7 @@ public class Viewer extends Application {
     private final Group root = new Group();
     private final Group controls = new Group();
     TextField textField;
+    Group group=new Group();
 
 
     /**
@@ -52,6 +53,10 @@ public class Viewer extends Application {
 
     void makePlacement(String placement) {
         // FIXME Task 5: implement the simple placement viewer
+        if(root.getChildren().contains(group)){
+            root.getChildren().remove(group);
+        }
+        group.getChildren().clear();
         int length=placement.length()/3;
         if(placement.length()%3!=0){
             System.out.println("Wrong input");
@@ -74,37 +79,29 @@ public class Viewer extends Application {
 
         }
 
-        try {
-            Pane pane =new Pane();
-            for (int i = 0; i < length; i++) {
-                char piece=list.get(i).charAt(1);
-                Image image = new Image("file:src/comp1110/ass2/gui/assets/"+piece+".png");
-                ImageView iv1 = new ImageView();
-                iv1.setImage(image);
-                iv1.setFitHeight(PIECE_IMAGE_SIZE);
-                iv1.setFitWidth(PIECE_IMAGE_SIZE);
-                if(position[i][0]%2==0){
-                    iv1.relocate(position[i][1]*SQUARE_SIZE-SQUARE_SIZE/2,position[i][0]*ROW_HEIGHT-ROW_HEIGHT);
-                }
-                else{
-                    iv1.relocate(position[i][1]*SQUARE_SIZE,position[i][0]*ROW_HEIGHT-ROW_HEIGHT);
-                }
-                char orientation =list.get(i).charAt(2);
-                int angle = (Character.getNumericValue(orientation)-10)*60;
-                if(angle>360){
-                    iv1.setScaleY(-1);
-                }
-                iv1.setRotate(angle);
-                pane.getChildren().add(iv1);
+        for (int i = 0; i < length; i++) {
+            char piece=list.get(i).charAt(1);
+            Image image = new Image("file:src/comp1110/ass2/gui/assets/"+piece+".png");
+            ImageView iv1 = new ImageView();
+            iv1.setImage(image);
+            iv1.setFitHeight(PIECE_IMAGE_SIZE);
+            iv1.setFitWidth(PIECE_IMAGE_SIZE);
+            if(position[i][0]%2==0){
+                iv1.relocate(position[i][1]*SQUARE_SIZE-SQUARE_SIZE/2,position[i][0]*ROW_HEIGHT-ROW_HEIGHT);
             }
-
-            root.getChildren().add(pane);
+            else{
+                iv1.relocate(position[i][1]*SQUARE_SIZE,position[i][0]*ROW_HEIGHT-ROW_HEIGHT);
+            }
+            char orientation =list.get(i).charAt(2);
+            int angle = (Character.getNumericValue(orientation)-10)*60;
+            if(angle>360){
+                iv1.setScaleY(-1);
+            }
+            iv1.setRotate(angle);
+            group.getChildren().add(iv1);
         }
-        catch (Exception e)
-        {
-            printStackTrace();
-        }
 
+        root.getChildren().add(group);
     }
 
 
@@ -131,18 +128,20 @@ public class Viewer extends Application {
         controls.getChildren().add(hb);
     }
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
 
+
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){
-                Circle r = new Circle(((i%6)+1)*SQUARE_SIZE, (i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 30);
+                Circle r = new Circle(((i%6)+1)*SQUARE_SIZE, (i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 28);
                 r.setFill(Color.GRAY);
                 root.getChildren().add(r);}
             else{
-                Circle r = new Circle(((i%6)+1)*SQUARE_SIZE+SQUARE_SIZE/2,(i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 30);
+                Circle r = new Circle(((i%6)+1)*SQUARE_SIZE+SQUARE_SIZE/2,(i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 28);
                 r.setFill(Color.GRAY);
                 root.getChildren().add(r);}
         }

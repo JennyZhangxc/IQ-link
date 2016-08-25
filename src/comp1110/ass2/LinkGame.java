@@ -81,7 +81,8 @@ public class LinkGame {
      * orientation.
      * @param piecePlacement A valid string describing a piece placement
      * @return An array of integers corresponding to the pegs which the piece placement touches,
-     * listed in the normal order of units for that piece.
+     * listed in the normal order of units for that piece.   The value 0 corresponds to
+     * peg 'A', 1 to peg 'B', etc.
      */
     static int[] getPegsForPiecePlacement(String piecePlacement) {
         ArrayList<Integer> peg_locations=new ArrayList<>();

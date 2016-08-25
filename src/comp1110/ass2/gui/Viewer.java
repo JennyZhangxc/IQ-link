@@ -1,8 +1,6 @@
 package comp1110.ass2.gui;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,13 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 
 /**
  * A very simple viewer for piece placements in the link game.
@@ -39,7 +37,8 @@ public class Viewer extends Application {
 
     private final Group root = new Group();
     private final Group controls = new Group();
-    TextField textField;
+    private TextField textField;
+    private Group group=new Group();
 
 
     /**
@@ -48,19 +47,23 @@ public class Viewer extends Application {
      * @param placement  A valid placement string
      */
 
-    void makePlacement(String placement) {
-        // FIXME Task 5: implement the simple placement viewer
+    private void makePlacement(String placement) {
+        if(root.getChildren().contains(group)){
+            root.getChildren().remove(group);
+        }
+        group.getChildren().clear();
         int length=placement.length()/3;
-        if(length%3!=0){
+        if(placement.length()%3!=0){
             System.out.println("Wrong input");
+            return;
         }
         List<String> list=new ArrayList<>();
         for(int i=0;i<length;i++){
             list.add(placement.substring(i*3,(i+1)*3));
         }
         List<Integer> index = new ArrayList<>();
-        for (int j = 0; j < list.size(); j++) {
-            index.add(Character.getNumericValue(list.get(j).charAt(0)) - 10);
+        for (String piece : list) {
+            index.add(Character.getNumericValue(piece.charAt(0)) - 10);
 
         }
         int[][] position = new int[length][2];
@@ -71,37 +74,29 @@ public class Viewer extends Application {
 
         }
 
-        try {
-            Pane pane =new Pane();
-            for (int i = 0; i < length; i++) {
-                char piece=list.get(i).charAt(1);
-                Image image = new Image("file:src/comp1110/ass2/gui/assets/"+piece+".png");
-                ImageView iv1 = new ImageView();
-                iv1.setImage(image);
-                iv1.setFitHeight(PIECE_IMAGE_SIZE);
-                iv1.setFitWidth(PIECE_IMAGE_SIZE);
-                if(position[i][0]%2==0){
-                    iv1.relocate(position[i][1]*SQUARE_SIZE-SQUARE_SIZE/2,position[i][0]*ROW_HEIGHT-SQUARE_SIZE);
-                }
-                else{
-                    iv1.relocate(position[i][1]*SQUARE_SIZE,position[i][0]*ROW_HEIGHT-SQUARE_SIZE);
-                }
-                char orientation =list.get(i).charAt(2);
-                int angle = (Character.getNumericValue(orientation)-10)*60;
-                if(angle>360){
-                    iv1.setScaleY(-1);
-                }
-                iv1.setRotate(angle);
-                pane.getChildren().add(iv1);
+        for (int i = 0; i < length; i++) {
+            char piece=list.get(i).charAt(1);
+            Image image = new Image(Board.class.getResource(URI_BASE + piece + ".png").toString());
+            ImageView iv1 = new ImageView();
+            iv1.setImage(image);
+            iv1.setFitHeight(PIECE_IMAGE_SIZE);
+            iv1.setFitWidth(PIECE_IMAGE_SIZE);
+            if(position[i][0]%2==0){
+                iv1.relocate(position[i][1]*SQUARE_SIZE-SQUARE_SIZE/2,position[i][0]*ROW_HEIGHT-ROW_HEIGHT);
             }
-
-            root.getChildren().add(pane);
+            else{
+                iv1.relocate(position[i][1]*SQUARE_SIZE,position[i][0]*ROW_HEIGHT-ROW_HEIGHT);
+            }
+            char orientation =list.get(i).charAt(2);
+            int angle = (Character.getNumericValue(orientation)-10)*60;
+            if(angle>360){
+                iv1.setScaleY(-1);
+            }
+            iv1.setRotate(angle);
+            group.getChildren().add(iv1);
         }
-        catch (Exception e)
-        {
-            printStackTrace();
-        }
 
+        root.getChildren().add(group);
     }
 
 
@@ -113,12 +108,9 @@ public class Viewer extends Application {
         textField = new TextField ();
         textField.setPrefWidth(300);
         Button button = new Button("Refresh");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                makePlacement(textField.getText());
-                textField.clear();
-            }
+        button.setOnAction(e -> {
+            makePlacement(textField.getText());
+            textField.clear();
         });
         HBox hb = new HBox();
         hb.getChildren().addAll(label1, textField, button);
@@ -128,14 +120,26 @@ public class Viewer extends Application {
         controls.getChildren().add(hb);
     }
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
 
+
+        for(int i =0;i<24;i++) {
+            if((i/6)%2==0){
+                Circle r = new Circle(((i%6)+1)*SQUARE_SIZE, (i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 28);
+                r.setFill(Color.GRAY);
+                root.getChildren().add(r);}
+            else{
+                Circle r = new Circle(((i%6)+1)*SQUARE_SIZE+SQUARE_SIZE/2,(i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 28);
+                r.setFill(Color.GRAY);
+                root.getChildren().add(r);}
+        }
+
         root.getChildren().add(controls);
 
-        makePlacement("BAAHBATCJRDKWEB");
         makeControls();
 
         primaryStage.setScene(scene);

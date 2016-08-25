@@ -7,7 +7,7 @@ public class PiecePlacement {
     private int origin;
     private Piece piece;
     private Orientation orientation;
-    private LinkGame linkGame;
+    //private LinkGame linkGame;
 
     PiecePlacement(String pieceplacement) {
         origin = pieceplacement.charAt(0)-'A';

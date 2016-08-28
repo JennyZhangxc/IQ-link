@@ -234,6 +234,7 @@ public class LinkGame {
                         positions[0] = location_o + 1;
                         positions[1] = location_o;
                         positions[2] = location_o + r_b;
+                        break;
                     case ('K'):
                         positions[2] = location_o + 1;
                         positions[1] = location_o;
@@ -243,6 +244,7 @@ public class LinkGame {
                         positions[0] = location_o + r_b;
                         positions[1] = location_o;
                         positions[2] = location_o + l_b;
+                        break;
                     case ('L'):
                         positions[2] = location_o + r_b;
                         positions[1] = location_o;
@@ -271,7 +273,7 @@ public class LinkGame {
         }
         int[]output =new int[peg_locations.size()];
         for(int i =0;i<peg_locations.size();i++){
-            if(peg_locations.get(i)<0||peg_locations.get(i)>24){
+            if(peg_locations.get(i)<0||peg_locations.get(i)>=24){
                 output[i]=-1;
             }
             else{
@@ -280,6 +282,7 @@ public class LinkGame {
         }
         return output;
     }
+
     /**
      * Determine whether a placement is valid.  To be valid, the placement must be well-formed
      * and each piece must correctly connect with each other.
@@ -290,21 +293,32 @@ public class LinkGame {
     // FIXME Task 7: determine whether a placement is valid
     final static boolean[]PEGS_BALL=new boolean[24];
     final static boolean[][]PEGS_RING=new boolean[24][6];
+    final static boolean[]used_piece=new boolean[12];
     static boolean isPlacementValid(String placement) {
+        //Initialize PEGS_BALL and PEGS_RING;
+        Arrays.fill(PEGS_BALL,false);
+        Arrays.fill(used_piece,false);
+
         //First judge whether the placement is well formed.
-        if(!LinkGame.isPlacementWellFormed(placement)){
-            return false;
-        }
-        //Judge whether the placement is out of bound.
-        for (int i:LinkGame.getPegsForPiecePlacement(placement)) {
-            if(i==-1)return false;}
-        //Break the placement into pieces(for each piece).
+        if(!LinkGame.isPlacementWellFormed(placement)){return false;}
+
+        //Break the placement into pieces(for each piece) and assign them into string array placements
         int sublength=3;
         String[]placements=new String[placement.length()/3];
         for(int i=0;i<placement.length()/3;i++){
-            placements[i]=placement.substring(i*3,(i+1)*3);
-        }
+            placements[i]=placement.substring(i*3,(i+1)*3);}
+
+        //test the validity of each piece
         for (String piece:placements) {
+            //Judge whether the placement is out of bound.
+            for (int i:LinkGame.getPegsForPiecePlacement(piece)) {
+                if(i==-1)return false;}
+
+            //test whether the piece is used or not.
+            int piece_number=(int)(piece.charAt(1))-65;
+            if(!used_piece[piece_number]){used_piece[piece_number]=true;}
+            else{return false;}
+
             int[] positions=LinkGame.getPegsForPiecePlacement(piece);
             for (int i=0;i<Piece.valueOf(Character.toString(piece.charAt(1))).units.length;i++) {
                 if(Piece.valueOf(Character.toString(piece.charAt(1))).units[i]==Unit.BALL){

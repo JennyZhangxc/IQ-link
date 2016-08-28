@@ -26,7 +26,4 @@ public enum  Piece
         units[1] = b;
         units[2] = c;
     }
-
-
-
 }

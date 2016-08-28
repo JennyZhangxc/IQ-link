@@ -19,7 +19,6 @@ public enum  Piece
     L(Unit.BALL, Unit.RING, Unit.RING);
 
     final Unit[] units;
-
     Piece(Unit a, Unit b, Unit c)
     {
         units = new Unit[3];

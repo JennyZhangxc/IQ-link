@@ -1,6 +1,10 @@
 package comp1110.ass2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static comp1110.ass2.Piece.A;
 
 /**
  * This class provides the text interface for the Link Game
@@ -276,8 +280,6 @@ public class LinkGame {
         }
         return output;
     }
-
-
     /**
      * Determine whether a placement is valid.  To be valid, the placement must be well-formed
      * and each piece must correctly connect with each other.
@@ -285,9 +287,34 @@ public class LinkGame {
      * @param placement A placement string
      * @return True if the placement is valid
      */
+    // FIXME Task 7: determine whether a placement is valid
+    final static boolean[]PEGS_BALL=new boolean[24];
+    final static boolean[][]PEGS_RING=new boolean[24][6];
     static boolean isPlacementValid(String placement) {
-        // FIXME Task 7: determine whether a placement is valid
-        return false;
+        //First judge whether the placement is well formed.
+        if(!LinkGame.isPlacementWellFormed(placement)){
+            return false;
+        }
+        //Judge whether the placement is out of bound.
+        for (int i:LinkGame.getPegsForPiecePlacement(placement)) {
+            if(i==-1)return false;}
+        //Break the placement into pieces(for each piece).
+        int sublength=3;
+        String[]placements=new String[placement.length()/3];
+        for(int i=0;i<placement.length()/3;i++){
+            placements[i]=placement.substring(i*3,(i+1)*3);
+        }
+        for (String piece:placements) {
+            int[] positions=LinkGame.getPegsForPiecePlacement(piece);
+            for (int i=0;i<Piece.valueOf(Character.toString(piece.charAt(1))).units.length;i++) {
+                if(Piece.valueOf(Character.toString(piece.charAt(1))).units[i]==Unit.BALL){
+                    if (!PEGS_BALL[positions[i]]) {
+                        PEGS_BALL[positions[i]] = true;}
+                    else {return false;}
+                }
+            }
+        }
+        return true;
     }
 
     /**

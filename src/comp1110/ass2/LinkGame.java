@@ -320,7 +320,7 @@ public class LinkGame {
 
             int[] positions=LinkGame.getPegsForPiecePlacement(piece);
             for (int i=0;i<Piece.valueOf(Character.toString(piece.charAt(1))).units.length;i++) {
-                if(Piece.valueOf(Character.toString(piece.charAt(1))).units[i]==Unit.BALL){
+                if(Unit.Balls.contains(Piece.valueOf(Character.toString(piece.charAt(1))).units[i])){
                     if (!PEGS_BALL[positions[i]]) {
                         PEGS_BALL[positions[i]] = true;}
                     else {return false;}

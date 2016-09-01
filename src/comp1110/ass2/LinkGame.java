@@ -298,7 +298,6 @@ public class LinkGame {
         //Initialize PEGS_BALL and PEGS_RING;
         Arrays.fill(PEGS_BALL,false);
         Arrays.fill(used_piece,false);
-
         //First judge whether the placement is well formed.
         if(!LinkGame.isPlacementWellFormed(placement)){return false;}
 
@@ -316,7 +315,7 @@ public class LinkGame {
 
             //test whether the piece is used or not.
             int piece_number=(int)(piece.charAt(1))-65;
-            if(!used_piece[piece_number]){used_piece[piece_number]=true;}
+            if(!used_piece[piece_number]) {used_piece[piece_number]=true;}
             else{return false;}
 
             int[] positions=LinkGame.getPegsForPiecePlacement(piece);

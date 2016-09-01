@@ -292,12 +292,14 @@ public class LinkGame {
      */
     // FIXME Task 7: determine whether a placement is valid
     final static boolean[]PEGS_BALL=new boolean[24];
-    final static boolean[][]PEGS_RING=new boolean[24][6];
+    final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
     final static boolean[]used_piece=new boolean[12];
     static boolean isPlacementValid(String placement) {
         //Initialize PEGS_BALL and PEGS_RING;
         Arrays.fill(PEGS_BALL,false);
         Arrays.fill(used_piece,false);
+        for(int i=0;i<24;i++){
+        Arrays.fill(PEGS_SURROUNDING[i],false);}
         //First judge whether the placement is well formed.
         if(!LinkGame.isPlacementWellFormed(placement)){return false;}
 
@@ -309,6 +311,11 @@ public class LinkGame {
 
         //test the validity of each piece
         for (String piece:placements) {
+            //Use param piece_this to represent current piece.
+            Piece piece_this=Piece.valueOf(Character.toString(piece.charAt(1)));
+            //Use param orientation_this to represent current piece orientation.
+            Orientation orientation_this=Orientation.valueOf(Character.toString(piece.charAt(2)));
+
             //Judge whether the placement is out of bound.
             for (int i:LinkGame.getPegsForPiecePlacement(piece)) {
                 if(i==-1)return false;}
@@ -319,11 +326,27 @@ public class LinkGame {
             else{return false;}
 
             int[] positions=LinkGame.getPegsForPiecePlacement(piece);
-            for (int i=0;i<Piece.valueOf(Character.toString(piece.charAt(1))).units.length;i++) {
-                if(Unit.Balls.contains(Piece.valueOf(Character.toString(piece.charAt(1))).units[i])){
+            //check whether the peg is occupied or not.
+            for (int i=0;i<piece_this.units.length;i++) {
+                if (Unit.Balls.contains(piece_this.units[i])) {
                     if (!PEGS_BALL[positions[i]]) {
-                        PEGS_BALL[positions[i]] = true;}
-                    else {return false;}
+                        PEGS_BALL[positions[i]] = true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            //check whether the surrounding is occupied or not.
+            piece_this.orientation(orientation_this);
+            for (int i=0;i<piece_this.units.length;i++) {
+                for(int j=0;j<6;j++) {
+                    if (piece_this.units[i].surrounding_orientation[j]) {
+                        if (!PEGS_SURROUNDING[positions[i]][j]) {
+                            PEGS_SURROUNDING[positions[i]][j] = true;
+                        } else {
+                            return false;
+                        }
+                    }
                 }
             }
         }

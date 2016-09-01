@@ -8,10 +8,10 @@ import java.util.HashSet;
 public enum  Unit {
     BALL(false,false,false,false,false,false),
     RING(false,false,false,false,false,false),
-    BALL_0(true,false,false,true,false,false),
+    BALL_0(true,false,false,false,false,false),
     BALL_3(false,false,false,true,false,false),
-    BALL_4(false,false,false,true,false,false),
-    BALL_5(false,false,false,false,true,false),
+    BALL_4(false,false,false,false,true,false),
+    BALL_5(false,false,false,false,false,true),
     BALL_01(true,true,false,false,false,false),
     BALL_03(true,false,false,true,false,false),
     RING_HALF(true,false,false,true,true,true),
@@ -23,10 +23,10 @@ public enum  Unit {
     RING_4(true,true,true,true,false,true),
     RING_5(true,true,true,true,true,false);
 
-    final boolean[]surrounding;
+    boolean[]surrounding;
+    boolean[]surrounding_orientation;
     static final HashSet<Unit> Balls=new HashSet<>();
     static final HashSet<Unit> Rings=new HashSet<>();
-
     Unit(boolean a, boolean b, boolean c,boolean d,boolean e,boolean f)
     {
         surrounding = new boolean[6];
@@ -56,5 +56,27 @@ public enum  Unit {
         Rings.add(Unit.RING_3);
         Rings.add(Unit.RING_4);
         Rings.add(Unit.RING_5);
+    }
+    void convert(int adjust){
+        if(adjust>=6){
+            this.flip();
+        }else{
+            surrounding_orientation=surrounding;
+        }
+            boolean[] newSurrounding = new boolean[6];
+            for (int i = 0; i < surrounding.length; i++) {
+                newSurrounding[(i + adjust) % 6] = surrounding_orientation[i];
+            }
+            this.surrounding_orientation = newSurrounding;
+    }
+    void flip(){
+        boolean[]flipped=new boolean[6];
+        flipped[0]=surrounding[0];
+        flipped[1]=surrounding[5];
+        flipped[2]=surrounding[4];
+        flipped[3]=surrounding[3];
+        flipped[4]=surrounding[2];
+        flipped[5]=surrounding[1];
+        surrounding_orientation=flipped;
     }
 }

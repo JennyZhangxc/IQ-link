@@ -32,5 +32,11 @@ public enum  Piece
         Unit.setBalls();
         Unit.setRings();
     }
+    void orientation(Orientation i){
+        int adjust=(int)(i.toString().charAt(0))-65;
+        this.units[0].convert(adjust);
+        this.units[1].convert(adjust);
+        this.units[2].convert(adjust);
+    }
 
 }

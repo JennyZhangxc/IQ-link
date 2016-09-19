@@ -300,11 +300,12 @@ public class LinkGame {
         Arrays.fill(used_piece,false);
         for(int i=0;i<24;i++){
         Arrays.fill(PEGS_SURROUNDING[i],false);}
+
         //First judge whether the placement is well formed.
         if(!LinkGame.isPlacementWellFormed(placement)){return false;}
 
         //Break the placement into pieces(for each piece) and assign them into string array placements
-        int sublength=3;
+        final int sublength=3;
         String[]placements=new String[placement.length()/3];
         for(int i=0;i<placement.length()/3;i++){
             placements[i]=placement.substring(i*3,(i+1)*3);}

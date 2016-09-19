@@ -7,7 +7,7 @@ import java.util.HashSet;
  */
 public enum  Unit {
     BALL(false,false,false,false,false,false),
-    RING(false,false,false,false,false,false),
+    RING(true,true,true,true,true,true),
     BALL_0(true,false,false,false,false,false),
     BALL_3(false,false,false,true,false,false),
     BALL_4(false,false,false,false,true,false),
@@ -79,4 +79,5 @@ public enum  Unit {
         flipped[5]=surrounding[1];
         surrounding_orientation=flipped;
     }
+
 }

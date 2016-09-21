@@ -294,7 +294,7 @@ public class LinkGame {
     final static boolean[]PEGS_BALL=new boolean[24];
     final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
     final static boolean[]used_piece=new boolean[12];
-    static boolean isPlacementValid(String placement) {
+    public static boolean isPlacementValid(String placement) {
         //Initialize PEGS_BALL and PEGS_RING;
         Arrays.fill(PEGS_BALL,false);
         Arrays.fill(used_piece,false);

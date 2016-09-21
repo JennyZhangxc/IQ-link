@@ -284,6 +284,19 @@ public class LinkGame {
     }
 
     /**
+     * Determine whether the peg is out of bound or not.
+     * @param pegPosition the peg position
+     * @return True if the peg is out of bound
+      */
+    public static boolean isPegOutRange(int value, int pegPosition)
+    {
+        if((pegPosition == 5) || (pegPosition == 17) || (value == pegPosition + 1)) return true;
+        else if(((pegPosition == 11) || (pegPosition == 23)) && ((value == pegPosition - 5) || (value == pegPosition + 1) || (value == pegPosition + 7))) return true;
+        else if((value < 0) || (value > 23)) return true;
+        else return false;
+    }
+
+    /**
      * Determine whether a placement is valid.  To be valid, the placement must be well-formed
      * and each piece must correctly connect with each other.
      *

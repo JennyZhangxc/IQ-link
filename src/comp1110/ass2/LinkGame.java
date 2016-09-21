@@ -285,7 +285,7 @@ public class LinkGame {
 
     /**
      * Determine whether the peg is out of bound or not.
-     * @param pegPosition the peg position
+     * @param value the test case value, pegPosition the peg position
      * @return True if the peg is out of bound
       */
     public static boolean isPegOutRange(int value, int pegPosition)

@@ -24,7 +24,7 @@ public class PegOutRangeTest
             pegPosition = (row * 6) + column;
             testCase = random.nextInt(24);
 
-            assertFalse("Piece at: " + testCase + ", Position at " + pegPosition + " is inside the bound, but failed the ", LinkGame.isPegOutRange(testCase, pegPosition));
+            assertFalse("Piece at: " + testCase + ", Position at " + pegPosition + " is inside the bound, but failed the ", LinkGame.isPegOutsideRange(testCase, pegPosition));
         }
     }*/
 
@@ -48,7 +48,7 @@ public class PegOutRangeTest
                 testCase = pegPosition - 6;
             }
 
-            assertTrue("Piece at: " + testCase + ", Position at: " + pegPosition + " is outside the top bound, but passed the ", LinkGame.isPegOutRange(testCase, pegPosition));
+            assertTrue("Piece at: " + testCase + ", Position at: " + pegPosition + " is outside the top bound, but passed the ", LinkGame.isPegOutsideRange(testCase, pegPosition));
         }
     }
 
@@ -72,7 +72,7 @@ public class PegOutRangeTest
                 testCase = pegPosition + 7;
             }
 
-            assertTrue("Piece at: " + testCase + ", Position at: " + pegPosition + " is outside the bottom bound, but passed the ", LinkGame.isPegOutRange(testCase, pegPosition));
+            assertTrue("Piece at: " + testCase + ", Position at: " + pegPosition + " is outside the bottom bound, but passed the ", LinkGame.isPegOutsideRange(testCase, pegPosition));
         }
     }
 }

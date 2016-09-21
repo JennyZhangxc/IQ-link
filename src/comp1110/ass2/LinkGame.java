@@ -286,9 +286,9 @@ public class LinkGame {
     /**
      * Determine whether the peg is out of bound or not.
      * @param value the test case value, pegPosition the peg position
-     * @return True if the peg is out of bound
+     * @return True if the peg is outside the bound
       */
-    public static boolean isPegOutRange(int value, int pegPosition)
+    public static boolean isPegOutsideRange(int value, int pegPosition)
     {
         if((pegPosition == 5) || (pegPosition == 17) || (value == pegPosition + 1)) return true;
         else if(((pegPosition == 11) || (pegPosition == 23)) && ((value == pegPosition - 5) || (value == pegPosition + 1) || (value == pegPosition + 7))) return true;

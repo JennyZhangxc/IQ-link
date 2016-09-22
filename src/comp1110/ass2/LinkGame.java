@@ -374,22 +374,54 @@ public class LinkGame {
      * @return An array of strings, each describing a solution to the game given the
      * starting point provied by placement.
      */
+    final static boolean[]SOLUTION_PEGS_BALL=new boolean[24];
+    final static boolean[][]SOLUTION_PEGS_SURROUNDING=new boolean[24][6];
+    final static boolean[]SOLUTION_used_piece=new boolean[12];
     static String[] getSolutions(String placement) {
         // FIXME Task 10: determine all solutions to the game, given a particular starting placement
         //Initialize PEGS_BALL, PEGS_RING and used_piece;
-        Arrays.fill(PEGS_BALL,false);
-        Arrays.fill(used_piece,false);
+        Arrays.fill(SOLUTION_PEGS_BALL,false);
+        Arrays.fill(SOLUTION_used_piece,false);
         for(int i=0;i<24;i++){
-            Arrays.fill(PEGS_SURROUNDING[i],false);}
+            Arrays.fill(SOLUTION_PEGS_SURROUNDING[i],false);}
 
         //First judge whether the placement is well formed.
-        if(!LinkGame.isPlacementWellFormed(placement)){return null;}
+        if(!LinkGame.isPlacementValid(placement)){
+            System.out.println("Invalid input placement");
+            return null;
+        }
 
         //Break the placement into pieces(for each piece) and assign them into string array placements
         final int sublength=3;
-        String[]placements=new String[placement.length()/3];
-        for(int i=0;i<placement.length()/3;i++){
-            placements[i]=placement.substring(i*3,(i+1)*3);}
+        String[]placements=new String[placement.length()/sublength];
+        for(int i=0;i<placement.length()/sublength;i++){
+            placements[i]=placement.substring(i*sublength,(i+1)*sublength);}
+
+        //Set the initial map situation for input placement
+        for (String piece:placements) {
+            //Use param piece_this to represent current piece.
+            Piece piece_this=Piece.valueOf(Character.toString(piece.charAt(1)));
+            //Use param orientation_this to represent current piece orientation.
+            Orientation orientation_this=Orientation.valueOf(Character.toString(piece.charAt(2)));
+
+            int piece_number=(int)(piece.charAt(1))-65;
+            SOLUTION_used_piece[piece_number]=true;
+
+            int[] positions=LinkGame.getPegsForPiecePlacement(piece);
+
+            for (int i=0;i<piece_this.units.length;i++) {
+                if (Unit.Balls.contains(piece_this.units[i])) {
+                    SOLUTION_PEGS_BALL[positions[i]] = true;
+                }
+            }
+
+            piece_this.orientation(orientation_this);
+            for (int i=0;i<piece_this.units.length;i++) {
+                for(int j=0;j<6;j++)
+                    SOLUTION_PEGS_SURROUNDING[positions[i]][j] = true;
+            }
+        }
+
 
 
         return null;

@@ -204,7 +204,7 @@ public class Board extends Application{
 //                return true;
 //            else
 //                return false;
-
+//
 //            if (piece < 'U')  // 'L'-shaped pieces are simple, because they're basically square
 //                return x >= 0 && x < 3 && y >= 0 && y < 3;
 //            else {            // For 'I'-shaped pieces it depends on the orientation

@@ -11,23 +11,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class PegOutRangeTest
 {
-    /*@Test
-    public void pegInsideTestCase()
-    {
-        int row, column, pegPosition, testCase;
-        Random random = new Random();
-
-        for(int i = 0; i <= 200; i++)
-        {
-            row = random.nextInt(4);
-            column = random.nextInt(5);
-            pegPosition = (row * 6) + column;
-            testCase = random.nextInt(24);
-
-            assertFalse("Piece at: " + testCase + ", Position at " + pegPosition + " is inside the bound, but failed the ", LinkGame.isPegOutsideRange(testCase, pegPosition));
-        }
-    }*/
-
     @Test
     public void pegOutsideTopTestCase()
     {

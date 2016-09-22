@@ -20,14 +20,15 @@ public class Board extends Application{
     /* board layout */
     private static final int BOARD_WIDTH = 933;
     private static final int BOARD_HEIGHT = 700;
+    private static final int GAME_HEIGHT = 350;
     private static final int SQUARE_SIZE = 100;
-    private static final int MARGIN = 50;
+    private static final int MARGIN = 10;
     private static final int SIDE = 6;
-    private static final int PIECE_IMAGE_SIZE = 3*SQUARE_SIZE;
+    private static final double PIECE_IMAGE_SIZE = 1.5*SQUARE_SIZE;
     private static final int BOARD_X=50;
     private static final int BOARD_Y=50;
 
-    private static final double ROW_HEIGHT = SQUARE_SIZE * 0.8660254; // 60 degrees distance
+    private static final double ROW_HEIGHT = 0.5*SQUARE_SIZE * 0.8660254; // 60 degrees distance
 
     /* where to find media assets */
     private static final String URI_BASE = "assets/";
@@ -43,7 +44,6 @@ public class Board extends Application{
 
 
     private final ArrayList<Peg>pegs=new ArrayList<>();
-    private Peg highlighted = null;
 
     /**
      * An inner class that represents transparent pieces used in the game.
@@ -58,21 +58,21 @@ public class Board extends Application{
          * @param piece The letter representing the piece to be created.
          */
         FXPiece(char piece) {
-            if (!(piece >= 'A' && piece <= 'M')) {
+            if (!(piece >= 'A' && piece <= 'L')) {
                 throw new IllegalArgumentException("Bad piece: \"" + piece + "\"");
             }
             setImage(new Image(Board.class.getResource(URI_BASE + piece + ".png").toString()));
             this.piece = piece;
-            setFitHeight(SQUARE_SIZE * 2);
-            setFitWidth(SQUARE_SIZE * 2);
+            setFitHeight(PIECE_IMAGE_SIZE);
+            setFitWidth(PIECE_IMAGE_SIZE);
         }
         /**
          * Construct a particular playing piece at a particular place on the
          * board at a given orientation.
          * @param position A three-character string describing
-         *                 - the place the piece is to be located ('A' - 'P'),
-         *                 - the piece ('R' - 'V'), and
-         *                 - the orientatiojn ('W' - 'Z')
+         *                 - the place the piece is to be located ('A' - 'X'),
+         *                 - the piece ('A' - 'L'), and
+         *                 - the orientatiojn ('A' - 'F')
          */
         FXPiece(String position) {
             this(position.charAt(1));
@@ -83,10 +83,13 @@ public class Board extends Application{
             }
             int pos = position.charAt(0) - 'A';
             int o = (position.charAt(2) - 'A');
-            int x = (pos % Board.SIDE) - (((o + 1) / 2) % 2);
-            int y = (pos / Board.SIDE) - (o / 2);
-            setLayoutX(BOARD_X + x * SQUARE_SIZE);
-            setLayoutY(BOARD_Y + y * SQUARE_SIZE);
+            int x = (pos % Board.SIDE);
+            int y = (pos / Board.SIDE);
+            if(y%2==0)
+                setLayoutX(BOARD_X + x * SQUARE_SIZE);
+            else
+                setLayoutX(BOARD_X + x * SQUARE_SIZE-SQUARE_SIZE/2);
+            setLayoutY(BOARD_Y + y * ROW_HEIGHT);
             if (o>=6){
                 setY(-1);
             }
@@ -100,22 +103,21 @@ public class Board extends Application{
      * and snap-to-grid.
      */
     class DraggableFXPiece extends FXPiece {
-        int position;               // the current game position of the piece 0 .. 15 (-1 is off-board)
-        int homeX, homeY;           // the position in the window where the piece should be when not on the board
+        double position;               // the current game position of the piece 0 .. 24 (-1 is off-board)
+        double homeX, homeY;           // the position in the window where the piece should be when not on the board
         double mouseX, mouseY;      // the last known mouse positions (used when dragging)
 
         /**
          * Construct a draggable piece
-         * @param piece The piece identifier ('Q' - 'V')
+         * @param piece The piece identifier ('A' - 'L')
          */
         DraggableFXPiece(char piece) {
             super(piece);
             position = -1; // off screen
-            homeX = MARGIN + (SQUARE_SIZE * (((piece - 'A') % 2) * 7));
+            homeX = 1.5* SQUARE_SIZE * ((piece - 'A') % 6);
+            homeY = 1.5* SQUARE_SIZE * ((piece - 'A') / 6) + GAME_HEIGHT;
             setLayoutX(homeX);
-            homeY = MARGIN + (SQUARE_SIZE * (2 * ((piece - 'A') / 2)));
             setLayoutY(homeY);
-
             /* event handlers */
             setOnScroll(event -> {            // scroll to change orientation
 //                hideSkulls();
@@ -149,8 +151,15 @@ public class Board extends Application{
          * Snap the piece to the nearest grid position (if it is over the grid)
          */
         private void snapToGrid() {
-            setLayoutX(SQUARE_SIZE * (((int) getLayoutX() + (SQUARE_SIZE / 2)) / SQUARE_SIZE));
-            setLayoutY(SQUARE_SIZE * (((int) getLayoutY() + (SQUARE_SIZE / 2)) / SQUARE_SIZE));
+            int x=(int)((getLayoutX() + (SQUARE_SIZE / 4)) / (SQUARE_SIZE/2));
+            int y=(((int) getLayoutY() + (SQUARE_SIZE / 4)) / (SQUARE_SIZE/2));
+            if(y%2==0)
+                setLayoutX(BOARD_X + x * SQUARE_SIZE/2+SQUARE_SIZE/4);
+            else
+                setLayoutX(BOARD_X + x * SQUARE_SIZE/2);
+
+            setLayoutY(BOARD_Y + y * ROW_HEIGHT);
+
             setPosition();
             if (position != -1) {
 //                checkMove();
@@ -189,21 +198,27 @@ public class Board extends Application{
          * @param y The row that the origin of the piece is on
          * @return True if the entire piece is on the board
          */
-        private boolean isOnBoard(int x, int y) {
-            if (piece < 'U')  // 'L'-shaped pieces are simple, because they're basically square
-                return x >= 0 && x < 3 && y >= 0 && y < 3;
-            else {            // For 'I'-shaped pieces it depends on the orientation
-                switch ((int) getRotate()) {
-                    case 0:
-                        return x >= 0  && x < 3 && y >= 0  && y < 4;
-                    case 90:
-                        return x >= -1 && x < 3 && y >= 0  && y < 3;
-                    case 180:
-                        return x >= 0  && x < 3 && y >= -1 && y < 3;
-                    case 270: default:
-                        return x >= 0  && x < 4 && y >= 0  && y < 3;
-                }
-            }
+        private boolean isOnBoard(double x, double y) {
+            return true;
+//            if(LinkGame.isPlacementValid(this.toString()))
+//                return true;
+//            else
+//                return false;
+
+//            if (piece < 'U')  // 'L'-shaped pieces are simple, because they're basically square
+//                return x >= 0 && x < 3 && y >= 0 && y < 3;
+//            else {            // For 'I'-shaped pieces it depends on the orientation
+//                switch ((int) getRotate()) {
+//                    case 0:
+//                        return x >= 0  && x < 3 && y >= 0  && y < 4;
+//                    case 90:
+//                        return x >= -1 && x < 3 && y >= 0  && y < 3;
+//                    case 180:
+//                        return x >= 0  && x < 3 && y >= -1 && y < 3;
+//                    case 270: default:
+//                        return x >= 0  && x < 4 && y >= 0  && y < 3;
+//                }
+//            }
         }
 
 
@@ -212,13 +227,13 @@ public class Board extends Application{
          * or -1 if it is off the grid, taking into account its rotation.
          */
         private void setPosition() {
-            int x = (int) (getLayoutX() - BOARD_X) / SQUARE_SIZE;
-            int y = (int) (getLayoutY() - BOARD_Y) / SQUARE_SIZE;
+            double x = Math.floor(((getLayoutX() - BOARD_X) / (SQUARE_SIZE/2))/2);
+            double y = (getLayoutY() - BOARD_Y) / SQUARE_SIZE;
             if (isOnBoard(x,y)) {
                 /*  find 'position' (reference point is top left of *un*rotated piece */
-                int rotate = (int) getRotate() / 90;
-                x += (rotate == 0 || rotate == 3) ? 0 : 1;
-                y += rotate / 2;
+                int rotate = (int) getRotate() / 60;
+//                x += (rotate == 0 || rotate == 3) ? 0 : 1;
+//                y += rotate / 2;
                 position = x + y * Board.SIDE;
             } else
                 position = -1;
@@ -233,64 +248,11 @@ public class Board extends Application{
     }
 
 
-    private Peg findNearestPeg(double x, double y){
-        Peg output = pegs.get(0);
-        for (Peg anArrayList : pegs) {
-            if (anArrayList.distance(x, y) < output.distance(x, y)) {
-                output = anArrayList;
-            }
-
-        }
-        return output;
-    }
-    private void highlightNearestPeg(double x, double y){
-        if(null != highlighted){
-            highlighted.setFill(Color.LIGHTGREY);
-        }
-        highlighted=this.findNearestPeg(x,y);
-        highlighted.setFill(Color.GREEN);
-    }
-
-    public class DraggablePeg extends Peg{
-        Board board;
-        private double mousex;
-        private double mousey;
-        DraggablePeg(double x, double y, double side,Board board) {
-            super(x, y, side);
-            this.setFill(Color.RED);
-            this.board=board;
-            this.setOnMousePressed(event -> {
-                mousex = event.getSceneX();
-                mousey = event.getSceneY();
-                this.toFront();
-            });
-            this.setOnMouseDragged(event -> {
-                double x_move=event.getSceneX() - mousex;
-                double y_move=event.getSceneY() - mousey;
-                this.setLayoutX(this.getLayoutX()+x_move);
-                this.setLayoutY(this.getLayoutY()+y_move);
-                mousex=mousex+x_move;
-                mousey=mousey+y_move;
-                board.highlightNearestPeg(mousex,mousey);
-
-            });
-            this.setOnMouseReleased(event -> {
-                this.setRotate(highlighted.getRotate());
-                this.setLayoutX(highlighted.getLayoutX());
-                this.setLayoutY(highlighted.getLayoutY());
-            });
-        }
-    }
     private class Peg extends Circle{
         Peg(double x,double y, double radius){
             this.setLayoutX(x);
             this.setLayoutY(y);
             this.setRadius(radius);
-        }
-        private double distance(double x, double y){
-            double x_distance=Math.abs(x-getLayoutX());
-            double y_distance=Math.abs(y-getLayoutY());
-            return Math.sqrt(x_distance*x_distance+y_distance*y_distance);
         }
 
     }
@@ -299,14 +261,16 @@ public class Board extends Application{
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
 
-
+//
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){
-                Peg r = new Peg(((i%6)+1)*SQUARE_SIZE, (i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 28);
+                Peg r = new Peg(((i%6)+1)*SQUARE_SIZE/2+SQUARE_SIZE/4+SQUARE_SIZE/2+SQUARE_SIZE/2
+                        , (i/6)*ROW_HEIGHT +SQUARE_SIZE/2-ROW_HEIGHT / 2+3*ROW_HEIGHT + 10, 12);
                 r.setFill(Color.LIGHTGREY);
                 pegs.add(r);}
             else{
-                Peg r = new Peg(((i%6)+1)*SQUARE_SIZE+SQUARE_SIZE/2,(i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 28);
+                Peg r = new Peg(((i%6)+1)*SQUARE_SIZE/2+SQUARE_SIZE/2+SQUARE_SIZE/2
+                        , (i/6)*ROW_HEIGHT +SQUARE_SIZE/2-ROW_HEIGHT / 2 +3*ROW_HEIGHT+ 10, 12);
                 r.setFill(Color.LIGHTGREY);
                 pegs.add(r);}
         }
@@ -314,8 +278,11 @@ public class Board extends Application{
 
         root.getChildren().add(controls);
 
-        DraggablePeg draggablePeg=new DraggablePeg(SQUARE_SIZE,SQUARE_SIZE-ROW_HEIGHT/2+7,28,this);
-        root.getChildren().add(draggablePeg);
+        for (int i = 0; i < 12; i++) {
+            DraggableFXPiece draggableFXPiece=new DraggableFXPiece((char)((int)'A'+i));
+            root.getChildren().add(draggableFXPiece);
+        }
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }

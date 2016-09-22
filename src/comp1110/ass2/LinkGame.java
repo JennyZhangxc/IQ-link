@@ -284,6 +284,19 @@ public class LinkGame {
     }
 
     /**
+     * Determine whether the peg is out of bound or not.
+     * @param value the test case value, pegPosition the peg position
+     * @return True if the peg is outside the bound
+      */
+    public static boolean isPegOutsideRange(int value, int pegPosition)
+    {
+        if((pegPosition == 5) || (pegPosition == 17) || (value == pegPosition + 1)) return true;
+        else if(((pegPosition == 11) || (pegPosition == 23)) && ((value == pegPosition - 5) || (value == pegPosition + 1) || (value == pegPosition + 7))) return true;
+        else if((value < 0) || (value > 23)) return true;
+        else return false;
+    }
+
+    /**
      * Determine whether a placement is valid.  To be valid, the placement must be well-formed
      * and each piece must correctly connect with each other.
      *
@@ -294,7 +307,7 @@ public class LinkGame {
     final static boolean[]PEGS_BALL=new boolean[24];
     final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
     final static boolean[]used_piece=new boolean[12];
-    static boolean isPlacementValid(String placement) {
+    public static boolean isPlacementValid(String placement) {
         //Initialize PEGS_BALL and PEGS_RING;
         Arrays.fill(PEGS_BALL,false);
         Arrays.fill(used_piece,false);
@@ -363,6 +376,22 @@ public class LinkGame {
      */
     static String[] getSolutions(String placement) {
         // FIXME Task 10: determine all solutions to the game, given a particular starting placement
+        //Initialize PEGS_BALL, PEGS_RING and used_piece;
+        Arrays.fill(PEGS_BALL,false);
+        Arrays.fill(used_piece,false);
+        for(int i=0;i<24;i++){
+            Arrays.fill(PEGS_SURROUNDING[i],false);}
+
+        //First judge whether the placement is well formed.
+        if(!LinkGame.isPlacementWellFormed(placement)){return null;}
+
+        //Break the placement into pieces(for each piece) and assign them into string array placements
+        final int sublength=3;
+        String[]placements=new String[placement.length()/3];
+        for(int i=0;i<placement.length()/3;i++){
+            placements[i]=placement.substring(i*3,(i+1)*3);}
+
+
         return null;
     }
 }

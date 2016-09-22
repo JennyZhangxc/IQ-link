@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 public class PegOutRangeTest
 {
     /*@Test
-    public void insidePegTestCase()
+    public void pegInsideTestCase()
     {
         int row, column, pegPosition, testCase;
         Random random = new Random();
@@ -24,12 +24,12 @@ public class PegOutRangeTest
             pegPosition = (row * 6) + column;
             testCase = random.nextInt(24);
 
-            assertFalse("Piece at " + testCase + " and Position at " + pegPosition + " is in bound, but failed ", LinkGame.isPegOutRange(testCase, pegPosition));
+            assertFalse("Piece at: " + testCase + ", Position at " + pegPosition + " is inside the bound, but failed the ", LinkGame.isPegOutsideRange(testCase, pegPosition));
         }
     }*/
 
     @Test
-    public void offsidePegUpTestCase()
+    public void pegOutsideTopTestCase()
     {
         int r, pegPosition, testCase;
         Random random = new Random();
@@ -48,13 +48,12 @@ public class PegOutRangeTest
                 testCase = pegPosition - 6;
             }
 
-            assertTrue("Piece at " + testCase + " and Position at " + pegPosition + " is out bound, but passed ", LinkGame.isPegOutRange(testCase, pegPosition));
+            assertTrue("Piece at: " + testCase + ", Position at: " + pegPosition + " is outside the top bound, but passed the ", LinkGame.isPegOutsideRange(testCase, pegPosition));
         }
-
     }
 
     @Test
-    public void offsidePegDownTestCase()
+    public void pegOutsideBottomTestCase()
     {
         int r, pegPosition, testCase;
         Random random = new Random();
@@ -73,32 +72,7 @@ public class PegOutRangeTest
                 testCase = pegPosition + 7;
             }
 
-            assertTrue("Piece at " + testCase + " and Position at " + pegPosition + " is out bound, but passed ", LinkGame.isPegOutRange(testCase, pegPosition));
-        }
-    }
-
-    @Test
-    public void offsidePegTestCase()
-    {
-        int r, pegPosition, testCase;
-        Random random = new Random();
-
-        for(int i = 0; i <= 200; i++)
-        {
-            r = random.nextInt(2);
-
-            if(r == 0)
-            {
-                pegPosition = 5;
-            }
-            else
-            {
-                pegPosition = 17;
-            }
-
-            testCase = pegPosition + 1;
-
-            assertTrue("Piece at " + testCase + " and Position at " + pegPosition + " is out bound, but passed ", LinkGame.isPegOutRange(testCase, pegPosition));
+            assertTrue("Piece at: " + testCase + ", Position at: " + pegPosition + " is outside the bottom bound, but passed the ", LinkGame.isPegOutsideRange(testCase, pegPosition));
         }
     }
 }

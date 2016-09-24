@@ -177,6 +177,7 @@ public class LinkGame {
                     case ('D'):
                         positions[0] = location_o + 1;
                         positions[2] = location_o + l_b;
+                        break;
                     case ('L'):
                         positions[2] = location_o + 1;
                         positions[0] = location_o + l_b;
@@ -184,6 +185,7 @@ public class LinkGame {
                     case ('E'):
                         positions[0] = location_o + r_b;
                         positions[2] = location_o - 1;
+                        break;
                     case ('G'):
                         positions[2] = location_o + r_b;
                         positions[0] = location_o - 1;
@@ -428,10 +430,21 @@ public class LinkGame {
         sub_solutions.add(placement);
 
         for (String solution:sub_solutions) {
+            if(isAllPieceUsed()){
+                break;
+            }
+            sub_solutions.remove(solution);
             for (int i = 0; i < 12; i++) {
                 if(!SOLUTION_used_piece[i])
-                    sub_solutions.add(solution+(char)('A'+i));
-
+                    for (int j = 0; j < 12; j++) {
+                        for (int k = 0; k < 6; k++) {
+                            String test_sub=solution+(char)('A'+j)+(char)('A'+i)+(char)('A'+k);
+                            if (isPlacementValid(test_sub)) {
+                                sub_solutions.add(test_sub);
+                                SOLUTION_used_piece[i]=true;
+                            }
+                        }
+                    }
             }
         }
 

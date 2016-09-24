@@ -414,7 +414,6 @@ public class LinkGame {
                     SOLUTION_PEGS_BALL[positions[i]] = true;
                 }
             }
-
             piece_this.orientation(orientation_this);
             for (int i=0;i<piece_this.units.length;i++) {
                 for(int j=0;j<6;j++)
@@ -422,8 +421,40 @@ public class LinkGame {
             }
         }
 
+        //use a arraylist to instore the sub-solutions
+        ArrayList<String>sub_solutions=new ArrayList<>();
+        ArrayList<String>Final_solutions=new ArrayList<>();
 
+        sub_solutions.add(placement);
 
-        return null;
+        for (String solution:sub_solutions) {
+            for (int i = 0; i < 12; i++) {
+                if(!SOLUTION_used_piece[i])
+                    sub_solutions.add(solution+(char)('A'+i));
+
+            }
+        }
+
+        String[]output=new String[Final_solutions.size()];
+        for (int i = 0; i <Final_solutions.size(); i++) {
+            output[i]=Final_solutions.get(i);
+        }
+
+        if(sub_solutions.size()==0){
+            return output;
+        }
+        else{
+            //this part should call the function of find sub-solutions from exist solution
+            return null;
+        }
+
+    }
+    static boolean isAllPieceUsed(){
+        boolean output=true;
+        for (boolean i: SOLUTION_used_piece) {
+            if (!i)
+                output=false;
+        }
+        return output;
     }
 }

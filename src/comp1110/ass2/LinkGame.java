@@ -424,43 +424,42 @@ public class LinkGame {
         }
 
         //use a arraylist to instore the sub-solutions
-        ArrayList<String>sub_solutions=new ArrayList<>();
+        ArrayList<String>sub_solutions_0=new ArrayList<>();
+        ArrayList<String>sub_solutions_1=new ArrayList<>();
+        ArrayList<String>sub_solutions_2=new ArrayList<>();
+        ArrayList<String>sub_solutions_3=new ArrayList<>();
+        ArrayList<String>sub_solutions_4=new ArrayList<>();
+        ArrayList<String>sub_solutions_5=new ArrayList<>();
+        ArrayList<String>sub_solutions_6=new ArrayList<>();
+        ArrayList<String>sub_solutions_7=new ArrayList<>();
+        ArrayList<String>sub_solutions_8=new ArrayList<>();
+        ArrayList<String>sub_solutions_9=new ArrayList<>();
+        ArrayList<String>sub_solutions_10=new ArrayList<>();
+        ArrayList<String>sub_solutions_11=new ArrayList<>();
+
         ArrayList<String>Final_solutions=new ArrayList<>();
 
-        sub_solutions.add(placement);
+        sub_solutions_0.add(placement);
+        sub_solutions_1=FindNextSubSolutions(sub_solutions_0);
+        sub_solutions_2=FindNextSubSolutions(sub_solutions_1);
+        sub_solutions_3=FindNextSubSolutions(sub_solutions_2);
+        sub_solutions_4=FindNextSubSolutions(sub_solutions_3);
+        sub_solutions_5=FindNextSubSolutions(sub_solutions_4);
+        sub_solutions_6=FindNextSubSolutions(sub_solutions_5);
+        sub_solutions_7=FindNextSubSolutions(sub_solutions_6);
+        sub_solutions_8=FindNextSubSolutions(sub_solutions_7);
+        sub_solutions_9=FindNextSubSolutions(sub_solutions_8);
+        sub_solutions_10=FindNextSubSolutions(sub_solutions_9);
+        sub_solutions_11=FindNextSubSolutions(sub_solutions_10);
 
-        for (String solution:sub_solutions) {
-            if(isAllPieceUsed()){
-                break;
-            }
-            sub_solutions.remove(solution);
-            for (int i = 0; i < 12; i++) {
-                if(!SOLUTION_used_piece[i])
-                    for (int j = 0; j < 12; j++) {
-                        for (int k = 0; k < 6; k++) {
-                            String test_sub=solution+(char)('A'+j)+(char)('A'+i)+(char)('A'+k);
-                            if (isPlacementValid(test_sub)) {
-                                sub_solutions.add(test_sub);
-                                SOLUTION_used_piece[i]=true;
-                            }
-                        }
-                    }
-            }
-        }
+        Final_solutions=sub_solutions_11;
 
         String[]output=new String[Final_solutions.size()];
         for (int i = 0; i <Final_solutions.size(); i++) {
             output[i]=Final_solutions.get(i);
         }
 
-        if(sub_solutions.size()==0){
-            return output;
-        }
-        else{
-            //this part should call the function of find sub-solutions from exist solution
-            return null;
-        }
-
+        return output;
     }
     static boolean isAllPieceUsed(){
         boolean output=true;
@@ -469,5 +468,33 @@ public class LinkGame {
                 output=false;
         }
         return output;
+    }
+    static ArrayList<String> FindNextSubSolutions(ArrayList<String>subsolution){
+        ArrayList<String>NextSubsolutions=new ArrayList<>();
+        int current_piece = 0;
+        for (String solution:subsolution) {
+            if(isAllPieceUsed()){
+                NextSubsolutions=subsolution;
+                break;
+            }
+
+            for (int i = 0; i < 12; i++) {
+                if(!SOLUTION_used_piece[i]) {
+                    current_piece = i;
+                    for (int j = 0; j < 24; j++) {
+                        for (int k = 0; k < 12; k++) {
+                            String test_sub = solution + (char) ('A' + j) + (char) ('A' + i) + (char) ('A' + k);
+                            if (isPlacementValid(test_sub)) {
+                                NextSubsolutions.add(test_sub);
+                            }
+                        }
+                    }
+                    break;
+                }
+
+            }
+        }
+        SOLUTION_used_piece[current_piece]=true;
+        return NextSubsolutions;
     }
 }

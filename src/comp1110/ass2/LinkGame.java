@@ -366,6 +366,7 @@ public class LinkGame {
                 }
             }
         }
+        String a ="";
         return true;
     }
 

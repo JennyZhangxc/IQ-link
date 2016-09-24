@@ -89,7 +89,7 @@ public class Viewer extends Application {
             }
             char orientation =list.get(i).charAt(2);
             int angle = (Character.getNumericValue(orientation)-10)*60;
-            if(angle>360){
+            if(angle>=360){
                 iv1.setScaleY(-1);
             }
             iv1.setRotate(angle);

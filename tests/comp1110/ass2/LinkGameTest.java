@@ -25,11 +25,13 @@ public class LinkGameTest {
 //        System.out.println(LinkGame.isPlacementValid("KAFUBAICCPDALEFEFEQGH"));
 //        System.out.println(LinkGame.isPlacementValid("KAFUBAICCPDALEFEFEQGHSHB"));
 //        System.out.println(LinkGame.isPlacementValid("KAFUBAICCPDALEFEFEQGHSHBNIB"));
+
+        System.out.println(LinkGame.isPlacementValid("KAFCBGUCAGDFLEFPFBBGESHBOIA"));
         System.out.println(LinkGame.isPlacementValid("KAFCBGUCAGDFLEFPFBBGESHBOIAJJB"));
-        for (String i:LinkGame.getSolutions("KAFCBGUCAGDFLEFPFBBGESHBOIA")
-             ) {
-            System.out.println(i);
-        }
+//        for (String i:LinkGame.getSolutions("KAFCBGUCAGDFLEFPFBBGESHBOIA")
+//             ) {
+//            System.out.println(i);
+//        }
     }
 
 }

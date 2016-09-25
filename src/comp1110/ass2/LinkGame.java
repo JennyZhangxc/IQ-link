@@ -51,10 +51,9 @@ public class LinkGame {
      */
     static boolean isPlacementWellFormed(String placement) {
         int sublength = 3;
-        Boolean a = true;
         if(placement != null && !placement.isEmpty()) {
             if (placement.length() % sublength != 0)
-                a = false;
+                return false;
             int length = placement.length() / sublength;
             String[] sublist = new String[length];
             String[] testlist = new String[length];
@@ -63,14 +62,14 @@ public class LinkGame {
                 for (int j = i + 1; j < length; j++) {
                     testlist[j] = placement.substring(sublength * j + 1, sublength * j + 2);
                     if (sublist[i].substring(1, 2).equals(testlist[j])) {
-                        a = false;
+                        return false;
                     }
                 }
                 if (!isPiecePlacementWellFormed(sublist[i])) {
-                    a = false;
+                    return false;
                 }
             }
-            return a;
+            return true;
         }
         else{
             return false;
@@ -317,7 +316,7 @@ public class LinkGame {
         Arrays.fill(PEGS_SURROUNDING[i],false);}
 
         //First judge whether the placement is well formed.
-        if(!LinkGame.isPlacementWellFormed(placement)){return false;}
+//        if(!LinkGame.isPlacementWellFormed(placement)){return false;}
 
         //Break the placement into pieces(for each piece) and assign them into string array placements
         final int sublength=3;
@@ -366,7 +365,6 @@ public class LinkGame {
                 }
             }
         }
-        String a ="";
         return true;
     }
 
@@ -426,34 +424,21 @@ public class LinkGame {
 
         //use a arraylist to instore the sub-solutions
         ArrayList<String>sub_solutions_0=new ArrayList<>();
-        ArrayList<String>sub_solutions_1=new ArrayList<>();
-        ArrayList<String>sub_solutions_2=new ArrayList<>();
-        ArrayList<String>sub_solutions_3=new ArrayList<>();
-        ArrayList<String>sub_solutions_4=new ArrayList<>();
-        ArrayList<String>sub_solutions_5=new ArrayList<>();
-        ArrayList<String>sub_solutions_6=new ArrayList<>();
-        ArrayList<String>sub_solutions_7=new ArrayList<>();
-        ArrayList<String>sub_solutions_8=new ArrayList<>();
-        ArrayList<String>sub_solutions_9=new ArrayList<>();
-        ArrayList<String>sub_solutions_10=new ArrayList<>();
-        ArrayList<String>sub_solutions_11=new ArrayList<>();
-
-        ArrayList<String>Final_solutions=new ArrayList<>();
 
         sub_solutions_0.add(placement);
-        sub_solutions_1=FindNextSubSolutions(sub_solutions_0);
-        sub_solutions_2=FindNextSubSolutions(sub_solutions_1);
-        sub_solutions_3=FindNextSubSolutions(sub_solutions_2);
-        sub_solutions_4=FindNextSubSolutions(sub_solutions_3);
-        sub_solutions_5=FindNextSubSolutions(sub_solutions_4);
-        sub_solutions_6=FindNextSubSolutions(sub_solutions_5);
-        sub_solutions_7=FindNextSubSolutions(sub_solutions_6);
-        sub_solutions_8=FindNextSubSolutions(sub_solutions_7);
-        sub_solutions_9=FindNextSubSolutions(sub_solutions_8);
-        sub_solutions_10=FindNextSubSolutions(sub_solutions_9);
-        sub_solutions_11=FindNextSubSolutions(sub_solutions_10);
+        ArrayList<String>sub_solutions_1=FindNextSubSolutions(sub_solutions_0);
+        ArrayList<String>sub_solutions_2=FindNextSubSolutions(sub_solutions_1);
+        ArrayList<String>sub_solutions_3=FindNextSubSolutions(sub_solutions_2);
+        ArrayList<String>sub_solutions_4=FindNextSubSolutions(sub_solutions_3);
+        ArrayList<String>sub_solutions_5=FindNextSubSolutions(sub_solutions_4);
+        ArrayList<String>sub_solutions_6=FindNextSubSolutions(sub_solutions_5);
+        ArrayList<String>sub_solutions_7=FindNextSubSolutions(sub_solutions_6);
+        ArrayList<String>sub_solutions_8=FindNextSubSolutions(sub_solutions_7);
+        ArrayList<String>sub_solutions_9=FindNextSubSolutions(sub_solutions_8);
+        ArrayList<String>sub_solutions_10=FindNextSubSolutions(sub_solutions_9);
+        ArrayList<String>sub_solutions_11=FindNextSubSolutions(sub_solutions_10);
 
-        Final_solutions=sub_solutions_11;
+        ArrayList<String> Final_solutions=sub_solutions_11;
 
         String[]output=new String[Final_solutions.size()];
         for (int i = 0; i <Final_solutions.size(); i++) {
@@ -462,6 +447,90 @@ public class LinkGame {
 
         return output;
     }
+    static ArrayList<String> FindNextValidPieces(String[] placement_nextPiece){
+            String placement=placement_nextPiece[0];
+            String nextPiece=placement_nextPiece[1];
+            ArrayList<String>output=new ArrayList<>();
+
+            //Initialize PEGS_BALL and PEGS_RING;
+            Arrays.fill(PEGS_BALL,false);
+            Arrays.fill(used_piece,false);
+            for(int i=0;i<24;i++){
+                Arrays.fill(PEGS_SURROUNDING[i],false);}
+
+            //Break the placement into pieces(for each piece) and assign them into string array placements
+            String[]placements=new String[placement.length()/3];
+            for(int i=0;i<placement.length()/3;i++){
+                placements[i]=placement.substring(i*3,(i+1)*3);}
+
+            for (String piece:placements) {
+                //Use param piece_this to represent current piece.
+                Piece piece_this=Piece.valueOf(Character.toString(piece.charAt(1)));
+                //Use param orientation_this to represent current piece orientation.
+                Orientation orientation_this=Orientation.valueOf(Character.toString(piece.charAt(2)));
+
+                int[] positions=LinkGame.getPegsForPiecePlacement(piece);
+
+                for (int i=0;i<3;i++) {
+                    if (Unit.Balls.contains(piece_this.units[i])) {
+                        PEGS_BALL[positions[i]] = true;
+                    }
+                }
+
+                piece_this.orientation(orientation_this);
+                for (int i=0;i<3;i++) {
+                    for(int j=0;j<6;j++) {
+                        if (piece_this.units[i].surrounding_orientation[j]) {
+                            PEGS_SURROUNDING[positions[i]][j] = true;
+                        }
+                    }
+                }
+            }
+        for (int j = 0; j < 24; j++) {
+            for (int k = 0; k < 12; k++) {
+                String test_sub =(char) ('A' + j) + nextPiece + (char) ('A' + k);
+                if (isNextPiecePlacementValid(test_sub)) {
+                    output.add(placement+test_sub);
+                }
+            }
+        }
+        return output;
+    }
+
+
+    static boolean isNextPiecePlacementValid(String test_sub){
+
+            //Use param piece_this to represent current piece.
+            Piece piece_this=Piece.valueOf(Character.toString(test_sub.charAt(1)));
+            //Use param orientation_this to represent current piece orientation.
+            Orientation orientation_this=Orientation.valueOf(Character.toString(test_sub.charAt(2)));
+
+            int[] positions=LinkGame.getPegsForPiecePlacement(test_sub);
+
+            for (int i:positions) {
+                if(i==-1)return false;}
+
+            for (int i=0;i<piece_this.units.length;i++) {
+                if (Unit.Balls.contains(piece_this.units[i])) {
+                    if (PEGS_BALL[positions[i]]) {
+                        return false;
+                    }
+                }
+            }
+
+            piece_this.orientation(orientation_this);
+            for (int i=0;i<piece_this.units.length;i++) {
+                for(int j=0;j<6;j++) {
+                    if (piece_this.units[i].surrounding_orientation[j]) {
+                        if (PEGS_SURROUNDING[positions[i]][j]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
     static boolean isAllPieceUsed(){
         boolean output=true;
         for (boolean i: SOLUTION_used_piece) {
@@ -470,6 +539,7 @@ public class LinkGame {
         }
         return output;
     }
+
     static ArrayList<String> FindNextSubSolutions(ArrayList<String>subsolution){
         ArrayList<String>NextSubsolutions=new ArrayList<>();
         int current_piece = 0;
@@ -482,13 +552,12 @@ public class LinkGame {
             for (int i = 0; i < 12; i++) {
                 if(!SOLUTION_used_piece[i]) {
                     current_piece = i;
-                    for (int j = 0; j < 24; j++) {
-                        for (int k = 0; k < 12; k++) {
-                            String test_sub = solution + (char) ('A' + j) + (char) ('A' + i) + (char) ('A' + k);
-                            if (isPlacementValid(test_sub)) {
-                                NextSubsolutions.add(test_sub);
-                            }
-                        }
+                    String[]placement_nextPiece=new String[2];
+                    placement_nextPiece[0]=solution;
+                    placement_nextPiece[1]=""+(char)('A'+i);
+
+                    for (String j:FindNextValidPieces(placement_nextPiece)) {
+                        NextSubsolutions.add(j);
                     }
                     break;
                 }

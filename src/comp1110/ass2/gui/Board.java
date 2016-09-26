@@ -5,6 +5,7 @@ import comp1110.ass2.PiecePlacement;
 import comp1110.ass2.Puzzle;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,9 +37,8 @@ public class Board extends Application{
     /* node groups */
     private final Group root = new Group();
     private final Group controls = new Group();
-    private final Group pieces = new Group();
     private final Group solution = new Group();
-
+    private final ArrayList<String>pieces = new ArrayList<>();
     /* message on completion */
     private final Text competionText = new Text("Well done!");
 
@@ -122,7 +122,7 @@ public class Board extends Application{
             setOnScroll(event -> {            // scroll to change orientation
 //                hideSkulls();
 //                hideCompletion();
-                rotate();
+                rotate(Character.toString(piece));
                 event.consume();
             });
             setOnMousePressed(event -> {      // mouse press indicates begin of drag
@@ -151,8 +151,18 @@ public class Board extends Application{
          * Snap the piece to the nearest grid position (if it is over the grid)
          */
         private void snapToGrid() {
-            int x=(int)((getLayoutX() + (SQUARE_SIZE / 4)) / (SQUARE_SIZE/2));
-            int y=(((int) getLayoutY() + (SQUARE_SIZE / 4)) / (SQUARE_SIZE/2));
+            int x=(int)((getLayoutX() - (SQUARE_SIZE / 4)) / (SQUARE_SIZE/2));
+//            System.out.println("x= "+x);
+            int y=(((int) getLayoutY()-(SQUARE_SIZE / 4))/ (SQUARE_SIZE/2));
+//            System.out.println("y= "+y);
+            String current_piece="";
+            if(y%2==0) {
+                current_piece=""+(char)('A'+x+6*y)+this.piece+(char)('A'+this.getRotate()/60);
+            }
+            else{
+                current_piece=""+(char)('A'+x-1+6*y)+this.piece+(char)('A'+this.getRotate()/60);
+            }
+            pieces.add(current_piece);
             if(y%2==0)
                 setLayoutX(BOARD_X + x * SQUARE_SIZE/2+SQUARE_SIZE/4);
             else
@@ -162,7 +172,7 @@ public class Board extends Application{
 
             setPosition();
             if (position != -1) {
-//                checkMove();
+                checkMove(current_piece);
             } else {
                 snapToHome();
             }
@@ -183,10 +193,33 @@ public class Board extends Application{
         /**
          * Rotate the piece by 60 degrees
          */
-        private void rotate() {
+        private void rotate(String current_piece) {
             setRotate((getRotate() + 60) % 360);
             setPosition();
-//            checkMove();
+            checkMove(current_piece);
+        }
+
+        /**
+         * A move has been made.  Determine whether there are errors,
+         * and if so, show skulls, and determine whether the game is
+         * complete, and if so, show the completion message.
+         */
+        private void checkMove(String current_piece) {
+            String placement = "";
+            for(String p : pieces) {
+                placement += p.toString();
+//                System.out.println(p.toString());
+            }
+
+            if (!LinkGame.isPlacementValid(placement)) {
+                pieces.remove(current_piece);
+                snapToHome();
+                System.out.println("Wrong Placement");
+            } else {
+//                if (LinkGame.isPlacementComplete(placement)) {
+//                    showCompletion();
+//                }
+            }
         }
 
 
@@ -270,7 +303,7 @@ public class Board extends Application{
                 pegs.add(r);}
             else{
                 Peg r = new Peg(((i%6)+1)*SQUARE_SIZE/2+SQUARE_SIZE/2+SQUARE_SIZE/2
-                        , (i/6)*ROW_HEIGHT +SQUARE_SIZE/2-ROW_HEIGHT / 2 +3*ROW_HEIGHT+ 10, 12);
+                        , (i/6)*ROW_HEIGHT +SQUARE_SIZE/2-ROW_HEIGHT / 2 +1*ROW_HEIGHT+ 10, 12);
                 r.setFill(Color.LIGHTGREY);
                 pegs.add(r);}
         }

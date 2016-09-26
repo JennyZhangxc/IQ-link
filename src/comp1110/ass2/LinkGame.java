@@ -316,7 +316,7 @@ public class LinkGame {
         Arrays.fill(PEGS_SURROUNDING[i],false);}
 
         //First judge whether the placement is well formed.
-//        if(!LinkGame.isPlacementWellFormed(placement)){return false;}
+        if(!LinkGame.isPlacementWellFormed(placement)){return false;}
 
         //Break the placement into pieces(for each piece) and assign them into string array placements
         final int sublength=3;
@@ -567,4 +567,5 @@ public class LinkGame {
         SOLUTION_used_piece[current_piece]=true;
         return NextSubsolutions;
     }
+
 }

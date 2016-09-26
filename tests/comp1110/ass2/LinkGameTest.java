@@ -34,17 +34,21 @@ public class LinkGameTest {
 //             ) {
 //            System.out.println(i);
 //        }
-        String[]input=new String[2];
-        input[0]="KAFCBGUCAGDFLEFPFBBGESHBOIA";
-        input[1]="J";
-
-        for (String i:LinkGame.FindNextValidPieces(input)) {
-            System.out.println("FindNextValidPieces");
-            System.out.println(i);
-        }
-
-        for(String i:LinkGame.getSolutions("KAFCBGUCAGDFLEFPFBBGESHBOIA")){
-            System.out.println("GetSolutions");
+//        String[]input=new String[2];
+//        input[0]="KAFCBGUCAGDFLEFPFBBGESHBOIA";
+//        input[1]="J";
+//
+//        for (String i:LinkGame.FindNextValidPieces(input)) {
+//            System.out.println("FindNextValidPieces");
+//            System.out.println(i);
+//        }
+//
+//        for(String i:LinkGame.getSolutions("KAFCBGUCAGDFLEFPFBBGESHBOIA")){
+//            System.out.println("GetSolutions");
+//            System.out.println(i);
+//        }
+        System.out.println(LinkGame.isPlacementValid("LEA"));
+        for (int i:LinkGame.getPegsForPiecePlacement("LEA")) {
             System.out.println(i);
         }
     }

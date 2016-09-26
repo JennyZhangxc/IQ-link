@@ -1,6 +1,8 @@
 package comp1110.ass2;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 
 import java.util.Random;
 
@@ -17,6 +19,8 @@ import static org.junit.Assert.assertTrue;
  *  - no piece appears more than once in the placement
  */
 public class PlacementWellFormedTest {
+    @Rule
+    public Timeout globalTimeout = Timeout.millis(200);
 
     @Test
     public void testEmpty() {

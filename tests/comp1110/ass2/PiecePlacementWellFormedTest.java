@@ -1,6 +1,8 @@
 package comp1110.ass2;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 
 import java.util.Random;
 
@@ -20,6 +22,8 @@ import static org.junit.Assert.assertTrue;
  *   in the range A .. L
  */
 public class PiecePlacementWellFormedTest {
+    @Rule
+    public Timeout globalTimeout = Timeout.millis(200);
 
     @Test
     public void testSimple() {

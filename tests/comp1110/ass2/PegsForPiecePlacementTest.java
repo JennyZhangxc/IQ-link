@@ -1,6 +1,8 @@
 package comp1110.ass2;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 
 import java.util.Random;
 
@@ -18,6 +20,8 @@ import static org.junit.Assert.assertTrue;
  * orientation.
  */
 public class PegsForPiecePlacementTest {
+    @Rule
+    public Timeout globalTimeout = Timeout.millis(200);
 
     void checkPegs(String test, int one, int two, int three) {
         int[] pegs = LinkGame.getPegsForPiecePlacement(test);

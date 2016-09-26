@@ -1,6 +1,8 @@
 package comp1110.ass2;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -16,6 +18,8 @@ import static org.junit.Assert.assertTrue;
  * Return an array of all solutions given a starting placement.
  */
 public class SolutionsTest {
+    @Rule
+    public Timeout globalTimeout = Timeout.seconds(20);
 
     @Test
     public void testSingle() {

@@ -152,9 +152,9 @@ public class Board extends Application{
          */
         private void snapToGrid() {
             int x=(int)((getLayoutX() - (SQUARE_SIZE / 4)) / (SQUARE_SIZE/2));
-//            System.out.println("x= "+x);
+            System.out.println("x= "+x);
             int y=(((int) getLayoutY()-(SQUARE_SIZE / 4))/ (SQUARE_SIZE/2));
-//            System.out.println("y= "+y);
+            System.out.println("y= "+y);
             String current_piece="";
             if(y%2==0) {
                 current_piece=""+(char)('A'+x+6*y)+this.piece+(char)('A'+this.getRotate()/60);
@@ -162,6 +162,14 @@ public class Board extends Application{
             else{
                 current_piece=""+(char)('A'+x-1+6*y)+this.piece+(char)('A'+this.getRotate()/60);
             }
+            String piece="";
+            for(String p:pieces){
+                if(p.charAt(1)==current_piece.charAt(1)){
+                    piece=p;
+                }
+            }
+            pieces.remove(piece);
+
             pieces.add(current_piece);
             if(y%2==0)
                 setLayoutX(BOARD_X + x * SQUARE_SIZE/2+SQUARE_SIZE/4);
@@ -208,7 +216,7 @@ public class Board extends Application{
             String placement = "";
             for(String p : pieces) {
                 placement += p.toString();
-//                System.out.println(p.toString());
+                System.out.println(p.toString());
             }
 
             if (!LinkGame.isPlacementValid(placement)) {

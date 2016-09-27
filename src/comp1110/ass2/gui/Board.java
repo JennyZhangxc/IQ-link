@@ -328,7 +328,6 @@ public class Board extends Application{
         primaryStage.show();
     }
     // FIXME Task 8: Implement a basic playable Link Game in JavaFX that only allows pieces to be placed in valid places
-    public 
 
     // FIXME Task 9: Implement starting placements
     PiecePlacement start_placements(){

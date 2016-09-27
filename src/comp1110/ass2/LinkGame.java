@@ -568,6 +568,4 @@ public class LinkGame {
         return NextSubsolutions;
     }
 
-    //static
-
 }

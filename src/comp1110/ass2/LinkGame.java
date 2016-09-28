@@ -294,11 +294,11 @@ public class LinkGame {
      * @param value the test case value, pegPosition the peg position
      * @return True if the peg is outside the bound
       */
-    public static boolean isPegOutsideRange(int value, int pegPosition)
+    private static boolean isPegOutsideRange(int value, int pegPosition)
     {
         if((pegPosition == 5) || (pegPosition == 17) || (value == pegPosition + 1)) return true;
-        else if(((pegPosition == 11) || (pegPosition == 23)) && ((value == pegPosition - 5) || (value == pegPosition + 1) || (value == pegPosition + 7))) return true;
-        else if((value < 0) || (value > 23)) return true;
+        else if((pegPosition == 11 || pegPosition == 23) && (value == pegPosition - 5 || value == pegPosition + 1 || value == pegPosition + 7)) return true;
+        else if(value < 0 || value > 23) return true;
         else return false;
     }
 
@@ -573,5 +573,5 @@ public class LinkGame {
         SOLUTION_used_piece[current_piece]=true;
         return NextSubsolutions;
     }
-
+//
 }

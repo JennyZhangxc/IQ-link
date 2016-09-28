@@ -379,9 +379,9 @@ public class LinkGame {
      * @return An array of strings, each describing a solution to the game given the
      * starting point provied by placement.
      */
-    final static boolean[]SOLUTION_PEGS_BALL=new boolean[24];
-    final static boolean[][]SOLUTION_PEGS_SURROUNDING=new boolean[24][6];
-    final static boolean[]SOLUTION_used_piece=new boolean[12];
+    private final static boolean[]SOLUTION_PEGS_BALL=new boolean[24];
+    private final static boolean[][]SOLUTION_PEGS_SURROUNDING=new boolean[24][6];
+    private final static boolean[]SOLUTION_used_piece=new boolean[12];
     static String[] getSolutions(String placement) {
         // FIXME Task 10: determine all solutions to the game, given a particular starting placement
         //Initialize PEGS_BALL, PEGS_RING and used_piece;

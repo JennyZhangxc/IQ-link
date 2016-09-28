@@ -2,6 +2,7 @@ package comp1110.ass2.gui;
 
 import comp1110.ass2.LinkGame;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -23,7 +24,6 @@ public class Board extends Application{
     private static final int BOARD_HEIGHT = 700;
     private static final int GAME_HEIGHT = 350;
     private static final int SQUARE_SIZE = 100;
-    private static final int MARGIN = 10;
     private static final int SIDE = 6;
     private static final double PIECE_IMAGE_SIZE = 1.5*SQUARE_SIZE;
     private static final int BOARD_X=50;
@@ -37,7 +37,10 @@ public class Board extends Application{
     /* node groups */
     private final Group root = new Group();
     private final Group controls = new Group();
+    private final Group SET_UP=new Group();
+    private final Group SET_UP_pieses=new Group();
     private final Group solution = new Group();
+    private final Group Pieces=new Group();
     private final ArrayList<String>pieces = new ArrayList<>();
     /* message on completion */
     private final Text competionText = new Text("Well done!");
@@ -83,15 +86,21 @@ public class Board extends Application{
             }
             int pos = position.charAt(0) - 'A';
             int o = (position.charAt(2) - 'A');
+//            System.out.println(pos);
             int x = (pos % Board.SIDE);
+//            System.out.println("X="+x);
             int y = (pos / Board.SIDE);
+//            System.out.println("Y="+y);
+
             if(y%2==0)
-                setLayoutX(BOARD_X + x * SQUARE_SIZE);
+                setLayoutX(BOARD_X + x * SQUARE_SIZE/2+SQUARE_SIZE/4);
             else
-                setLayoutX(BOARD_X + x * SQUARE_SIZE-SQUARE_SIZE/2);
+                setLayoutX(BOARD_X + x * SQUARE_SIZE/2+SQUARE_SIZE/2);
+
             setLayoutY(BOARD_Y + y * ROW_HEIGHT);
+
             if (o>=6){
-                setY(-1);
+                setScaleY(-1);
             }
             setRotate(60 * (o%6));
         }
@@ -113,39 +122,43 @@ public class Board extends Application{
          */
         DraggableFXPiece(char piece) {
             super(piece);
-            position = -1; // off screen
-            homeX = 1.5* SQUARE_SIZE * ((piece - 'A') % 6);
-            homeY = 1.5* SQUARE_SIZE * ((piece - 'A') / 6) + GAME_HEIGHT;
-            setLayoutX(homeX);
-            setLayoutY(homeY);
+            if (SET_UP_pieses.getChildren().contains(this)) {
+
+            } else {
+                position = -1; // off screen
+                homeX = 1.5 * SQUARE_SIZE * ((piece - 'A') % 6);
+                homeY = 1.5 * SQUARE_SIZE * ((piece - 'A') / 6) + GAME_HEIGHT;
+                setLayoutX(homeX);
+                setLayoutY(homeY);
             /* event handlers */
-            setOnScroll(event -> {            // scroll to change orientation
-                hideCompletion();
-                rotate();
-            });
-            setOnMouseClicked(event->{       //mouse click indicates of flipping the piece
-                if(event.getButton()== MouseButton.SECONDARY)
-                    flip(Character.toString(piece));
+                setOnScroll(event -> {            // scroll to change orientation
+                    hideCompletion();
+                    rotate();
+                });
+                setOnMouseClicked(event -> {       //mouse click indicates of flipping the piece
+                    if (event.getButton() == MouseButton.SECONDARY)
+                        flip(Character.toString(piece));
 //                snapToGrid();
-            } );
-            setOnMousePressed(event -> {      // mouse press indicates begin of drag
-                mouseX = event.getSceneX();
-                mouseY = event.getSceneY();
-            });
-            setOnMouseDragged(event -> {      // mouse is being dragged
-                hideCompletion();
-                toFront();
-                double movementX = event.getSceneX() - mouseX;
-                double movementY = event.getSceneY() - mouseY;
-                setLayoutX(getLayoutX() + movementX);
-                setLayoutY(getLayoutY() + movementY);
-                mouseX = event.getSceneX();
-                mouseY = event.getSceneY();
-                event.consume();
-            });
-            setOnMouseReleased(event -> {     // drag is complete
-                snapToGrid();
-            });
+                });
+                setOnMousePressed(event -> {      // mouse press indicates begin of drag
+                    mouseX = event.getSceneX();
+                    mouseY = event.getSceneY();
+                });
+                setOnMouseDragged(event -> {      // mouse is being dragged
+                    hideCompletion();
+                    toFront();
+                    double movementX = event.getSceneX() - mouseX;
+                    double movementY = event.getSceneY() - mouseY;
+                    setLayoutX(getLayoutX() + movementX);
+                    setLayoutY(getLayoutY() + movementY);
+                    mouseX = event.getSceneX();
+                    mouseY = event.getSceneY();
+                    event.consume();
+                });
+                setOnMouseReleased(event -> {     // drag is complete
+                    snapToGrid();
+                });
+            }
         }
         /**
          * Hide the completion message
@@ -176,13 +189,13 @@ public class Board extends Application{
                 current_piece=""+(char)('A'+x-1+6*y)+this.piece+(char)('A'+this.getRotate()/60+Flip_adjust);
             }
             String piece="";
+
             for(String p:pieces){
                 if(p.charAt(1)==current_piece.charAt(1)){
                     piece=p;
                 }
             }
             pieces.remove(piece);
-
             pieces.add(current_piece);
             if(y%2==0)
                 setLayoutX(BOARD_X + x * SQUARE_SIZE/2+SQUARE_SIZE/4);
@@ -257,8 +270,6 @@ public class Board extends Application{
         }
 
 
-
-
         /**
          * Show the completion message
          */
@@ -306,11 +317,34 @@ public class Board extends Application{
         competionText.setTextAlignment(TextAlignment.CENTER);
         root.getChildren().add(competionText);
     }
+    private void Starting_placements(String setup){
+        SET_UP.getChildren().clear();
+        for (int i = 0; i < setup.length()/3; i++) {
+            SET_UP.getChildren().add(new FXPiece(setup.substring(3*i,3*i+3)));
+            SET_UP_pieses.getChildren().add(new DraggableFXPiece(setup.charAt(3*i+1)));
+        }
+        SET_UP.toBack();
+    }
+
+    /**
+     * Start a new game, resetting everything as necessary
+     */
+    private void newGame() {
+        try {
+//            Starting_placements("KAFCBG");
+            Starting_placements("KAFCBGUCAGDFLEFPFBBGESHBOIA");
+        } catch (IllegalArgumentException e) {
+            System.err.println("Uh oh. "+ e);
+            Thread.dumpStack();
+            Platform.exit();
+        }
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
-
+        newGame();
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){
                 Peg r = new Peg(((i%6)+1)*SQUARE_SIZE/2+SQUARE_SIZE/4+SQUARE_SIZE/2+SQUARE_SIZE/2
@@ -324,9 +358,8 @@ public class Board extends Application{
                 pegs.add(r);}
         }
         pegs.forEach(peg -> root.getChildren().add(peg));
-
         root.getChildren().add(controls);
-
+        root.getChildren().add(SET_UP);
         makeCompletion();
 
         for (int i = 0; i < 12; i++) {

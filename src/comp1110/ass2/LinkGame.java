@@ -319,7 +319,6 @@ public class LinkGame {
         if(!LinkGame.isPlacementWellFormed(placement)){return false;}
 
         //Break the placement into pieces(for each piece) and assign them into string array placements
-        final int sublength=3;
         String[]placements=new String[placement.length()/3];
         for(int i=0;i<placement.length()/3;i++){
             placements[i]=placement.substring(i*3,(i+1)*3);}

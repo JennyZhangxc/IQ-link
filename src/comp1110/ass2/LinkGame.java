@@ -451,7 +451,7 @@ public class LinkGame {
 
         return output;
     }
-    static ArrayList<String> FindNextValidPieces(String[] placement_nextPiece){
+    private static ArrayList<String> FindNextValidPieces(String[] placement_nextPiece){
             String placement=placement_nextPiece[0];
             String nextPiece=placement_nextPiece[1];
             ArrayList<String>output=new ArrayList<>();
@@ -502,7 +502,7 @@ public class LinkGame {
     }
 
 
-    static boolean isNextPiecePlacementValid(String test_sub){
+    private static boolean isNextPiecePlacementValid(String test_sub){
 
             //Use param piece_this to represent current piece.
             Piece piece_this=Piece.valueOf(Character.toString(test_sub.charAt(1)));
@@ -537,7 +537,7 @@ public class LinkGame {
     public static boolean isPlacementComplete(String placement){
         return (placement.length()/3)==12;
     }
-    static boolean isAllPieceUsed(){
+    private static boolean isAllPieceUsed(){
         boolean output=true;
         for (boolean i: SOLUTION_used_piece) {
             if (!i)
@@ -546,7 +546,7 @@ public class LinkGame {
         return output;
     }
 
-    static ArrayList<String> FindNextSubSolutions(ArrayList<String>subsolution){
+    private static ArrayList<String> FindNextSubSolutions(ArrayList<String>subsolution){
         ArrayList<String>NextSubsolutions=new ArrayList<>();
         int current_piece = 0;
         for (String solution:subsolution) {

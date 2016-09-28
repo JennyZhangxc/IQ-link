@@ -1,17 +1,17 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.LinkGame;
-import comp1110.ass2.PiecePlacement;
-import comp1110.ass2.Puzzle;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -120,18 +120,20 @@ public class Board extends Application{
             setLayoutY(homeY);
             /* event handlers */
             setOnScroll(event -> {            // scroll to change orientation
-//                hideSkulls();
-//                hideCompletion();
-                rotate(Character.toString(piece));
-                event.consume();
+                hideCompletion();
+                rotate();
             });
+            setOnMouseClicked(event->{       //mouse click indicates of flipping the piece
+                if(event.getButton()== MouseButton.SECONDARY)
+                    flip(Character.toString(piece));
+//                snapToGrid();
+            } );
             setOnMousePressed(event -> {      // mouse press indicates begin of drag
                 mouseX = event.getSceneX();
                 mouseY = event.getSceneY();
             });
             setOnMouseDragged(event -> {      // mouse is being dragged
-//                hideCompletion();
-//                hideSkulls();
+                hideCompletion();
                 toFront();
                 double movementX = event.getSceneX() - mouseX;
                 double movementY = event.getSceneY() - mouseY;
@@ -145,22 +147,33 @@ public class Board extends Application{
                 snapToGrid();
             });
         }
+        /**
+         * Hide the completion message
+         */
+        private void hideCompletion() {
+            competionText.toBack();
+            competionText.setOpacity(0);
+        }
 
 
         /**
          * Snap the piece to the nearest grid position (if it is over the grid)
          */
         private void snapToGrid() {
-            int x=(int)((getLayoutX() - (SQUARE_SIZE / 4)) / (SQUARE_SIZE/2));
-            System.out.println("x= "+x);
+            int x=(int)((getLayoutX() - (SQUARE_SIZE / 3)) / (SQUARE_SIZE/2));
+//            System.out.println("x= "+x);
             int y=(((int) getLayoutY()-(SQUARE_SIZE / 4))/ (SQUARE_SIZE/2));
-            System.out.println("y= "+y);
-            String current_piece="";
+//            System.out.println("y= "+y);
+            String current_piece;
+            int Flip_adjust=0;
+            if(this.piece!='A'&&getScaleY()==-1.0){
+                Flip_adjust=6;
+            }
             if(y%2==0) {
-                current_piece=""+(char)('A'+x+6*y)+this.piece+(char)('A'+this.getRotate()/60);
+                current_piece=""+(char)('A'+x+6*y)+this.piece+(char)('A'+this.getRotate()/60+Flip_adjust);
             }
             else{
-                current_piece=""+(char)('A'+x-1+6*y)+this.piece+(char)('A'+this.getRotate()/60);
+                current_piece=""+(char)('A'+x-1+6*y)+this.piece+(char)('A'+this.getRotate()/60+Flip_adjust);
             }
             String piece="";
             for(String p:pieces){
@@ -201,12 +214,24 @@ public class Board extends Application{
         /**
          * Rotate the piece by 60 degrees
          */
-        private void rotate(String current_piece) {
-            setRotate((getRotate() + 60) % 360);
-            setPosition();
-            checkMove(current_piece);
-        }
+        private void rotate() {
 
+            setRotate((getRotate() + 60) % 360);
+
+            setPosition();
+        }
+        /**
+         * Flip the piece
+         */
+        int Flip_count = 0;
+        private void flip(String current_piece){
+            if(current_piece.charAt(0)!='A') {
+                setScaleY(-1);
+                Flip_count++;
+                setScaleY(Math.pow((-1), (Flip_count)));
+//                System.out.println(getScaleY());
+            }
+        }
         /**
          * A move has been made.  Determine whether there are errors,
          * and if so, show skulls, and determine whether the game is
@@ -216,7 +241,7 @@ public class Board extends Application{
             String placement = "";
             for(String p : pieces) {
                 placement += p.toString();
-                System.out.println(p.toString());
+//                System.out.println(p.toString());
             }
 
             if (!LinkGame.isPlacementValid(placement)) {
@@ -224,44 +249,23 @@ public class Board extends Application{
                 snapToHome();
                 System.out.println("Wrong Placement");
             } else {
-//                if (LinkGame.isPlacementComplete(placement)) {
-//                    showCompletion();
-//                }
+                System.out.println(placement);
+                if (LinkGame.isPlacementComplete(placement)) {
+                    showCompletion();
+                }
             }
         }
 
 
-        /**
-         * Determine whether the whole piece is on the board, given x and y
-         * coordinates representing the top-left corner of the piece in its
-         * current rotation.
-         * @param x The column that the origin of the piece is on
-         * @param y The row that the origin of the piece is on
-         * @return True if the entire piece is on the board
-         */
-        private boolean isOnBoard(double x, double y) {
-            return true;
-//            if(LinkGame.isPlacementValid(this.toString()))
-//                return true;
-//            else
-//                return false;
-//
-//            if (piece < 'U')  // 'L'-shaped pieces are simple, because they're basically square
-//                return x >= 0 && x < 3 && y >= 0 && y < 3;
-//            else {            // For 'I'-shaped pieces it depends on the orientation
-//                switch ((int) getRotate()) {
-//                    case 0:
-//                        return x >= 0  && x < 3 && y >= 0  && y < 4;
-//                    case 90:
-//                        return x >= -1 && x < 3 && y >= 0  && y < 3;
-//                    case 180:
-//                        return x >= 0  && x < 3 && y >= -1 && y < 3;
-//                    case 270: default:
-//                        return x >= 0  && x < 4 && y >= 0  && y < 3;
-//                }
-//            }
-        }
 
+
+        /**
+         * Show the completion message
+         */
+        private void showCompletion() {
+            competionText.toFront();
+            competionText.setOpacity(1);
+        }
 
         /**
          * Determine the grid-position of the origin of the piece (0 .. 15)
@@ -270,14 +274,7 @@ public class Board extends Application{
         private void setPosition() {
             double x = Math.floor(((getLayoutX() - BOARD_X) / (SQUARE_SIZE/2))/2);
             double y = (getLayoutY() - BOARD_Y) / SQUARE_SIZE;
-            if (isOnBoard(x,y)) {
-                /*  find 'position' (reference point is top left of *un*rotated piece */
-                int rotate = (int) getRotate() / 60;
-//                x += (rotate == 0 || rotate == 3) ? 0 : 1;
-//                y += rotate / 2;
-                position = x + y * Board.SIDE;
-            } else
-                position = -1;
+            position = x + y * Board.SIDE;
         }
 
 
@@ -297,12 +294,23 @@ public class Board extends Application{
         }
 
     }
+
+    /**
+     * Create the message to be displayed when the player completes the puzzle.
+     */
+    private void makeCompletion() {
+        competionText.setFill(Color.BLACK);
+        competionText.setFont(Font.font("Arial", 80));
+        competionText.setLayoutX(3.1*SQUARE_SIZE);
+        competionText.setLayoutY(0.9*SQUARE_SIZE);
+        competionText.setTextAlignment(TextAlignment.CENTER);
+        root.getChildren().add(competionText);
+    }
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
 
-//
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){
                 Peg r = new Peg(((i%6)+1)*SQUARE_SIZE/2+SQUARE_SIZE/4+SQUARE_SIZE/2+SQUARE_SIZE/2
@@ -319,6 +327,8 @@ public class Board extends Application{
 
         root.getChildren().add(controls);
 
+        makeCompletion();
+
         for (int i = 0; i < 12; i++) {
             DraggableFXPiece draggableFXPiece=new DraggableFXPiece((char)((int)'A'+i));
             root.getChildren().add(draggableFXPiece);
@@ -330,13 +340,7 @@ public class Board extends Application{
     // FIXME Task 8: Implement a basic playable Link Game in JavaFX that only allows pieces to be placed in valid places
 
     // FIXME Task 9: Implement starting placements
-    PiecePlacement start_placements(){
-        //return new PiecePlacement();
-        return null;
-    }
-    Puzzle start(){
-        return new Puzzle();
-    }
+
 
     // FIXME Task 11: Implement hints
 

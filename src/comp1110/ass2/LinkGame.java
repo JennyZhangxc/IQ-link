@@ -530,7 +530,9 @@ public class LinkGame {
             }
             return true;
         }
-
+    public static boolean isPlacementComplete(String placement){
+        return (placement.length()/3)==12;
+    }
     static boolean isAllPieceUsed(){
         boolean output=true;
         for (boolean i: SOLUTION_used_piece) {

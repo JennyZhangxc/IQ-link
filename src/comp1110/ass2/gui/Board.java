@@ -28,6 +28,7 @@ public class Board extends Application{
     private static final double PIECE_IMAGE_SIZE = 1.5*SQUARE_SIZE;
     private static final int BOARD_X=50;
     private static final int BOARD_Y=50;
+    private static final boolean[]used_pieces=new boolean[12];
 
     private static final double ROW_HEIGHT = 0.5*SQUARE_SIZE * 0.8660254; // 60 degrees distance
 
@@ -64,10 +65,12 @@ public class Board extends Application{
             if (!(piece >= 'A' && piece <= 'L')) {
                 throw new IllegalArgumentException("Bad piece: \"" + piece + "\"");
             }
+            if (used_pieces[piece - 'A'] != true) {
             setImage(new Image(Board.class.getResource(URI_BASE + piece + ".png").toString()));
             this.piece = piece;
             setFitHeight(PIECE_IMAGE_SIZE);
             setFitWidth(PIECE_IMAGE_SIZE);
+        }
         }
         /**
          * Construct a particular playing piece at a particular place on the
@@ -320,8 +323,10 @@ public class Board extends Application{
     private void Starting_placements(String setup){
         SET_UP.getChildren().clear();
         for (int i = 0; i < setup.length()/3; i++) {
+            pieces.add(setup.substring(3*i,3*i+3));
             SET_UP.getChildren().add(new FXPiece(setup.substring(3*i,3*i+3)));
             SET_UP_pieses.getChildren().add(new DraggableFXPiece(setup.charAt(3*i+1)));
+            used_pieces[setup.charAt(3*i+1)-'A']=true;
         }
         SET_UP.toBack();
     }

@@ -44,6 +44,7 @@ public class Viewer extends Application {
     /**
      * Draw a placement in the window, removing any previously drawn one
      *
+     * @author Lei Huang
      * @param placement  A valid placement string
      */
 

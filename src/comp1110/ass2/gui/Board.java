@@ -412,7 +412,7 @@ public class Board extends Application{
     // FIXME Task 8: Implement a basic playable Link Game in JavaFX that only allows pieces to be placed in valid places
 
     // FIXME Task 9: Implement starting placements
-    //update
+    //update and change
 
     // FIXME Task 11: Implement hints
 

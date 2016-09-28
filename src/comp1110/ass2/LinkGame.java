@@ -310,9 +310,9 @@ public class LinkGame {
      * @return True if the placement is valid
      */
     // FIXME Task 7: determine whether a placement is valid
-    final static boolean[]PEGS_BALL=new boolean[24];
-    final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
-    final static boolean[]used_piece=new boolean[12];
+    private final static boolean[]PEGS_BALL=new boolean[24];
+    private final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
+    private final static boolean[]used_piece=new boolean[12];
     public static boolean isPlacementValid(String placement) {
         //Initialize PEGS_BALL and PEGS_RING;
         Arrays.fill(PEGS_BALL,false);

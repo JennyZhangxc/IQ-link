@@ -419,5 +419,4 @@ public class Board extends Application{
 
     // FIXME Task 12: Generate interesting starting placements
 
-
 }

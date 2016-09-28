@@ -14,6 +14,8 @@ import static comp1110.ass2.Piece.A;
  */
 public class LinkGame {
 
+
+
     /**
      * Determine whether a piece placement is well-formed according to the following:
      * - it consists of exactly three characters
@@ -21,6 +23,7 @@ public class LinkGame {
      * - the second character is in the range A .. L
      * - the third character is in the range A .. F if the second character is A, otherwise
      *   in the range A .. L
+     *
      * @author Wei Wei
      * @param piecePlacement A string describing a piece placement
      * @return True if the piece placement is well-formed
@@ -302,6 +305,12 @@ public class LinkGame {
         else return false;
     }
 
+
+    // FIXME Task 7: determine whether a placement is valid
+    private final static boolean[]PEGS_BALL=new boolean[24];
+    private final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
+    private final static boolean[]used_piece=new boolean[12];
+
     /**
      * Determine whether a placement is valid.  To be valid, the placement must be well-formed
      * and each piece must correctly connect with each other.
@@ -310,10 +319,6 @@ public class LinkGame {
      * @param placement A placement string
      * @return True if the placement is valid
      */
-    // FIXME Task 7: determine whether a placement is valid
-    private final static boolean[]PEGS_BALL=new boolean[24];
-    private final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
-    private final static boolean[]used_piece=new boolean[12];
     public static boolean isPlacementValid(String placement) {
         //Initialize PEGS_BALL and PEGS_RING;
         Arrays.fill(PEGS_BALL,false);
@@ -373,6 +378,11 @@ public class LinkGame {
         return true;
     }
 
+
+    private final static boolean[]SOLUTION_PEGS_BALL=new boolean[24];
+    private final static boolean[][]SOLUTION_PEGS_SURROUNDING=new boolean[24][6];
+    private final static boolean[]SOLUTION_used_piece=new boolean[12];
+
     /**
      * Return an array of all solutions given a starting placement.
      *
@@ -381,9 +391,6 @@ public class LinkGame {
      * @return An array of strings, each describing a solution to the game given the
      * starting point provied by placement.
      */
-    private final static boolean[]SOLUTION_PEGS_BALL=new boolean[24];
-    private final static boolean[][]SOLUTION_PEGS_SURROUNDING=new boolean[24][6];
-    private final static boolean[]SOLUTION_used_piece=new boolean[12];
     static String[] getSolutions(String placement) {
         // FIXME Task 10: determine all solutions to the game, given a particular starting placement
         //Initialize PEGS_BALL, PEGS_RING and used_piece;
@@ -575,5 +582,4 @@ public class LinkGame {
         SOLUTION_used_piece[current_piece]=true;
         return NextSubsolutions;
     }
-//
 }

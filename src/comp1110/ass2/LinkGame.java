@@ -294,11 +294,11 @@ public class LinkGame {
      * @param value the test case value, pegPosition the peg position
      * @return True if the peg is outside the bound
       */
-    public static boolean isPegOutsideRange(int value, int pegPosition)
+    private static boolean isPegOutsideRange(int value, int pegPosition)
     {
         if((pegPosition == 5) || (pegPosition == 17) || (value == pegPosition + 1)) return true;
-        else if(((pegPosition == 11) || (pegPosition == 23)) && ((value == pegPosition - 5) || (value == pegPosition + 1) || (value == pegPosition + 7))) return true;
-        else if((value < 0) || (value > 23)) return true;
+        else if((pegPosition == 11 || pegPosition == 23) && (value == pegPosition - 5 || value == pegPosition + 1 || value == pegPosition + 7)) return true;
+        else if(value < 0 || value > 23) return true;
         else return false;
     }
 
@@ -311,9 +311,9 @@ public class LinkGame {
      * @return True if the placement is valid
      */
     // FIXME Task 7: determine whether a placement is valid
-    final static boolean[]PEGS_BALL=new boolean[24];
-    final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
-    final static boolean[]used_piece=new boolean[12];
+    private final static boolean[]PEGS_BALL=new boolean[24];
+    private final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
+    private final static boolean[]used_piece=new boolean[12];
     public static boolean isPlacementValid(String placement) {
         //Initialize PEGS_BALL and PEGS_RING;
         Arrays.fill(PEGS_BALL,false);
@@ -381,9 +381,9 @@ public class LinkGame {
      * @return An array of strings, each describing a solution to the game given the
      * starting point provied by placement.
      */
-    final static boolean[]SOLUTION_PEGS_BALL=new boolean[24];
-    final static boolean[][]SOLUTION_PEGS_SURROUNDING=new boolean[24][6];
-    final static boolean[]SOLUTION_used_piece=new boolean[12];
+    private final static boolean[]SOLUTION_PEGS_BALL=new boolean[24];
+    private final static boolean[][]SOLUTION_PEGS_SURROUNDING=new boolean[24][6];
+    private final static boolean[]SOLUTION_used_piece=new boolean[12];
     static String[] getSolutions(String placement) {
         // FIXME Task 10: determine all solutions to the game, given a particular starting placement
         //Initialize PEGS_BALL, PEGS_RING and used_piece;
@@ -453,7 +453,7 @@ public class LinkGame {
 
         return output;
     }
-    static ArrayList<String> FindNextValidPieces(String[] placement_nextPiece){
+    private static ArrayList<String> FindNextValidPieces(String[] placement_nextPiece){
             String placement=placement_nextPiece[0];
             String nextPiece=placement_nextPiece[1];
             ArrayList<String>output=new ArrayList<>();
@@ -504,7 +504,7 @@ public class LinkGame {
     }
 
 
-    static boolean isNextPiecePlacementValid(String test_sub){
+    private static boolean isNextPiecePlacementValid(String test_sub){
 
             //Use param piece_this to represent current piece.
             Piece piece_this=Piece.valueOf(Character.toString(test_sub.charAt(1)));
@@ -539,7 +539,7 @@ public class LinkGame {
     public static boolean isPlacementComplete(String placement){
         return (placement.length()/3)==12;
     }
-    static boolean isAllPieceUsed(){
+    private static boolean isAllPieceUsed(){
         boolean output=true;
         for (boolean i: SOLUTION_used_piece) {
             if (!i)
@@ -548,7 +548,7 @@ public class LinkGame {
         return output;
     }
 
-    static ArrayList<String> FindNextSubSolutions(ArrayList<String>subsolution){
+    private static ArrayList<String> FindNextSubSolutions(ArrayList<String>subsolution){
         ArrayList<String>NextSubsolutions=new ArrayList<>();
         int current_piece = 0;
         for (String solution:subsolution) {
@@ -575,5 +575,5 @@ public class LinkGame {
         SOLUTION_used_piece[current_piece]=true;
         return NextSubsolutions;
     }
-
+//
 }

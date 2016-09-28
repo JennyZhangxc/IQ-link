@@ -52,6 +52,7 @@ public class Board extends Application{
     /**
      * An inner class that represents transparent pieces used in the game.
      * Each of these is a visual representaton of an underlying piece.
+     * @author Lei Huang,adapted from the board class code of assignment 1
      */
     class FXPiece extends ImageView {
         char piece;

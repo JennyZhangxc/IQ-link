@@ -21,7 +21,7 @@ public class LinkGame {
      * - the second character is in the range A .. L
      * - the third character is in the range A .. F if the second character is A, otherwise
      *   in the range A .. L
-     *
+     * @author Wei Wei
      * @param piecePlacement A string describing a piece placement
      * @return True if the piece placement is well-formed
      */
@@ -46,6 +46,7 @@ public class LinkGame {
      *  - each piece placement is well-formed
      *  - no piece appears more than once in the placement
      *
+     * @author Wei Wei
      * @param placement A string describing a placement of one or more pieces
      * @return True if the placement is well-formed
      */
@@ -82,6 +83,8 @@ public class LinkGame {
      * piece.
      * The code needs to account for the origin of the piece, the piece shape, and the piece
      * orientation.
+     *
+     * @author Wei Wei
      * @param piecePlacement A valid string describing a piece placement
      * @return An array of integers corresponding to the pegs which the piece placement touches,
      * listed in the normal order of units for that piece.   The value 0 corresponds to
@@ -286,6 +289,8 @@ public class LinkGame {
 
     /**
      * Determine whether the peg is out of bound or not.
+     *
+     * @author Wei Wei
      * @param value the test case value, pegPosition the peg position
      * @return True if the peg is outside the bound
       */

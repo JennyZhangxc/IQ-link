@@ -29,7 +29,6 @@ public class Board extends Application{
     private static final int BOARD_X=50;
     private static final int BOARD_Y=50;
     private static final boolean[]used_pieces=new boolean[12];
-
     private static final double ROW_HEIGHT = 0.5*SQUARE_SIZE * 0.8660254; // 60 degrees distance
 
     /* where to find media assets */
@@ -43,10 +42,11 @@ public class Board extends Application{
     private final Group solution = new Group();
     private final Group Pieces=new Group();
     private final ArrayList<String>pieces = new ArrayList<>();
+
     /* message on completion */
     private final Text competionText = new Text("Well done!");
 
-
+    /* pegs on board */
     private final ArrayList<Peg>pegs=new ArrayList<>();
 
     /**
@@ -59,6 +59,7 @@ public class Board extends Application{
         /**
          * Construct a particular playing piece
          *
+         * @author Lei Huang,adapted from the board class code of assignment 1
          * @param piece The letter representing the piece to be created.
          */
         FXPiece(char piece) {
@@ -75,6 +76,8 @@ public class Board extends Application{
         /**
          * Construct a particular playing piece at a particular place on the
          * board at a given orientation.
+         *
+         * @author Lei Huang,adapted from the board class code of assignment 1
          * @param position A three-character string describing
          *                 - the place the piece is to be located ('A' - 'X'),
          *                 - the piece ('A' - 'L'), and
@@ -113,6 +116,7 @@ public class Board extends Application{
     /**
      * This class extends FXPiece with the capacity for it to be dragged and dropped,
      * and snap-to-grid.
+     * @author Lei Huang,adapted from the Board class code of assignment 1
      */
     class DraggableFXPiece extends FXPiece {
         double position;               // the current game position of the piece 0 .. 24 (-1 is off-board)
@@ -165,7 +169,9 @@ public class Board extends Application{
         }
         /**
          * Hide the completion message
+         * @author Lei Huang,adapted from the Board class code of assignment 1
          */
+
         private void hideCompletion() {
             competionText.toBack();
             competionText.setOpacity(0);
@@ -174,6 +180,8 @@ public class Board extends Application{
 
         /**
          * Snap the piece to the nearest grid position (if it is over the grid)
+         *
+         * @author Lei Huang,adapted from the Board class code of assignment 1
          */
         private void snapToGrid() {
             int x=(int)((getLayoutX() - (SQUARE_SIZE / 3)) / (SQUARE_SIZE/2));
@@ -218,6 +226,8 @@ public class Board extends Application{
 
         /**
          * Snap the piece to its home position (if it is not on the grid)
+         *
+         * @author Lei Huang,adapted from the Board class code of assignment 1
          */
         private void snapToHome() {
             setLayoutX(homeX);
@@ -229,6 +239,8 @@ public class Board extends Application{
 
         /**
          * Rotate the piece by 60 degrees
+         *
+         * @author Lei Huang,adapted from the Board class code of assignment 1
          */
         private void rotate() {
 
@@ -238,6 +250,8 @@ public class Board extends Application{
         }
         /**
          * Flip the piece
+         *
+         * @author Lei Huang
          */
         int Flip_count = 0;
         private void flip(String current_piece){
@@ -252,6 +266,8 @@ public class Board extends Application{
          * A move has been made.  Determine whether there are errors,
          * and if so, show skulls, and determine whether the game is
          * complete, and if so, show the completion message.
+         *
+         * @author Lei Huang,adapted from the Board class code of assignment 1
          */
         private void checkMove(String current_piece) {
             String placement = "";
@@ -275,6 +291,7 @@ public class Board extends Application{
 
         /**
          * Show the completion message
+         * @author Lei Huang
          */
         private void showCompletion() {
             competionText.toFront();
@@ -282,8 +299,9 @@ public class Board extends Application{
         }
 
         /**
-         * Determine the grid-position of the origin of the piece (0 .. 15)
+         * Determine the grid-position of the origin of the piece (0 .. 23)
          * or -1 if it is off the grid, taking into account its rotation.
+         * @author Lei Huang,adapted from the Board class code of assignment 1
          */
         private void setPosition() {
             double x = Math.floor(((getLayoutX() - BOARD_X) / (SQUARE_SIZE/2))/2);
@@ -292,14 +310,23 @@ public class Board extends Application{
         }
 
 
-        /** Represent the piece placement as a string */
+        /** Represent the piece placement as a string
+         * @author Lei Huang
+         * */
         public String toString() {
             char orientation = (char) ('A' + (int) (getRotate()/ 60));
-            return position == -1 ? "" : "" + (char)('A'+position) + piece + orientation;
+            if(position==-1){
+                return "";
+            }else{
+                return "" + (char)('A'+position) + piece + orientation;
+            }
         }
     }
 
-
+    /**
+     * An inner class that represents pegs of boardin the game.
+     * @author Lei Huang
+     */
     private class Peg extends Circle{
         Peg(double x,double y, double radius){
             this.setLayoutX(x);
@@ -311,6 +338,7 @@ public class Board extends Application{
 
     /**
      * Create the message to be displayed when the player completes the puzzle.
+     * @author Lei Huang,adapted from the Board class code of assignment 1
      */
     private void makeCompletion() {
         competionText.setFill(Color.BLACK);
@@ -320,6 +348,11 @@ public class Board extends Application{
         competionText.setTextAlignment(TextAlignment.CENTER);
         root.getChildren().add(competionText);
     }
+    /**
+     * Create Starting placement as the start of the game.
+     * @author Lei Huang
+     * @param setup String for the starting of the game.
+     */
     private void Starting_placements(String setup){
         SET_UP.getChildren().clear();
         for (int i = 0; i < setup.length()/3; i++) {
@@ -333,6 +366,7 @@ public class Board extends Application{
 
     /**
      * Start a new game, resetting everything as necessary
+     * @author Lei Huang,adapted from the Board class code of assignment 1
      */
     private void newGame() {
         try {

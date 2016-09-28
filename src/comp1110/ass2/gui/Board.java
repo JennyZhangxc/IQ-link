@@ -119,7 +119,7 @@ public class Board extends Application{
      * and snap-to-grid.
      * @author Lei Huang,adapted from the Board class code of assignment 1
      */
-    class DraggableFXPiece extends FXPiece {
+    private class DraggableFXPiece extends FXPiece {
         double position;               // the current game position of the piece 0 .. 24 (-1 is off-board)
         double homeX, homeY;           // the position in the window where the piece should be when not on the board
         double mouseX, mouseY;      // the last known mouse positions (used when dragging)
@@ -274,7 +274,6 @@ public class Board extends Application{
             String placement = "";
             for(String p : pieces) {
                 placement += p.toString();
-//                System.out.println(p.toString());
             }
 
             if (!LinkGame.isPlacementValid(placement)) {

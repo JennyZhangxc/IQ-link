@@ -67,7 +67,7 @@ public class Board extends Application{
             if (!(piece >= 'A' && piece <= 'L')) {
                 throw new IllegalArgumentException("Bad piece: \"" + piece + "\"");
             }
-            if (used_pieces[piece - 'A'] != true) {
+            if (!used_pieces[piece - 'A']) {
             setImage(new Image(Board.class.getResource(URI_BASE + piece + ".png").toString()));
             this.piece = piece;
             setFitHeight(PIECE_IMAGE_SIZE);
@@ -414,9 +414,7 @@ public class Board extends Application{
 
     // FIXME Task 9: Implement starting placements
 
-
     // FIXME Task 11: Implement hints
 
     // FIXME Task 12: Generate interesting starting placements
-
 }

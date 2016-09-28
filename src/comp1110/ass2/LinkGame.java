@@ -306,6 +306,7 @@ public class LinkGame {
      * Determine whether a placement is valid.  To be valid, the placement must be well-formed
      * and each piece must correctly connect with each other.
      *
+     * @author Lei Huang
      * @param placement A placement string
      * @return True if the placement is valid
      */
@@ -375,6 +376,7 @@ public class LinkGame {
     /**
      * Return an array of all solutions given a starting placement.
      *
+     * @author Lei Huang
      * @param placement  A valid piece placement string.
      * @return An array of strings, each describing a solution to the game given the
      * starting point provied by placement.

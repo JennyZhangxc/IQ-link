@@ -23,10 +23,28 @@ public enum  Unit {
     RING_4(true,true,true,true,false,true),
     RING_5(true,true,true,true,true,false);
 
+    /* An boolean array representing the initial surrounding situation of this piece.*/
     boolean[]surrounding;
+    /* An boolean array representing the surrounding situation after orientation input of this piece.*/
     boolean[]surrounding_orientation;
+
+    /* Two separated Hashsets store all the ball or ring features, which helps to judge the feature of piece.*/
     static final HashSet<Unit> Balls=new HashSet<>();
     static final HashSet<Unit> Rings=new HashSet<>();
+
+    /**
+     * Constructor for Unit, which represents the surrounding situation of this unit.
+     * boolean false means the surrounding is empty.
+     * boolean true means the surrounding is occupied by this piece.
+     *
+     * @author Lei Huang
+     * @param a boolean at index 0
+     * @param b boolean at index 1
+     * @param c boolean at index 2
+     * @param d boolean at index 3
+     * @param e boolean at index 4
+     * @param f boolean at index 5
+     */
     Unit(boolean a, boolean b, boolean c,boolean d,boolean e,boolean f)
     {
         surrounding = new boolean[6];
@@ -37,6 +55,11 @@ public enum  Unit {
         surrounding[4] = e;
         surrounding[5] = f;
     }
+
+    /**
+     * The function that add all ball units into the Hashset balls.
+     * @author Lei Huang
+     */
     static void setBalls(){
         Balls.add(Unit.BALL);
         Balls.add(Unit.BALL_0);
@@ -46,6 +69,10 @@ public enum  Unit {
         Balls.add(Unit.BALL_01);
         Balls.add(Unit.BALL_03);
     }
+    /**
+     * The function that add all ball units into the Hashset rings.
+     * @author Lei Huang
+     */
     static void setRings(){
         Rings.add(Unit.RING);
         Rings.add(Unit.RING_HALF);
@@ -57,6 +84,13 @@ public enum  Unit {
         Rings.add(Unit.RING_4);
         Rings.add(Unit.RING_5);
     }
+    /**
+     * The function that modify piece surrounding_orientation boolean array according to the input parameter.
+     *
+     * @author Lei Huang
+     * @param adjust int value according to the orientation.
+     *               If the adjust is not less than 6, means piece need to be flipped
+     */
     void convert(int adjust){
         if(adjust>=6){
             this.flip();
@@ -69,6 +103,10 @@ public enum  Unit {
             }
             this.surrounding_orientation = newSurrounding;
     }
+    /**
+     * The function that modifies the surrounding_orientation according to the flipped piece.
+     * @author Lei Huang
+     */
     void flip(){
         boolean[]flipped=new boolean[6];
         flipped[0]=surrounding[0];

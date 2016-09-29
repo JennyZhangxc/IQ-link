@@ -258,6 +258,7 @@ public class Board extends Application{
         private void flip(String current_piece){
             if(current_piece.charAt(0)!='A') {
                 setScaleY(-1);
+
                 Flip_count++;
                 setScaleY(Math.pow((-1), (Flip_count)));
 //                System.out.println(getScaleY());

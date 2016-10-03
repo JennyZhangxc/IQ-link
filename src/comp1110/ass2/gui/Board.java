@@ -5,9 +5,11 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -16,6 +18,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board extends Application{
 
@@ -369,17 +372,90 @@ public class Board extends Application{
      * Start a new game, resetting everything as necessary
      * @author Lei Huang,adapted from the Board class code of assignment 1
      */
+    String Start="";
     private void newGame() {
         try {
 //            Starting_placements("KAFCBG");
-            Starting_placements("KAFCBGUCAGDFLEFPFBBGESHBOIA");
+            Start="KAFCBGUCAGDFLEFPFBBGESHBOIA";
+            Starting_placements(Start);
         } catch (IllegalArgumentException e) {
             System.err.println("Uh oh. "+ e);
             Thread.dumpStack();
             Platform.exit();
         }
     }
+    /**
+     * Show solution of current Game
+     * @author Lei Huang
+     */
+    private Group group=new Group();
+    private void hint(){
+        String placement=LinkGame.getSolutions(Start)[0];
 
+        if(root.getChildren().contains(group)){
+            root.getChildren().remove(group);
+        }
+        group.getChildren().clear();
+        int length=placement.length()/3;
+        if(placement.length()%3!=0){
+            System.out.println("Wrong input");
+            return;
+        }
+        List<String> list=new ArrayList<>();
+        for(int i=0;i<length;i++){
+            list.add(placement.substring(i*3,(i+1)*3));
+        }
+        List<Integer> index = new ArrayList<>();
+        for (String piece : list) {
+            index.add(Character.getNumericValue(piece.charAt(0)) - 10);
+
+        }
+        int[][] position = new int[length][2];
+
+        for(int i=0;i<length;i++){
+            position[i][0]=index.get(i)/6;//row
+            position[i][1]=index.get(i)%6;//column
+
+        }
+
+        for (int i = 0; i < length; i++) {
+            char piece=list.get(i).charAt(1);
+            Image image = new Image(Board.class.getResource(URI_BASE + piece + ".png").toString());
+            ImageView iv1 = new ImageView();
+            iv1.setImage(image);
+            iv1.setFitHeight(PIECE_IMAGE_SIZE);
+            iv1.setFitWidth(PIECE_IMAGE_SIZE);
+            if(position[i][0]%2==0){
+                iv1.relocate(position[i][1]*SQUARE_SIZE/2-SQUARE_SIZE/4+5*SQUARE_SIZE,
+                        BOARD_Y+position[i][0]*ROW_HEIGHT);
+            }
+            else{
+                iv1.relocate(position[i][1]*SQUARE_SIZE/2+5*SQUARE_SIZE,
+                        BOARD_Y+position[i][0]*ROW_HEIGHT);
+            }
+            char orientation =list.get(i).charAt(2);
+            int angle = (Character.getNumericValue(orientation)-10)*60;
+            if(angle>=360){
+                iv1.setScaleY(-1);
+            }
+            iv1.setRotate(angle);
+            group.getChildren().add(iv1);
+        }
+
+        root.getChildren().add(group);
+    }
+    private void makecontrols(){
+        Button button = new Button("Hint");
+        button.setOnAction(e -> {
+            hint();
+        });
+        HBox hb = new HBox();
+        hb.getChildren().addAll(button);
+        hb.setSpacing(10);
+        hb.setLayoutX(130);
+        hb.setLayoutY(50);
+        controls.getChildren().add(hb);
+    }
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("LinkGame Viewer");
@@ -397,6 +473,7 @@ public class Board extends Application{
                 r.setFill(Color.LIGHTGREY);
                 pegs.add(r);}
         }
+        makecontrols();
         pegs.forEach(peg -> root.getChildren().add(peg));
         root.getChildren().add(controls);
         root.getChildren().add(SET_UP);

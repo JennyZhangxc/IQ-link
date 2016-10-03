@@ -24,13 +24,6 @@ public class LinkGame {
     static HashSet<String> K_placements=new HashSet<>(Arrays.asList("HKF", "IKC", "WKJ", "RKI", "WKB", "OKJ", "UKH", "CKD", "QKL", "BKG", "RKA", "OKB", "EKF", "IKL", "KKF", "PKG", "JKI", "CKL", "GKJ", "TKC", "NKE", "QKD", "HKG", "IKD", "FKE", "JKA", "GKB", "XKH", "OKK", "WKC", "PKH", "UKI", "NKF", "BKF", "OKC", "EKE", "JKJ", "QKE", "GKK", "RKB", "CKK", "HKH", "KKG", "UKA", "IKE", "JKB", "FKF", "GKC", "OKL", "PKI", "BKE", "UKJ", "OKD", "EKD", "NKG", "PKA", "DKG", "JKK", "MKJ", "GKL", "QKF", "HKI", "KKH", "UKB", "XKA", "EKL", "IKF", "FKG", "JKC", "GKD", "HKA", "PKJ", "UKC", "QKG", "MKK", "RKL", "SKI", "VKH", "BKD", "JKL", "KKI", "PKB", "DKF", "NKH", "MKC", "HKJ", "IKG", "BKL", "LKF", "OKE", "EKK", "JKD", "KKA", "GKE", "HKB", "PKK", "QKH", "SKJ", "VKI", "KKJ", "PKC", "DKE", "NKI", "BKK", "HKK", "MKD", "RKE", "LKG", "OKF", "IKH", "SKB", "VKA", "KKB", "JKE", "NKA", "HKC", "VKJ", "QKI", "VKB", "RKF", "NKJ", "TKH", "PKL", "DKD", "QKA", "LKH", "CKG", "HKL", "KKK", "IKI", "NKB", "SKC", "OKG", "JKF", "PKD", "DKL", "HKD", "KKC", "IKA", "QKJ", "VKC", "RKG", "TKI", "NKK", "AKD", "WKH", "CKF", "QKB", "KKL", "OKH", "TKA", "IKJ", "NKC", "PKE", "DKK", "JKG", "LKA", "HKE", "KKD", "IKB", "WKI", "RKH", "WKA", "OKI", "NKL", "QKK", "TKJ", "CKE", "IKK", "OKA", "EKG", "JKH", "FKL", "KKE", "PKF", "AKK", "NKD", "QKC", "GKI", "TKB"));
     static HashSet<String> L_placements=new HashSet<>(Arrays.asList("HLH", "ILE", "FLF", "JLB", "GLC", "OLL", "PLI", "ALD", "ULJ", "NLG", "CLF", "OLD", "JLK", "MLJ", "PLA", "QLF", "GLL", "DLK", "HLI", "KLH", "ULB", "XLA", "ILF", "JLC", "FLG", "GLD", "HLA", "PLJ", "SLI", "VLH", "CLE", "RLL", "OLE", "ALK", "NLH", "PLB", "ELG", "JLL", "MLK", "LLF", "QLG", "KLI", "ULC", "HLJ", "ILG", "JLD", "MLC", "GLE", "HLB", "KLA", "PLK", "QLH", "SLJ", "VLI", "CLD", "BLG", "KLJ", "PLC", "ELF", "NLI", "HLK", "MLD", "RLE", "ILH", "SLB", "VLA", "CLL", "LLG", "OLF", "JLE", "KLB", "NLA", "HLC", "PLL", "TLH", "QLI", "BLF", "VLJ", "KLK", "PLD", "ELE", "NLJ", "QLA", "CLK", "HLL", "RLF", "LLH", "OLG", "ILI", "SLC", "VLB", "KLC", "JLF", "NLB", "HLD", "ILA", "QLJ", "VLC", "RLG", "NLK", "TLI", "WLH", "BLE", "ELD", "QLB", "DLG", "KLL", "ILJ", "NLC", "OLH", "TLA", "JLG", "PLE", "ELL", "LLA", "HLE", "KLD", "ILB", "QLK", "RLH", "BLD", "TLJ", "NLL", "WLI", "DLF", "QLC", "BLL", "OLI", "TLB", "ILK", "NLD", "FLL", "PLF", "ELK", "JLH", "WLA", "GLI", "HLF", "KLE", "OLA", "ILC", "WLJ", "RLI", "WLB", "OLJ", "ULH", "QLL", "DLE", "RLA", "ILL", "OLB", "JLI", "BLK", "KLF", "PLG", "NLE", "QLD", "GLJ", "TLC", "HLG", "ILD", "JLA", "FLE", "GLB", "WLC", "OLK", "ULI", "DLD", "CLG", "XLH", "RLB", "OLC", "KLG", "PLH", "ULA", "JLJ", "GLK", "DLL", "NLF", "QLE"));
     static ArrayList<HashSet> Placements=new ArrayList<>(Arrays.asList(A_placements,B_placements,C_placements,D_placements,E_placements,F_placements,G_placements,H_placements,I_placements,J_placements,K_placements,L_placements));
-
-
-
-
-
-
-
     /**
      * Determine whether a piece placement is well-formed according to the following:
      * - it consists of exactly three characters
@@ -413,7 +406,7 @@ public class LinkGame {
      * @return An array of strings, each describing a solution to the game given the
      * starting point provied by placement.
      */
-    static String[] getSolutions(String placement) {
+    public static String[] getSolutions(String placement) {
         // FIXME Task 10: determine all solutions to the game, given a particular starting placement
         //Initialize PEGS_BALL, PEGS_RING and used_piece;
         Arrays.fill(SOLUTION_PEGS_BALL,false);

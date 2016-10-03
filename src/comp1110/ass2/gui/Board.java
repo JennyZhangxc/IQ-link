@@ -3,9 +3,13 @@ package comp1110.ass2.gui;
 import comp1110.ass2.LinkGame;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -51,6 +55,7 @@ public class Board extends Application{
 
     /* pegs on board */
     private final ArrayList<Peg>pegs=new ArrayList<>();
+    String Start = "";
 
     /**
      * An inner class that represents transparent pieces used in the game.
@@ -358,7 +363,7 @@ public class Board extends Application{
      * @param setup String for the starting of the game.
      */
     private void Starting_placements(String setup){
-        SET_UP.getChildren().clear();
+        //SET_UP.getChildren().clear();
         for (int i = 0; i < setup.length()/3; i++) {
             pieces.add(setup.substring(3*i,3*i+3));
             SET_UP.getChildren().add(new FXPiece(setup.substring(3*i,3*i+3)));
@@ -372,7 +377,7 @@ public class Board extends Application{
      * Start a new game, resetting everything as necessary
      * @author Lei Huang,adapted from the Board class code of assignment 1
      */
-    String Start="";
+    /*String Start="";
     private void newGame() {
         try {
 //            Starting_placements("KAFCBG");
@@ -383,11 +388,94 @@ public class Board extends Application{
             Thread.dumpStack();
             Platform.exit();
         }
-    }
+    }*/
+
+
     /**
-     * Show solution of current Game
-     * @author Lei Huang
+     * Select different game levels to play the Game
+     * @author Wei Wei
      */
+    private void startGameLevel() {
+        Label label1 = new Label("Game Level:");
+
+        ChoiceBox choiceBox = new ChoiceBox(FXCollections.observableArrayList(
+                "Easy", "Normal","Hard")
+        );
+        choiceBox.setTooltip(new Tooltip("Start Game Level"));
+
+        Button button1 = new Button("Play");
+        Button button2 = new Button("Clear");
+
+        button1.setOnAction(event -> {
+            ObservableValue selectedIndices = choiceBox.getSelectionModel().selectedIndexProperty();
+            //System.out.println(selectedIndices);
+            int i=(int)selectedIndices.getValue();
+            //System.out.println(i);
+
+            switch(i) {
+                case 0: {
+                    try {
+                        Start = "KAFCBGUCAGDFLEFPFBBGESHBOIA";
+                        Starting_placements(Start);
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("Uh oh. " + e);
+                        Thread.dumpStack();
+                        Platform.exit();
+                    }
+
+                    break;
+                }
+
+                case 1: {
+                    try {
+                        Start = "KAFUBAICCPDALEF";
+                        Starting_placements(Start); //KAFCBG
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("Uh oh. " + e);
+                        Thread.dumpStack();
+                        Platform.exit();
+                    }
+
+                    break;
+                }
+
+                case 2:
+                {
+                    try {
+                        Start = "KAF";
+                        Starting_placements(Start);
+                    }
+                    catch (IllegalArgumentException e) {
+                        System.err.println("Uh oh. "+ e);
+                        Thread.dumpStack();
+                        Platform.exit();
+                    }
+
+                    break;
+                }
+            }
+        });
+
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                SET_UP.getChildren().clear();
+            }
+        });
+
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(label1, choiceBox, button1, button2);
+        hBox.setSpacing(10);
+        hBox.setLayoutX(130);
+        hBox.setLayoutY(BOARD_HEIGHT - 50);
+
+        controls.getChildren().addAll(hBox);
+    }
+
+        /**
+         * Show solution of current Game
+         * @author Lei Huang
+         */
     private Group group=new Group();
     private void hint(){
         String placement=LinkGame.getSolutions(Start)[0];
@@ -460,7 +548,8 @@ public class Board extends Application{
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
-        newGame();
+        //newGame();
+        startGameLevel();
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){
                 Peg r = new Peg(((i%6)+1)*SQUARE_SIZE/2+SQUARE_SIZE/4+SQUARE_SIZE/2+SQUARE_SIZE/2

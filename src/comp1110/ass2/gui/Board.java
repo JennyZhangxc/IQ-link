@@ -392,7 +392,7 @@ public class Board extends Application{
 
 
     /**
-     * Select different game levels to play the Game
+     * Generate interesting starting placements by select different game levels to play the Game
      * @author Wei Wei
      */
     private void startGameLevel() {

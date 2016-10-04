@@ -366,6 +366,9 @@ public class Board extends Application{
         try {
             if (root.getChildren().contains(SET_UP)){
                 root.getChildren().remove(SET_UP);}
+            if (root.getChildren().contains(SET_UP_pieces)){
+                root.getChildren().remove(SET_UP_pieces);}
+
             SET_UP.getChildren().clear();
             SET_UP_pieces.getChildren().clear();
             pieces.clear();
@@ -373,13 +376,12 @@ public class Board extends Application{
             for (int i = 0; i < setup.length() / 3; i++) {
                 pieces.add(setup.substring(3 * i, 3 * i + 3));
                 SET_UP.getChildren().add(new FXPiece(setup.substring(3 * i, 3 * i + 3)));
-                SET_UP_pieces.getChildren().add(new DraggableFXPiece(setup.charAt(3 * i + 1)));
                 used_pieces[setup.charAt(3 * i + 1) - 'A'] = true;
             }
             for (int i = 0; i < 12; i++) {
-                DraggableFXPiece draggableFXPiece=new DraggableFXPiece((char)((int)'A'+i));
-                root.getChildren().add(draggableFXPiece);
+                SET_UP_pieces.getChildren().add(new DraggableFXPiece((char)((int)'A'+i)));
             }
+            root.getChildren().add(SET_UP_pieces);
             root.getChildren().add(SET_UP);
         }catch (IllegalArgumentException e) {
             System.err.println("Uh oh. "+ e);
@@ -565,7 +567,7 @@ public class Board extends Application{
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
 //        newGame();
-        Starting_placements(Start);
+//        Starting_placements(Start);
 //        startGameLevel();
         makecontrols();
         for(int i =0;i<24;i++) {

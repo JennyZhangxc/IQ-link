@@ -22,6 +22,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Board extends Application{
@@ -45,7 +46,7 @@ public class Board extends Application{
     private final Group root = new Group();
     private final Group controls = new Group();
     private final Group SET_UP=new Group();
-    private final Group SET_UP_pieses=new Group();
+    private final Group SET_UP_pieces=new Group();
     private final Group solution = new Group();
     private final Group Pieces=new Group();
     private final ArrayList<String>pieces = new ArrayList<>();
@@ -55,7 +56,6 @@ public class Board extends Application{
 
     /* pegs on board */
     private final ArrayList<Peg>pegs=new ArrayList<>();
-    String Start = "";
 
     /**
      * An inner class that represents transparent pieces used in the game.
@@ -138,7 +138,7 @@ public class Board extends Application{
          */
         DraggableFXPiece(char piece) {
             super(piece);
-            if (SET_UP_pieses.getChildren().contains(this)) {
+            if (SET_UP_pieces.getChildren().contains(this)) {
 
             } else {
                 position = -1; // off screen
@@ -363,32 +363,45 @@ public class Board extends Application{
      * @param setup String for the starting of the game.
      */
     private void Starting_placements(String setup){
-        //SET_UP.getChildren().clear();
-        for (int i = 0; i < setup.length()/3; i++) {
-            pieces.add(setup.substring(3*i,3*i+3));
-            SET_UP.getChildren().add(new FXPiece(setup.substring(3*i,3*i+3)));
-            SET_UP_pieses.getChildren().add(new DraggableFXPiece(setup.charAt(3*i+1)));
-            used_pieces[setup.charAt(3*i+1)-'A']=true;
+        try {
+            if (root.getChildren().contains(SET_UP)){
+                root.getChildren().remove(SET_UP);}
+            SET_UP.getChildren().clear();
+            SET_UP_pieces.getChildren().clear();
+            pieces.clear();
+            Arrays.fill(used_pieces,false);
+            for (int i = 0; i < setup.length() / 3; i++) {
+                pieces.add(setup.substring(3 * i, 3 * i + 3));
+                SET_UP.getChildren().add(new FXPiece(setup.substring(3 * i, 3 * i + 3)));
+                SET_UP_pieces.getChildren().add(new DraggableFXPiece(setup.charAt(3 * i + 1)));
+                used_pieces[setup.charAt(3 * i + 1) - 'A'] = true;
+            }
+            for (int i = 0; i < 12; i++) {
+                DraggableFXPiece draggableFXPiece=new DraggableFXPiece((char)((int)'A'+i));
+                root.getChildren().add(draggableFXPiece);
+            }
+            root.getChildren().add(SET_UP);
+        }catch (IllegalArgumentException e) {
+            System.err.println("Uh oh. "+ e);
+            Thread.dumpStack();
+            Platform.exit();
         }
-        SET_UP.toBack();
     }
 
     /**
      * Start a new game, resetting everything as necessary
      * @author Lei Huang,adapted from the Board class code of assignment 1
      */
-    /*String Start="";
+    String Start="KAFCBGUCAGDFLEFPFBBGESHBOIA";
     private void newGame() {
         try {
-//            Starting_placements("KAFCBG");
-            Start="KAFCBGUCAGDFLEFPFBBGESHBOIA";
             Starting_placements(Start);
         } catch (IllegalArgumentException e) {
             System.err.println("Uh oh. "+ e);
             Thread.dumpStack();
             Platform.exit();
         }
-    }*/
+    }
 
 
     /**
@@ -408,15 +421,16 @@ public class Board extends Application{
 
         button1.setOnAction(event -> {
             ObservableValue selectedIndices = choiceBox.getSelectionModel().selectedIndexProperty();
-            //System.out.println(selectedIndices);
+//            System.out.println(selectedIndices);
             int i=(int)selectedIndices.getValue();
-            //System.out.println(i);
+//            System.out.println(i);
 
             switch(i) {
                 case 0: {
                     try {
                         Start = "KAFCBGUCAGDFLEFPFBBGESHBOIA";
                         Starting_placements(Start);
+//                        System.out.println("easy");
                     } catch (IllegalArgumentException e) {
                         System.err.println("Uh oh. " + e);
                         Thread.dumpStack();
@@ -442,7 +456,7 @@ public class Board extends Application{
                 case 2:
                 {
                     try {
-                        Start = "KAF";
+                        Start = "KAFUBAICC";
                         Starting_placements(Start);
                     }
                     catch (IllegalArgumentException e) {
@@ -543,13 +557,17 @@ public class Board extends Application{
         hb.setLayoutX(130);
         hb.setLayoutY(50);
         controls.getChildren().add(hb);
+
+        startGameLevel();
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
-        //newGame();
-        startGameLevel();
+//        newGame();
+        Starting_placements(Start);
+//        startGameLevel();
+        makecontrols();
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){
                 Peg r = new Peg(((i%6)+1)*SQUARE_SIZE/2+SQUARE_SIZE/4+SQUARE_SIZE/2+SQUARE_SIZE/2
@@ -562,16 +580,11 @@ public class Board extends Application{
                 r.setFill(Color.LIGHTGREY);
                 pegs.add(r);}
         }
-        makecontrols();
+
         pegs.forEach(peg -> root.getChildren().add(peg));
         root.getChildren().add(controls);
-        root.getChildren().add(SET_UP);
-        makeCompletion();
 
-        for (int i = 0; i < 12; i++) {
-            DraggableFXPiece draggableFXPiece=new DraggableFXPiece((char)((int)'A'+i));
-            root.getChildren().add(draggableFXPiece);
-        }
+        makeCompletion();
 
         primaryStage.setScene(scene);
         primaryStage.show();

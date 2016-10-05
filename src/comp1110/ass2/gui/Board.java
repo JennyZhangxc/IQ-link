@@ -550,11 +550,21 @@ public class Board extends Application{
     }
     private void makecontrols(){
         Button button = new Button("Hint");
+        Button button2 = new Button("Clear Hint");
+
         button.setOnAction(e -> {
             hint();
         });
+
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                root.getChildren().remove(group);
+            }
+        });
+
         HBox hb = new HBox();
-        hb.getChildren().addAll(button);
+        hb.getChildren().addAll(button, button2);
         hb.setSpacing(10);
         hb.setLayoutX(130);
         hb.setLayoutY(50);

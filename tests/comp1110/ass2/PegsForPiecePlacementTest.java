@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class PegsForPiecePlacementTest {
     @Rule
-    public Timeout globalTimeout = Timeout.millis(200);
+    public Timeout globalTimeout = Timeout.millis(2000);
 
     void checkPegs(String test, int one, int two, int three) {
         int[] pegs = LinkGame.getPegsForPiecePlacement(test);

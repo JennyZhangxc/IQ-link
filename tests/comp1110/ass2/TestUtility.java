@@ -61,7 +61,8 @@ public class TestUtility {
             "OEAHKD",
             "OEAHHB",
             "OEAPGG",
-            "OEACJK"
+            "OEACJK",
+            "OEAGKD"
     };
 
     final static String[][] SOLUTIONS_ONE = {

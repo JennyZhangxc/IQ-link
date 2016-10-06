@@ -126,7 +126,7 @@ public class Board extends Application{
     /**
      * This class extends FXPiece with the capacity for it to be dragged and dropped,
      * and snap-to-grid.
-     * @author Lei Huang,adapted from the Board class code of assignment 1
+     * @author Lei Huang, Wei Wei adapted from the Board class code of assignment 1
      */
     private class DraggableFXPiece extends FXPiece {
         double position;               // the current game position of the piece 0 .. 24 (-1 is off-board)
@@ -241,7 +241,7 @@ public class Board extends Application{
         /**
          * Snap the piece to its home position (if it is not on the grid)
          *
-         * @author Lei Huang,adapted from the Board class code of assignment 1
+         * @author Lei Huang, Wei Wei adapted from the Board class code of assignment 1
          */
         private void snapToHome() {
             rotation_fixed=false;
@@ -284,7 +284,7 @@ public class Board extends Application{
          * and if so, show skulls, and determine whether the game is
          * complete, and if so, show the completion message.
          *
-         * @author Lei Huang,adapted from the Board class code of assignment 1
+         * @author Lei Huang, Wei Wei adapted from the Board class code of assignment 1
          */
         private void checkMove(String current_piece) {
             String placement = "";
@@ -409,7 +409,7 @@ public class Board extends Application{
 
     /**
      * Start a new game, resetting everything as necessary
-     * @author Lei Huang,adapted from the Board class code of assignment 1
+     * @author Lei Huang, Wei Wei adapted from the Board class code of assignment 1
      */
     String Start="";
     private void newGame() {
@@ -587,6 +587,11 @@ public class Board extends Application{
 
         root.getChildren().add(Hint_Group);
     }
+
+    /**
+     * Show and Hide solution of current Game, and display the Game rules in the pop-up message box.
+     * @author Wei Wei
+     */
     private void makecontrols(){
         Button button = new Button("Hint");
         Button button2 = new Button("Clear Hint");
@@ -624,6 +629,11 @@ public class Board extends Application{
 
         startGameLevel();
     }
+
+    /**
+     * Starting stage for player to play the game.
+     * @author Lei Huang, Wei Wei
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("LinkGame Viewer");

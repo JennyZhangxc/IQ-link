@@ -440,6 +440,7 @@ public class Board extends Application{
 
         button1.setOnAction(event -> {
             root.getChildren().remove(Hint_Group);
+            button_usable=true;
             ObservableValue selectedIndices = choiceBox.getSelectionModel().selectedIndexProperty();
 //            System.out.println(selectedIndices);
             int i=(int)selectedIndices.getValue();
@@ -587,19 +588,22 @@ public class Board extends Application{
 
         root.getChildren().add(Hint_Group);
     }
+    Boolean button_usable=false;
     private void makecontrols(){
         Button button = new Button("Hint");
         Button button2 = new Button("Clear Hint");
         Button button3 = new Button("Help");
 
         button.setOnAction(e -> {
-            hint();
+            if(button_usable)
+                hint();
         });
 
         button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                root.getChildren().remove(Hint_Group);
+                if(button_usable)
+                    root.getChildren().remove(Hint_Group);
             }
         });
 

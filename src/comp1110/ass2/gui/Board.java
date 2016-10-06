@@ -53,7 +53,7 @@ public class Board extends Application{
     private final ArrayList<String>pieces = new ArrayList<>();
 
     /* message on completion */
-    private final Text competionText = new Text("Well done!");
+    private final Text competionText = new Text("Well Done!");
 
     /* pegs on board */
     private final ArrayList<Peg>pegs=new ArrayList<>();
@@ -350,10 +350,10 @@ public class Board extends Application{
      * @author Lei Huang,adapted from the Board class code of assignment 1
      */
     private void makeCompletion() {
-        competionText.setFill(Color.BLACK);
-        competionText.setFont(Font.font("Arial", 80));
-        competionText.setLayoutX(3.1*SQUARE_SIZE);
-        competionText.setLayoutY(0.9*SQUARE_SIZE);
+        competionText.setFill(Color.RED);
+        competionText.setFont(Font.font("Arial", 50));
+        competionText.setLayoutX(5.6*SQUARE_SIZE);
+        competionText.setLayoutY(0.7*SQUARE_SIZE);
         competionText.setTextAlignment(TextAlignment.CENTER);
         root.getChildren().add(competionText);
     }
@@ -437,6 +437,7 @@ public class Board extends Application{
 
         Button button1 = new Button("Play");
         Button button2 = new Button("Restart");
+        Button button3 = new Button("New Game");
 
         button1.setOnAction(event -> {
             root.getChildren().remove(Hint_Group);
@@ -528,7 +529,8 @@ public class Board extends Application{
         controls.getChildren().addAll(hBox);
     }
 
-        /**
+
+    /**
          * Show solution of current Game
          * @author Lei Huang
          */
@@ -625,6 +627,8 @@ public class Board extends Application{
         });
 
         HBox hb = new HBox();
+        //if(!button_usable) hb.getChildren().addAll(button3);
+        //else if(button_usable) hb.getChildren().addAll(button3, button, button2);
         hb.getChildren().addAll(button3, button, button2);
         hb.setSpacing(10);
         hb.setLayoutX(130);

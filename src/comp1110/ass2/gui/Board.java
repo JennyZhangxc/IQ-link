@@ -155,8 +155,10 @@ public class Board extends Application{
                         rotate();
                 });
                 setOnMouseClicked(event -> {       //mouse click indicates of flipping the piece
-                    if (event.getButton() == MouseButton.SECONDARY)
-                        flip(Character.toString(piece));
+                    if(!rotation_fixed) {
+                        if (event.getButton() == MouseButton.SECONDARY)
+                            flip(Character.toString(piece));
+                    }
                 });
                 setOnMousePressed(event -> {      // mouse press indicates begin of drag
                     mouseX = event.getSceneX();
@@ -178,15 +180,7 @@ public class Board extends Application{
                 });
             }
         }
-        /**
-         * Hide the completion message
-         * @author Lei Huang,adapted from the Board class code of assignment 1
-         */
 
-        private void hideCompletion() {
-            competionText.toBack();
-            competionText.setOpacity(0);
-        }
 
 
         /**
@@ -304,14 +298,6 @@ public class Board extends Application{
         }
 
 
-        /**
-         * Show the completion message
-         * @author Lei Huang
-         */
-        private void showCompletion() {
-            competionText.toFront();
-            competionText.setOpacity(1);
-        }
 
         /**
          * Determine the grid-position of the origin of the piece (0 .. 23)
@@ -364,6 +350,23 @@ public class Board extends Application{
         root.getChildren().add(competionText);
     }
     /**
+     * Hide the completion message
+     * @author Lei Huang,adapted from the Board class code of assignment 1
+     */
+
+    private void hideCompletion() {
+        competionText.toBack();
+        competionText.setOpacity(0);
+    }
+    /**
+     * Show the completion message
+     * @author Lei Huang
+     */
+    private void showCompletion() {
+        competionText.toFront();
+        competionText.setOpacity(1);
+    }
+    /**
      * Create Starting placement as the start of the game.
      * @author Lei Huang
      * @param setup String for the starting of the game.
@@ -400,7 +403,7 @@ public class Board extends Application{
      * Start a new game, resetting everything as necessary
      * @author Lei Huang,adapted from the Board class code of assignment 1
      */
-    String Start="KAFCBGUCAGDFLEFPFBBGESHBOIA";
+    String Start="";
     private void newGame() {
         try {
             Starting_placements(Start);
@@ -576,6 +579,7 @@ public class Board extends Application{
 
         root.getChildren().add(Hint_Group);
     }
+
     private void makecontrols(){
         Button button = new Button("Hint");
         Button button2 = new Button("Clear Hint");
@@ -605,7 +609,7 @@ public class Board extends Application{
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
 //        newGame();
-//        Starting_placements(Start);
+        Starting_placements(Start);
 //        startGameLevel();
         makecontrols();
         for(int i =0;i<24;i++) {
@@ -624,7 +628,8 @@ public class Board extends Application{
         pegs.forEach(peg -> root.getChildren().add(peg));
         root.getChildren().add(controls);
 
-//        makeCompletion();
+        makeCompletion();
+        hideCompletion();
 
         primaryStage.setScene(scene);
         primaryStage.show();

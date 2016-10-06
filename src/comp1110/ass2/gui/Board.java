@@ -180,7 +180,15 @@ public class Board extends Application{
                 });
             }
         }
+        /**
+         * Hide the completion message
+         * @author Lei Huang,adapted from the Board class code of assignment 1
+         */
 
+        private void hideCompletion() {
+            competionText.toBack();
+            competionText.setOpacity(0);
+        }
 
 
         /**
@@ -579,7 +587,6 @@ public class Board extends Application{
 
         root.getChildren().add(Hint_Group);
     }
-
     private void makecontrols(){
         Button button = new Button("Hint");
         Button button2 = new Button("Clear Hint");

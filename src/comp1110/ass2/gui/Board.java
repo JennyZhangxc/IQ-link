@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Board extends Application{
 
@@ -131,7 +132,7 @@ public class Board extends Application{
         double position;               // the current game position of the piece 0 .. 24 (-1 is off-board)
         double homeX, homeY;           // the position in the window where the piece should be when not on the board
         double mouseX, mouseY;      // the last known mouse positions (used when dragging)
-
+        boolean rotation_fixed=false;     // boolean to check the piece could be rotated or not.
         /**
          * Construct a draggable piece
          * @param piece The piece identifier ('A' - 'L')
@@ -149,12 +150,13 @@ public class Board extends Application{
             /* event handlers */
                 setOnScroll(event -> {            // scroll to change orientation
                     hideCompletion();
-                    rotate();
+//                    System.out.println("Scroll:"+rotation_fixed);
+                    if(!rotation_fixed)
+                        rotate();
                 });
                 setOnMouseClicked(event -> {       //mouse click indicates of flipping the piece
                     if (event.getButton() == MouseButton.SECONDARY)
                         flip(Character.toString(piece));
-//                snapToGrid();
                 });
                 setOnMousePressed(event -> {      // mouse press indicates begin of drag
                     mouseX = event.getSceneX();
@@ -229,6 +231,7 @@ public class Board extends Application{
                 checkMove(current_piece);
             } else {
                 snapToHome();
+
             }
         }
 
@@ -239,10 +242,12 @@ public class Board extends Application{
          * @author Lei Huang,adapted from the Board class code of assignment 1
          */
         private void snapToHome() {
+            rotation_fixed=false;
             setLayoutX(homeX);
             setLayoutY(homeY);
             setRotate(0);
             position = -1;
+//            System.out.println(rotation_fixed);
         }
 
 
@@ -288,9 +293,10 @@ public class Board extends Application{
             if (!LinkGame.isPlacementValid(placement)) {
                 pieces.remove(current_piece);
                 snapToHome();
-                System.out.println("Wrong Placement");
+//                System.out.println("Wrong Placement");
             } else {
-                System.out.println(placement);
+                rotation_fixed=true;
+//                System.out.println(placement);
                 if (LinkGame.isPlacementComplete(placement)) {
                     showCompletion();
                 }
@@ -419,18 +425,26 @@ public class Board extends Application{
         choiceBox.setTooltip(new Tooltip("Start Game Level"));
 
         Button button1 = new Button("Play");
-        Button button2 = new Button("Clear");
+        Button button2 = new Button("Restart");
 
         button1.setOnAction(event -> {
+            root.getChildren().remove(Hint_Group);
             ObservableValue selectedIndices = choiceBox.getSelectionModel().selectedIndexProperty();
 //            System.out.println(selectedIndices);
             int i=(int)selectedIndices.getValue();
 //            System.out.println(i);
-
+            Random r= new Random();
             switch(i) {
                 case 0: {
                     try {
-                        Start = "KAFCBGUCAGDFLEFPFBBGESHBOIA";
+                        ArrayList<String> easy=new ArrayList<String>();
+                        easy.add("KAFCBGUCAGDFLEFPFBBGESHBOIAKJA");
+                        easy.add("WBABCDJDALEFMFCCGLTIAQJCKKBILF");
+                        String Temp=easy.get(r.nextInt(easy.size()));
+                        while (Start==Temp){
+                            Temp=easy.get(r.nextInt(easy.size()));
+                        }
+                        Start=Temp;
                         Starting_placements(Start);
 //                        System.out.println("easy");
                     } catch (IllegalArgumentException e) {
@@ -444,8 +458,15 @@ public class Board extends Application{
 
                 case 1: {
                     try {
-                        Start = "KAFUBAICCPDALEF";
-                        Starting_placements(Start); //KAFCBG
+                        ArrayList<String> normal=new ArrayList<String>();
+                        normal.add("KAFUCAGDFPFBBGESHBOIAKJA");
+                        normal.add("WBAJDAMFCCGLTIAKKBILFUHB");
+                        String Temp=normal.get(r.nextInt(normal.size()));
+                        while (Start==Temp){
+                            Temp=normal.get(r.nextInt(normal.size()));
+                        }
+                        Start=Temp;
+                        Starting_placements(Start);
                     } catch (IllegalArgumentException e) {
                         System.err.println("Uh oh. " + e);
                         Thread.dumpStack();
@@ -458,7 +479,14 @@ public class Board extends Application{
                 case 2:
                 {
                     try {
-                        Start = "KAFUBAICC";
+                        ArrayList<String> hard=new ArrayList<String>();
+                        hard.add("UCAGDFPFBSHBOIAKJA");
+                        hard.add("WBALEFCGLQJCILFUHB");
+                        String Temp=hard.get(r.nextInt(hard.size()));
+                        while (Start==Temp){
+                            Temp=hard.get(r.nextInt(hard.size()));
+                        }
+                        Start=Temp;
                         Starting_placements(Start);
                     }
                     catch (IllegalArgumentException e) {
@@ -475,7 +503,7 @@ public class Board extends Application{
         button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                SET_UP.getChildren().clear();
+                Starting_placements(Start);
             }
         });
 
@@ -492,14 +520,14 @@ public class Board extends Application{
          * Show solution of current Game
          * @author Lei Huang
          */
-    private Group group=new Group();
+    private Group Hint_Group=new Group();
     private void hint(){
         String placement=LinkGame.getSolutions(Start)[0];
 
-        if(root.getChildren().contains(group)){
-            root.getChildren().remove(group);
+        if(root.getChildren().contains(Hint_Group)){
+            root.getChildren().remove(Hint_Group);
         }
-        group.getChildren().clear();
+        Hint_Group.getChildren().clear();
         int length=placement.length()/3;
         if(placement.length()%3!=0){
             System.out.println("Wrong input");
@@ -543,10 +571,10 @@ public class Board extends Application{
                 iv1.setScaleY(-1);
             }
             iv1.setRotate(angle);
-            group.getChildren().add(iv1);
+            Hint_Group.getChildren().add(iv1);
         }
 
-        root.getChildren().add(group);
+        root.getChildren().add(Hint_Group);
     }
     private void makecontrols(){
         Button button = new Button("Hint");
@@ -559,7 +587,7 @@ public class Board extends Application{
         button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                root.getChildren().remove(group);
+                root.getChildren().remove(Hint_Group);
             }
         });
 
@@ -596,7 +624,7 @@ public class Board extends Application{
         pegs.forEach(peg -> root.getChildren().add(peg));
         root.getChildren().add(controls);
 
-        makeCompletion();
+//        makeCompletion();
 
         primaryStage.setScene(scene);
         primaryStage.show();

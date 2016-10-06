@@ -590,6 +590,7 @@ public class Board extends Application{
     private void makecontrols(){
         Button button = new Button("Hint");
         Button button2 = new Button("Clear Hint");
+        Button button3 = new Button("Help");
 
         button.setOnAction(e -> {
             hint();
@@ -602,8 +603,20 @@ public class Board extends Application{
             }
         });
 
+        button3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText("Look, an Information Dialog");
+                alert.setContentText("I have a great message for you!");
+
+                alert.showAndWait();
+            }
+        });
+
         HBox hb = new HBox();
-        hb.getChildren().addAll(button, button2);
+        hb.getChildren().addAll(button3, button, button2);
         hb.setSpacing(10);
         hb.setLayoutX(130);
         hb.setLayoutY(50);

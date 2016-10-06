@@ -611,10 +611,10 @@ public class Board extends Application{
             @Override
             public void handle(ActionEvent e) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
                 alert.setTitle("Information Dialog");
                 alert.setHeaderText("Look, an Information Dialog");
                 alert.setContentText("I have a great message for you!");
-
                 alert.showAndWait();
             }
         });

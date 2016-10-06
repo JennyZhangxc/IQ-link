@@ -50,7 +50,9 @@ public class TestUtility {
             "OEAHCJ",
             "OEAHGB",
             "OEAMIK",
-            "OEAGJD"
+            "OEAGJD",
+            "BADBIL",
+            "BADBJE"
     };
 
     final static String[] BAD_PAIRS = {
@@ -61,7 +63,8 @@ public class TestUtility {
             "OEAHKD",
             "OEAHHB",
             "OEAPGG",
-            "OEACJK"
+            "OEACJK",
+            "OEAGKD"
     };
 
     final static String[][] SOLUTIONS_ONE = {

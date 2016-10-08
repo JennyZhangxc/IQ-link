@@ -453,6 +453,8 @@ public class Board extends Application{
                         ArrayList<String> easy=new ArrayList<String>();
                         easy.add("KAFCBGUCAGDFLEFPFBBGESHBOIAKJA");
                         easy.add("WBABCDJDALEFMFCCGLTIAQJCKKBILF");
+                        easy.add("KAAODEFEGMFCEGERHGVJCJLFBIGDKF");
+                        easy.add("JAAVCJRDCDEDSFBWGBFHECIFAJDHLG");
                         String Temp=easy.get(r.nextInt(easy.size()));
                         while (Start==Temp){
                             Temp=easy.get(r.nextInt(easy.size()));
@@ -474,6 +476,8 @@ public class Board extends Application{
                         ArrayList<String> normal=new ArrayList<String>();
                         normal.add("KAFUCAGDFPFBBGESHBOIAKJA");
                         normal.add("WBAJDAMFCCGLTIAKKBILFUHB");
+                        normal.add("KAAFEGMFCEGEVJCDKFHBLTCA");
+                        normal.add("JAAVCJDEDSFBWGBFHECIFHLG");
                         String Temp=normal.get(r.nextInt(normal.size()));
                         while (Start==Temp){
                             Temp=normal.get(r.nextInt(normal.size()));
@@ -495,6 +499,8 @@ public class Board extends Application{
                         ArrayList<String> hard=new ArrayList<String>();
                         hard.add("UCAGDFPFBSHBOIAKJA");
                         hard.add("WBALEFCGLQJCILFUHB");
+                        hard.add("EGEDKFHBLTCAVJCBIG");
+                        hard.add("JAAVCJDEDWGBCIFHLG");
                         String Temp=hard.get(r.nextInt(hard.size()));
                         while (Start==Temp){
                             Temp=hard.get(r.nextInt(hard.size()));

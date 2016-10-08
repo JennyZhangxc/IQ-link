@@ -689,6 +689,7 @@ public class Board extends Application{
     // FIXME Task 9: Implement starting placements
 
     // FIXME Task 11: Implement hints
+    //optimize
 
     // FIXME Task 12: Generate interesting starting placements
 }

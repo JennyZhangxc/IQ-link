@@ -55,8 +55,7 @@ public class Board extends Application{
     private final Group Pieces=new Group();
     private final ArrayList<String>pieces = new ArrayList<>();
 
-
-
+    /* used to play and stop background music */
     String musicFile = "LostGirls.mp3";
     Media sound = new Media(new File(musicFile).toURI().toString());
     MediaPlayer mediaPlayer = new MediaPlayer(sound);

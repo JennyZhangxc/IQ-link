@@ -60,8 +60,6 @@ public class Board extends Application{
     Media sound = new Media(new File(musicFile).toURI().toString());
     MediaPlayer mediaPlayer = new MediaPlayer(sound);
 
-
-
     /* message on completion */
     private final Text competionText = new Text("Well Done!");
 

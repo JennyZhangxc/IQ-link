@@ -14,6 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -21,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,6 +54,11 @@ public class Board extends Application{
     private final Group solution = new Group();
     private final Group Pieces=new Group();
     private final ArrayList<String>pieces = new ArrayList<>();
+
+    /* used to play and stop background music */
+    String musicFile = "LostGirls.mp3";
+    Media sound = new Media(new File(musicFile).toURI().toString());
+    MediaPlayer mediaPlayer = new MediaPlayer(sound);
 
     /* message on completion */
     private final Text competionText = new Text("Well Done!");
@@ -347,7 +355,7 @@ public class Board extends Application{
 
     /**
      * Create the message to be displayed when the player completes the puzzle.
-     * @author Lei Huang,adapted from the Board class code of assignment 1
+     * @author Lei Huang,Weu Wei adapted from the Board class code of assignment 1
      */
     private void makeCompletion() {
         competionText.setFill(Color.RED);
@@ -367,10 +375,11 @@ public class Board extends Application{
         competionText.setOpacity(0);
     }
     /**
-     * Show the completion message
-     * @author Lei Huang
+     * Show the completion message and stop the background music
+     * @author Lei Huang, Wei Wei
      */
     private void showCompletion() {
+        mediaPlayer.stop();
         competionText.toFront();
         competionText.setOpacity(1);
     }
@@ -424,7 +433,8 @@ public class Board extends Application{
 
 
     /**
-     * Generate interesting starting placements by select different game levels to play the Game
+     * Generate interesting starting placements by select different game levels to play the Game,
+     * and play background music when game started.
      * @author Wei Wei
      */
     private void startGameLevel() {
@@ -437,7 +447,7 @@ public class Board extends Application{
 
         Button button1 = new Button("Play");
         Button button2 = new Button("Restart");
-        Button button3 = new Button("New Game");
+        //Button button3 = new Button("New Game");
 
         button1.setOnAction(event -> {
             root.getChildren().remove(Hint_Group);
@@ -511,6 +521,8 @@ public class Board extends Application{
                     break;
                 }
             }
+
+            mediaPlayer.play();
         });
 
         button2.setOnAction(new EventHandler<ActionEvent>() {

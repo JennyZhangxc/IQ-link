@@ -328,10 +328,9 @@ public class LinkGame {
      * @return True if the placement is valid
      */
     public static boolean isPlacementValid(String placement) {
-//        setPieces();
         //Initialize PEGS_BALL and PEGS_RING;
         Arrays.fill(PEGS_BALL,false);
-//        Arrays.fill(used_piece,false);
+        //Arrays.fill(used_piece,false);
         for(int i=0;i<24;i++){
         Arrays.fill(PEGS_SURROUNDING[i],false);}
 
@@ -356,15 +355,6 @@ public class LinkGame {
             if (!Placements.get(p).contains(piece)){
                 return false;
             }
-//            //Judge whether the placement is out of bound.
-//            for (int i:positions) {
-//                if(i==-1)return false;}
-
-//            //test whether the piece is used or not.
-//            int piece_number=(int)(piece.charAt(1))-65;
-//            if(!used_piece[piece_number]) {used_piece[piece_number]=true;}
-//            else{return false;}
-
 
             //check whether the peg is occupied or not.
             for (int i=0;i<piece_this.units.length;i++) {
@@ -553,9 +543,6 @@ public class LinkGame {
 
             int[] positions=LinkGame.getPegsForPiecePlacement(test_sub);
 
-//            for (int i:positions) {
-//                if(i==-1)return false;}
-
             for (int i=0;i<piece_this.units.length;i++) {
                 if (Unit.Balls.contains(piece_this.units[i])) {
                     if (PEGS_BALL[positions[i]]) {
@@ -625,5 +612,4 @@ public class LinkGame {
         SOLUTION_used_piece[current_piece]=true;
         return NextSubsolutions;
     }
-    //
 }

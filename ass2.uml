@@ -3,60 +3,75 @@
   <ID>JAVA</ID>
   <OriginalElement>comp1110.ass2</OriginalElement>
   <nodes>
-    <node x="-1928.7499999999982" y="309.0000000000008">comp1110.ass2.gui.assets</node>
-    <node x="-2066.999999999998" y="-632.7499999999992">comp1110.ass2.LinkGame</node>
-    <node x="-1500.7499999999982" y="-52.249999999999204">comp1110.ass2.PlacementValidTest</node>
-    <node x="-1498.4999999999982" y="166.5000000000008">comp1110.ass2.PegsForPiecePlacementTest</node>
-    <node x="-1496.7499999999982" y="342.5000000000008">comp1110.ass2.TestUtility</node>
-    <node x="-1199.9999999999982" y="-28.499999999999204">comp1110.ass2.SolutionsTest</node>
-    <node x="-1995.9999999999982" y="61.750000000000796">comp1110.ass2.gui.Board</node>
-    <node x="-2284.499999999998" y="-856.2499999999992">comp1110.ass2.Unit</node>
-    <node x="-1990.4999999999982" y="-343.2499999999992">comp1110.ass2.PiecePlacement</node>
-    <node x="-2394.999999999998" y="-732.2499999999992">comp1110.ass2.Piece</node>
-    <node x="-2373.499999999998" y="-308.4999999999992">comp1110.ass2.Puzzle</node>
-    <node x="-1237.2499999999982" y="-237.2499999999992">comp1110.ass2.PlacementWellFormedTest</node>
-    <node x="-2014.9999999999982" y="400.2500000000008">comp1110.ass2.gui.Viewer</node>
-    <node x="-1670.9999999999982" y="-709.7499999999992">comp1110.ass2.Orientation</node>
-    <node x="-1502.4999999999982" y="-239.7499999999992">comp1110.ass2.PiecePlacementWellFormedTest</node>
+    <node x="0.0" y="1003.0">comp1110.ass2.gui.assets</node>
+    <node x="0.0" y="686.0">comp1110.ass2.LinkGame</node>
+    <node x="253.00000000000003" y="124.0">comp1110.ass2.gui.Board.DraggableFXPiece</node>
+    <node x="165.21031746031758" y="413.0">comp1110.ass2.gui.Board</node>
+    <node x="504.2619047619048" y="0.0">comp1110.ass2.gui.Board.FXPiece</node>
+    <node x="578.0" y="686.0">comp1110.ass2.Unit</node>
+    <node x="728.0" y="877.0">comp1110.ass2.Piece</node>
+    <node x="0.0" y="212.5">comp1110.ass2.gui.Board.Peg</node>
+    <node x="174.0" y="1003.0">comp1110.ass2.Orientation</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="comp1110.ass2.PiecePlacement" target="comp1110.ass2.Orientation">
-      <point x="0.0" y="0.0" />
-      <point x="0.0" y="0.0" />
-    </edge>
-    <edge source="comp1110.ass2.gui.Board" target="comp1110.ass2.Puzzle">
-      <point x="0.0" y="0.0" />
-      <point x="0.0" y="0.0" />
-    </edge>
-    <edge source="comp1110.ass2.PiecePlacement" target="comp1110.ass2.Piece">
-      <point x="0.0" y="0.0" />
-      <point x="0.0" y="0.0" />
-    </edge>
     <edge source="comp1110.ass2.Piece" target="comp1110.ass2.Unit">
-      <point x="0.0" y="0.0" />
-      <point x="0.0" y="0.0" />
+      <point x="53.0" y="-37.5" />
+      <point x="887.0" y="852.0" />
+      <point x="962.0" y="852.0" />
+      <point x="128.0" y="70.5" />
     </edge>
-    <edge source="comp1110.ass2.gui.Board" target="comp1110.ass2.PiecePlacement">
-      <point x="0.0" y="0.0" />
-      <point x="0.0" y="0.0" />
+    <edge source="comp1110.ass2.gui.Board" target="comp1110.ass2.gui.Board.Peg">
+      <point x="-102.85714285714289" y="-114.0" />
+      <point x="242.3531746031747" y="383.0" />
+      <point x="116.5" y="383.0" />
+      <point x="1.4210854715202004E-14" y="26.0" />
     </edge>
-    <edge source="comp1110.ass2.Puzzle" target="comp1110.ass2.PiecePlacement">
-      <point x="0.0" y="0.0" />
-      <point x="0.0" y="0.0" />
+    <edge source="comp1110.ass2.gui.Board.DraggableFXPiece" target="comp1110.ass2.gui.Board">
+      <point x="91.0" y="114.5" />
+      <point x="526.0" y="373.0" />
+      <point x="396.63888888888897" y="373.0" />
+      <point x="51.42857142857139" y="-114.0" />
     </edge>
-    <edge source="comp1110.ass2.PiecePlacement" target="comp1110.ass2.LinkGame">
-      <point x="0.0" y="0.0" />
-      <point x="0.0" y="0.0" />
+    <edge source="comp1110.ass2.gui.Board" target="comp1110.ass2.gui.Board.FXPiece">
+      <point x="102.85714285714283" y="-114.0" />
+      <point x="448.0674603174604" y="383.0" />
+      <point x="627.5" y="383.0" />
+      <point x="627.5" y="99.0" />
+      <point x="584.2619047619048" y="99.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="comp1110.ass2.gui.Board.DraggableFXPiece" target="comp1110.ass2.gui.Board.FXPiece">
+      <point x="0.0" y="-114.5" />
+      <point x="435.0" y="99.0" />
+      <point x="530.9285714285714" y="99.0" />
+      <point x="-53.33333333333337" y="37.0" />
+    </edge>
+    <edge source="comp1110.ass2.gui.Board.Peg" target="comp1110.ass2.gui.Board">
+      <point x="77.66666666666669" y="26.0" />
+      <point x="194.16666666666669" y="373.0" />
+      <point x="293.78174603174614" y="373.0" />
+      <point x="-51.428571428571445" y="-114.0" />
+    </edge>
+    <edge source="comp1110.ass2.gui.Board" target="comp1110.ass2.gui.Board.DraggableFXPiece">
+      <point x="-5.6843418860808015E-14" y="-114.0" />
+      <point x="345.2103174603175" y="393.0" />
+      <point x="344.0" y="393.0" />
+      <point x="-91.0" y="114.5" />
+    </edge>
+    <edge source="comp1110.ass2.gui.Board.FXPiece" target="comp1110.ass2.gui.Board">
+      <point x="53.33333333333337" y="37.0" />
+      <point x="638.5" y="393.0" />
+      <point x="499.4960317460318" y="393.0" />
+      <point x="154.28571428571422" y="-114.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.8" x="-1697.875" y="299.875" />
+  <settings layout="Hierarchic Group" zoom="0.5327635327635327" x="545.192513368984" y="496.5" />
   <SelectedNodes />
   <Categories>
-    <Category>Fields</Category>
     <Category>Constructors</Category>
+    <Category>Inner Classes</Category>
     <Category>Methods</Category>
-    <Category>Properties</Category>
   </Categories>
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>

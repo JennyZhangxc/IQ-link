@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -55,10 +56,36 @@ public class Board extends Application{
     private final Group Pieces=new Group();
     private final ArrayList<String>pieces = new ArrayList<>();
 
-    /* used to play and stop background music */
-    String musicFile = "LostGirls.mp3";
-    Media sound = new Media(new File(musicFile).toURI().toString());
-    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+    /* Loop in public domain CC 0 http://soundimage.org/fantasywonder/ */
+    private static final String LOOP_URI = Board.class.getResource(URI_BASE + "Misty-Bog.mp3").toString();
+    private AudioClip loop;
+
+    /* game variables */
+    private boolean loopPlaying = false;
+
+    /**
+     * Set up the sound loop (to play when the 'M' key is pressed)
+     */
+    private void setUpSoundLoop() {
+        try {
+            loop = new AudioClip(LOOP_URI);
+            loop.setCycleCount(AudioClip.INDEFINITE);
+        } catch (Exception e) {
+            System.err.println(":-( something bad happened ("+LOOP_URI+"): "+e);
+        }
+    }
+
+
+    /**
+     * Turn the sound loop on or off
+     */
+    private void toggleSoundLoop() {
+        if (loopPlaying)
+            loop.stop();
+        else
+            loop.play();
+        loopPlaying = !loopPlaying;
+    }
 
     /* message on completion */
     private final Text competionText = new Text("Well Done!");
@@ -379,7 +406,7 @@ public class Board extends Application{
      * @author Lei Huang, Wei Wei
      */
     private void showCompletion() {
-        mediaPlayer.stop();
+//        mediaPlayer.stop();
         competionText.toFront();
         competionText.setOpacity(1);
     }
@@ -447,7 +474,7 @@ public class Board extends Application{
 
         Button button1 = new Button("Play");
         Button button2 = new Button("Restart");
-        //Button button3 = new Button("New Game");
+        Button button3 = new Button("Music");
 
         button1.setOnAction(event -> {
             root.getChildren().remove(Hint_Group);
@@ -528,7 +555,7 @@ public class Board extends Application{
                 }
             }
 
-            mediaPlayer.play();
+//            mediaPlayer.play();
         });
 
         button2.setOnAction(new EventHandler<ActionEvent>() {
@@ -538,8 +565,15 @@ public class Board extends Application{
             }
         });
 
+        button3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                toggleSoundLoop();
+            }
+        });
+
         HBox hBox = new HBox();
-        hBox.getChildren().addAll(label1, choiceBox, button1, button2);
+        hBox.getChildren().addAll(label1, choiceBox, button1, button2,button3);
         hBox.setSpacing(10);
         hBox.setLayoutX(130);
         hBox.setLayoutY(BOARD_HEIGHT - 50);
@@ -637,9 +671,14 @@ public class Board extends Application{
             public void handle(ActionEvent e) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-                alert.setTitle("Information Dialog");
-                alert.setHeaderText("Look, an Information Dialog");
-                alert.setContentText("I have a great message for you!");
+                alert.setTitle("IQ-Link Game");
+                alert.setHeaderText("Game Rule");
+                alert.setContentText("1.The goal of this game is to place all pieces on the borad.\n"+
+                        "2.Open rings and balls of different puzzle pieces can occupy the same place when you link them the right way.\n"+
+                        "3.You could rotate the piece by scroll your mouse or flip the piece by right click the piece.\n"+
+                        "4.Please orientate your piece before you drag them onto the board.\n"+"" +
+                        "5.There are 3 different difficult levels with various starting placements."+
+                        "6.You can start/stop background music by clicking music button.");
                 alert.showAndWait();
             }
         });
@@ -662,11 +701,9 @@ public class Board extends Application{
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("LinkGame Viewer");
+        primaryStage.setTitle("IQ Link Game");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
-//        newGame();
-        Starting_placements(Start);
-//        startGameLevel();
+
         makecontrols();
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){
@@ -683,18 +720,12 @@ public class Board extends Application{
 
         pegs.forEach(peg -> root.getChildren().add(peg));
         root.getChildren().add(controls);
-
+        Starting_placements(Start);
         makeCompletion();
         hideCompletion();
+        setUpSoundLoop();
 
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    // FIXME Task 8: Implement a basic playable Link Game in JavaFX that only allows pieces to be placed in valid places
-
-    // FIXME Task 9: Implement starting placements
-
-    // FIXME Task 11: Implement hints
-
-    // FIXME Task 12: Generate interesting starting placements
 }

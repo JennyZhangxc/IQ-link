@@ -50,8 +50,6 @@ public class Board extends Application{
     private final Group controls = new Group();
     private final Group SET_UP=new Group();
     private final Group SET_UP_pieces=new Group();
-    private final Group solution = new Group();
-    private final Group Pieces=new Group();
     private final ArrayList<String>pieces = new ArrayList<>();
 
     /** media assets used to play and stop background music
@@ -195,7 +193,6 @@ public class Board extends Application{
             /* event handlers */
                 setOnScroll(event -> {            // scroll to change orientation
                     hideCompletion();
-//                    System.out.println("Scroll:"+rotation_fixed);
                     if(!rotation_fixed)
                         rotate();
                 });
@@ -249,21 +246,17 @@ public class Board extends Application{
 
             String current_piece;
             int Flip_adjust=0;
-            if(this.piece!='A'&&getScaleY()==-1.0){
+            if(this.piece!='A'&&getScaleY()==-1.0)
                 Flip_adjust=6;
-            }
-            if(y%2==0) {
+            if(y%2==0)
                 current_piece=""+(char)('A'+x+6*y)+this.piece+(char)('A'+this.getRotate()/60+Flip_adjust);
-            }
-            else{
+            else
                 current_piece=""+(char)('A'+x-1+6*y)+this.piece+(char)('A'+this.getRotate()/60+Flip_adjust);
-            }
             String piece="";
 
             for(String p:pieces){
-                if(p.charAt(1)==current_piece.charAt(1)){
+                if(p.charAt(1)==current_piece.charAt(1))
                     piece=p;
-                }
             }
             pieces.remove(piece);
             pieces.add(current_piece);
@@ -275,12 +268,10 @@ public class Board extends Application{
             setLayoutY(BOARD_Y + y * ROW_HEIGHT);
 
             setPosition();
-            if (position != -1) {
+            if (position != -1)
                 checkMove(current_piece);
-            } else {
+            else
                 snapToHome();
-
-            }
         }
 
         /**
@@ -302,9 +293,7 @@ public class Board extends Application{
          * @author Lei Huang,adapted from the Board class code of assignment 1
          */
         private void rotate() {
-
             setRotate((getRotate() + 60) % 360);
-
             setPosition();
         }
 
@@ -317,7 +306,6 @@ public class Board extends Application{
         private void flip(String current_piece){
             if(current_piece.charAt(0)!='A') {
                 setScaleY(-1);
-
                 Flip_count++;
                 setScaleY(Math.pow((-1), (Flip_count)));
             }
@@ -342,10 +330,8 @@ public class Board extends Application{
 
             } else {
                 rotation_fixed=true;
-
-                if (LinkGame.isPlacementComplete(placement)) {
+                if (LinkGame.isPlacementComplete(placement))
                     showCompletion();
-                }
             }
         }
 
@@ -366,11 +352,10 @@ public class Board extends Application{
          * */
         public String toString() {
             char orientation = (char) ('A' + (int) (getRotate()/ 60));
-            if(position==-1){
+            if(position==-1)
                 return "";
-            }else{
+            else
                 return "" + (char)('A'+position) + piece + orientation;
-            }
         }
     }
 
@@ -484,6 +469,7 @@ public class Board extends Application{
         button1.setOnAction(event -> {
             root.getChildren().remove(Hint_Group);
             button_usable=true;
+            hideCompletion();
             ObservableValue selectedIndices = choiceBox.getSelectionModel().selectedIndexProperty();
 
             int i=(int)selectedIndices.getValue();
@@ -508,10 +494,8 @@ public class Board extends Application{
                         Thread.dumpStack();
                         Platform.exit();
                     }
-
                     break;
                 }
-
                 case 1: {
                     try {
                         ArrayList<String> normal=new ArrayList<String>();
@@ -530,7 +514,6 @@ public class Board extends Application{
                         Thread.dumpStack();
                         Platform.exit();
                     }
-
                     break;
                 }
 
@@ -554,11 +537,9 @@ public class Board extends Application{
                         Thread.dumpStack();
                         Platform.exit();
                     }
-
                     break;
                 }
             }
-
             setUpSoundLoop();
         });
 
@@ -594,9 +575,9 @@ public class Board extends Application{
     private void hint(){
         String placement=LinkGame.getSolutions(Start)[0];
 
-        if(root.getChildren().contains(Hint_Group)){
+        if(root.getChildren().contains(Hint_Group))
             root.getChildren().remove(Hint_Group);
-        }
+
         Hint_Group.getChildren().clear();
         int length=placement.length()/3;
         if(placement.length()%3!=0){
@@ -610,14 +591,12 @@ public class Board extends Application{
         List<Integer> index = new ArrayList<>();
         for (String piece : list) {
             index.add(Character.getNumericValue(piece.charAt(0)) - 10);
-
         }
         int[][] position = new int[length][2];
 
         for(int i=0;i<length;i++){
             position[i][0]=index.get(i)/6;//row
             position[i][1]=index.get(i)%6;//column
-
         }
 
         for (int i = 0; i < length; i++) {
@@ -637,9 +616,8 @@ public class Board extends Application{
             }
             char orientation =list.get(i).charAt(2);
             int angle = (Character.getNumericValue(orientation)-10)*60;
-            if(angle>=360){
+            if(angle>=360)
                 iv1.setScaleY(-1);
-            }
             iv1.setRotate(angle);
             Hint_Group.getChildren().add(iv1);
         }
@@ -662,29 +640,23 @@ public class Board extends Application{
                 hint();
         });
 
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                if(button_usable)
-                    root.getChildren().remove(Hint_Group);
-            }
+        button2.setOnAction(e -> {
+            if(button_usable)
+                root.getChildren().remove(Hint_Group);
         });
 
-        button3.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        button3.setOnAction(e -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-                alert.setTitle("IQ-Link Game");
-                alert.setHeaderText("Game Rule");
-                alert.setContentText("1.The goal of this game is to place all pieces on the borad.\n"+
-                        "2.Open rings and balls of different puzzle pieces can occupy the same place when you link them the right way.\n"+
-                        "3.You could rotate the piece by scroll your mouse or flip the piece by right click the piece.\n"+
-                        "4.Please orientate your piece before you drag them onto the board.\n"+"" +
-                        "5.There are 3 different difficult levels with various starting placements."+
-                        "6.You can start/stop background music by clicking music button.");
-                alert.showAndWait();
-            }
+            alert.setTitle("IQ-Link Game");
+            alert.setHeaderText("Game Rule");
+            alert.setContentText("1.The goal of this game is to place all pieces on the borad.\n"+
+                    "2.Open rings and balls of different puzzle pieces can occupy the same place when you link them the right way.\n"+
+                    "3.You could rotate the piece by scroll your mouse or flip the piece by right click the piece.\n"+
+                    "4.Please orientate your piece before you drag them onto the board.\n"+"" +
+                    "5.There are 3 different difficult levels with various starting placements."+
+                    "6.You can start/stop background music by clicking music button.");
+            alert.showAndWait();
         });
 
         HBox hb = new HBox();

@@ -25,8 +25,6 @@ public enum  Piece
      */
     final Unit[] units;
 
-
-
     /**
      * Constructor for piece, which can have three ball or ring feature.
      *

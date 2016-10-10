@@ -313,12 +313,6 @@ public class LinkGame {
         else return false;
     }
 
-
-    // FIXME Task 7: determine whether a placement is valid
-    final static boolean[]PEGS_BALL=new boolean[24];
-    final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
-    final static boolean[]used_piece=new boolean[12];
-
     /**
      * Determine whether a placement is valid.  To be valid, the placement must be well-formed
      * and each piece must correctly connect with each other.
@@ -327,6 +321,11 @@ public class LinkGame {
      * @param placement A placement string
      * @return True if the placement is valid
      */
+
+    final static boolean[]PEGS_BALL=new boolean[24];
+    final static boolean[][]PEGS_SURROUNDING=new boolean[24][6];
+    final static boolean[]used_piece=new boolean[12];
+
     public static boolean isPlacementValid(String placement) {
         //Initialize PEGS_BALL and PEGS_RING;
         Arrays.fill(PEGS_BALL,false);
@@ -352,18 +351,16 @@ public class LinkGame {
 
             int[] positions=LinkGame.getPegsForPiecePlacement(piece);
 
-            if (!Placements.get(p).contains(piece)){
+            if (!Placements.get(p).contains(piece))
                 return false;
-            }
 
             //check whether the peg is occupied or not.
             for (int i=0;i<piece_this.units.length;i++) {
                 if (Unit.Balls.contains(piece_this.units[i])) {
-                    if (!PEGS_BALL[positions[i]]) {
+                    if (!PEGS_BALL[positions[i]])
                         PEGS_BALL[positions[i]] = true;
-                    } else {
+                    else
                         return false;
-                    }
                 }
             }
             //check whether the surrounding is occupied or not.
@@ -371,22 +368,16 @@ public class LinkGame {
             for (int i=0;i<piece_this.units.length;i++) {
                 for(int j=0;j<6;j++) {
                     if (piece_this.units[i].surrounding_orientation[j]) {
-                        if (!PEGS_SURROUNDING[positions[i]][j]) {
+                        if (!PEGS_SURROUNDING[positions[i]][j])
                             PEGS_SURROUNDING[positions[i]][j] = true;
-                        } else {
+                        else
                             return false;
-                        }
                     }
                 }
             }
         }
         return true;
     }
-
-
-    final static boolean[]SOLUTION_PEGS_BALL=new boolean[24];
-    final static boolean[][]SOLUTION_PEGS_SURROUNDING=new boolean[24][6];
-    final static boolean[]SOLUTION_used_piece=new boolean[12];
 
     /**
      * Return an array of all solutions given a starting placement.
@@ -396,8 +387,13 @@ public class LinkGame {
      * @return An array of strings, each describing a solution to the game given the
      * starting point provied by placement.
      */
+
+    final static boolean[]SOLUTION_PEGS_BALL=new boolean[24];
+    final static boolean[][]SOLUTION_PEGS_SURROUNDING=new boolean[24][6];
+    final static boolean[]SOLUTION_used_piece=new boolean[12];
+
+
     public static String[] getSolutions(String placement) {
-        // FIXME Task 10: determine all solutions to the game, given a particular starting placement
         //Initialize PEGS_BALL, PEGS_RING and used_piece;
         Arrays.fill(SOLUTION_PEGS_BALL,false);
         Arrays.fill(SOLUTION_used_piece,false);
@@ -429,9 +425,8 @@ public class LinkGame {
             int[] positions=LinkGame.getPegsForPiecePlacement(piece);
 
             for (int i=0;i<piece_this.units.length;i++) {
-                if (Unit.Balls.contains(piece_this.units[i])) {
+                if (Unit.Balls.contains(piece_this.units[i]))
                     SOLUTION_PEGS_BALL[positions[i]] = true;
-                }
             }
             piece_this.orientation(orientation_this);
             for (int i=0;i<piece_this.units.length;i++) {
@@ -476,6 +471,7 @@ public class LinkGame {
      * @return An array of strings, each describing a valid placements of original placement
      *         and possible placement for next piece.
      */
+
     static ArrayList<String> FindNextValidPieces(String[] placement_nextPiece){
             String placement=placement_nextPiece[0];
             String nextPiece=placement_nextPiece[1];
@@ -545,9 +541,8 @@ public class LinkGame {
 
             for (int i=0;i<piece_this.units.length;i++) {
                 if (Unit.Balls.contains(piece_this.units[i])) {
-                    if (PEGS_BALL[positions[i]]) {
+                    if (PEGS_BALL[positions[i]])
                         return false;
-                    }
                 }
             }
 
@@ -555,9 +550,8 @@ public class LinkGame {
             for (int i=0;i<piece_this.units.length;i++) {
                 for(int j=0;j<6;j++) {
                     if (piece_this.units[i].surrounding_orientation[j]) {
-                        if (PEGS_SURROUNDING[positions[i]][j]) {
+                        if (PEGS_SURROUNDING[positions[i]][j])
                             return false;
-                        }
                     }
                 }
             }

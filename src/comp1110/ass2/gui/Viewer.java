@@ -82,17 +82,14 @@ public class Viewer extends Application {
             iv1.setImage(image);
             iv1.setFitHeight(PIECE_IMAGE_SIZE);
             iv1.setFitWidth(PIECE_IMAGE_SIZE);
-            if(position[i][0]%2==0){
+            if(position[i][0]%2==0)
                 iv1.relocate(position[i][1]*SQUARE_SIZE-SQUARE_SIZE/2,position[i][0]*ROW_HEIGHT-ROW_HEIGHT);
-            }
-            else{
+            else
                 iv1.relocate(position[i][1]*SQUARE_SIZE,position[i][0]*ROW_HEIGHT-ROW_HEIGHT);
-            }
             char orientation =list.get(i).charAt(2);
             int angle = (Character.getNumericValue(orientation)-10)*60;
-            if(angle>=360){
+            if(angle>=360)
                 iv1.setScaleY(-1);
-            }
             iv1.setRotate(angle);
             group.getChildren().add(iv1);
         }
@@ -126,8 +123,7 @@ public class Viewer extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
-
-
+        
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){
                 Circle r = new Circle(((i%6)+1)*SQUARE_SIZE, (i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 28);

@@ -14,13 +14,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
-import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,8 +43,6 @@ public class Board extends Application{
     private static final int BOARD_Y=50;
     private static final boolean[]used_pieces=new boolean[12];
     private static final double ROW_HEIGHT = 0.5*SQUARE_SIZE * 0.8660254; // 60 degrees distance
-
-    /* where to find media assets */
     private static final String URI_BASE = "assets/";
 
     /* node groups */
@@ -54,34 +54,47 @@ public class Board extends Application{
     private final Group Pieces=new Group();
     private final ArrayList<String>pieces = new ArrayList<>();
 
-    /* Loop in public domain CC 0 http://soundimage.org/fantasywonder/ */
-    private static final String LOOP_URI = Board.class.getResource(URI_BASE + "Misty-Bog.mp3").toString();
-    private AudioClip loop;
-
-    /* game variables */
+    /** media assets used to play and stop background music
+     * @author Wei Wei
+     */
+    String musicFile = "Misty-Bog.mp3";
+    File file = new File(musicFile);
+    Media sound = new Media(file.toURI().toString());
+    MediaPlayer mediaPlayer = new MediaPlayer(sound);
     private boolean loopPlaying = false;
 
     /**
-     * Set up the sound loop (to play when the 'M' key is pressed)
+     * Set up the background music sound loop to by click the music button
+     * @author Wei Wei,adapted from the board class code of assignment 1
      */
-    private void setUpSoundLoop() {
-        try {
-            loop = new AudioClip(LOOP_URI);
-            loop.setCycleCount(AudioClip.INDEFINITE);
-        } catch (Exception e) {
-            System.err.println(":-( something bad happened ("+LOOP_URI+"): "+e);
+    private void setUpSoundLoop()
+    {
+        try{
+            mediaPlayer.setOnEndOfMedia(new Runnable()
+            {
+                public void run()
+                {
+                    mediaPlayer.seek(Duration.ZERO);
+                }
+            });
+
+            mediaPlayer.play();
+        }
+        catch(Exception e)
+        {
+            System.err.println(e.getStackTrace());
         }
     }
 
-
     /**
      * Turn the sound loop on or off
+     * @author Wei Wei,adapted from the board class code of assignment 1
      */
-    private void toggleSoundLoop() {
-        if (loopPlaying)
-            loop.stop();
-        else
-            loop.play();
+    private void toggleSoundLoop()
+    {
+        if(loopPlaying) mediaPlayer.stop();
+        else mediaPlayer.play();
+
         loopPlaying = !loopPlaying;
     }
 
@@ -116,6 +129,7 @@ public class Board extends Application{
             setFitWidth(PIECE_IMAGE_SIZE);
         }
         }
+
         /**
          * Construct a particular playing piece at a particular place on the
          * board at a given orientation.
@@ -133,13 +147,11 @@ public class Board extends Application{
                     position.charAt(2) < 'A' || position.charAt(2) > 'L') {
                 throw new IllegalArgumentException("Bad position string: " + position);
             }
+
             int pos = position.charAt(0) - 'A';
             int o = (position.charAt(2) - 'A');
-//            System.out.println(pos);
             int x = (pos % Board.SIDE);
-//            System.out.println("X="+x);
             int y = (pos / Board.SIDE);
-//            System.out.println("Y="+y);
 
             if(y%2==0)
                 setLayoutX(BOARD_X + x * SQUARE_SIZE/2+SQUARE_SIZE/4);
@@ -213,6 +225,7 @@ public class Board extends Application{
                 });
             }
         }
+
         /**
          * Hide the completion message
          * @author Lei Huang,adapted from the Board class code of assignment 1
@@ -231,9 +244,9 @@ public class Board extends Application{
          */
         private void snapToGrid() {
             int x=(int)((getLayoutX() - (SQUARE_SIZE / 3)) / (SQUARE_SIZE/2));
-//            System.out.println("x= "+x);
+
             int y=(((int) getLayoutY()-(SQUARE_SIZE / 4))/ (SQUARE_SIZE/2));
-//            System.out.println("y= "+y);
+
             String current_piece;
             int Flip_adjust=0;
             if(this.piece!='A'&&getScaleY()==-1.0){
@@ -270,7 +283,6 @@ public class Board extends Application{
             }
         }
 
-
         /**
          * Snap the piece to its home position (if it is not on the grid)
          *
@@ -282,9 +294,7 @@ public class Board extends Application{
             setLayoutY(homeY);
             setRotate(0);
             position = -1;
-//            System.out.println(rotation_fixed);
         }
-
 
         /**
          * Rotate the piece by 60 degrees
@@ -297,6 +307,7 @@ public class Board extends Application{
 
             setPosition();
         }
+
         /**
          * Flip the piece
          *
@@ -309,9 +320,9 @@ public class Board extends Application{
 
                 Flip_count++;
                 setScaleY(Math.pow((-1), (Flip_count)));
-//                System.out.println(getScaleY());
             }
         }
+
         /**
          * A move has been made.  Determine whether there are errors,
          * and if so, show skulls, and determine whether the game is
@@ -328,17 +339,15 @@ public class Board extends Application{
             if (!LinkGame.isPlacementValid(placement)) {
                 pieces.remove(current_piece);
                 snapToHome();
-//                System.out.println("Wrong Placement");
+
             } else {
                 rotation_fixed=true;
-//                System.out.println(placement);
+
                 if (LinkGame.isPlacementComplete(placement)) {
                     showCompletion();
                 }
             }
         }
-
-
 
         /**
          * Determine the grid-position of the origin of the piece (0 .. 23)
@@ -375,7 +384,6 @@ public class Board extends Application{
             this.setLayoutY(y);
             this.setRadius(radius);
         }
-
     }
 
     /**
@@ -404,7 +412,7 @@ public class Board extends Application{
      * @author Lei Huang, Wei Wei
      */
     private void showCompletion() {
-//        mediaPlayer.stop();
+        mediaPlayer.stop();
         competionText.toFront();
         competionText.setOpacity(1);
     }
@@ -456,7 +464,6 @@ public class Board extends Application{
         }
     }
 
-
     /**
      * Generate interesting starting placements by select different game levels to play the Game,
      * and play background music when game started.
@@ -478,9 +485,9 @@ public class Board extends Application{
             root.getChildren().remove(Hint_Group);
             button_usable=true;
             ObservableValue selectedIndices = choiceBox.getSelectionModel().selectedIndexProperty();
-//            System.out.println(selectedIndices);
+
             int i=(int)selectedIndices.getValue();
-//            System.out.println(i);
+
             Random r= new Random();
             switch(i) {
                 case 0: {
@@ -496,7 +503,6 @@ public class Board extends Application{
                         }
                         Start=Temp;
                         Starting_placements(Start);
-//                        System.out.println("easy");
                     } catch (IllegalArgumentException e) {
                         System.err.println("Uh oh. " + e);
                         Thread.dumpStack();
@@ -553,7 +559,7 @@ public class Board extends Application{
                 }
             }
 
-//            mediaPlayer.play();
+            setUpSoundLoop();
         });
 
         button2.setOnAction(new EventHandler<ActionEvent>() {
@@ -682,12 +688,11 @@ public class Board extends Application{
         });
 
         HBox hb = new HBox();
-        //if(!button_usable) hb.getChildren().addAll(button3);
-        //else if(button_usable) hb.getChildren().addAll(button3, button, button2);
         hb.getChildren().addAll(button3, button, button2);
         hb.setSpacing(10);
         hb.setLayoutX(130);
         hb.setLayoutY(50);
+
         controls.getChildren().add(hb);
 
         startGameLevel();
@@ -718,10 +723,11 @@ public class Board extends Application{
 
         pegs.forEach(peg -> root.getChildren().add(peg));
         root.getChildren().add(controls);
+
         Starting_placements(Start);
+
         makeCompletion();
         hideCompletion();
-        setUpSoundLoop();
 
         primaryStage.setScene(scene);
         primaryStage.show();

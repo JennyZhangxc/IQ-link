@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -681,6 +682,32 @@ public class Board extends Application{
         root.getChildren().add(Hint_Group);
     }
 
+
+    /**
+     * When press and hold the "/" key to display the hint for current game played
+     * and after release the "/" key to hide the hint for current game played.
+     *
+     * @author Wei Wei adapted from the Board class code of assignment 1
+     * @param scene  The Scene used by the game.
+     */
+    private void setUpHandlers(Scene scene) {
+        /* create handlers for key press and release events */
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.SLASH) {
+                hint();
+                event.consume();
+            }
+        });
+
+        scene.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.SLASH) {
+                root.getChildren().remove(Hint_Group);
+                event.consume();
+            }
+        });
+    }
+
+
     /**
      * Show and Hide solution of current Game, and display the Game rules in the pop-up message box.
      * @author Wei Wei
@@ -705,13 +732,14 @@ public class Board extends Application{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
             alert.setTitle("IQ-Link Game");
-            alert.setHeaderText("Game Rule");
-            alert.setContentText("1.The goal of this game is to place all pieces on the borad.\n"+
-                    "2.Open rings and balls of different puzzle pieces can occupy the same place when you link them the right way.\n"+
-                    "3.You could rotate the piece by scroll your mouse or flip the piece by right click the piece.\n"+
-                    "4.Please orientate your piece before you drag them onto the board.\n"+"" +
-                    "5.There are 3 different difficult levels with various starting placements."+
-                    "6.You can start/stop background music by clicking music button.");
+            alert.setHeaderText("Game Rules");
+            alert.setContentText("1.The goal of this game is to place all pieces on the borad.\n" +
+                    "2.Open rings and balls of different puzzle pieces can occupy the same place when you link them the right way.\n" +
+                    "3.You could rotate the piece by scroll your mouse or flip the piece by right click the piece.\n" +
+                    "4.Please orientate your piece before you drag them onto the board.\n" +
+                    "5.There are 3 different difficult levels with various starting placements. \n" +
+                    "6.You can start/stop background music by clicking music button. \n" +
+                    "7.You can view/hide solution for current game played by clicking Hint/Clear Hint button or by press/release '/ ' key on keyboard.");
             alert.showAndWait();
         });
 
@@ -754,6 +782,8 @@ public class Board extends Application{
         root.getChildren().add(controls);
 
         Starting_placements(Start);
+
+        setUpHandlers(scene);
 
         makeCompletion();
         hideCompletion();

@@ -100,6 +100,7 @@ public class Viewer extends Application {
 
     /**
      * Create a basic text field for input and a refresh button.
+     * @author Wei Wei
      */
     private void makeControls() {
         Label label1 = new Label("Placement:");
@@ -119,9 +120,13 @@ public class Viewer extends Application {
     }
 
 
+    /**
+     * Starting stage for game viewer.
+     * @author Lei Huang, Wei Wei
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("LinkGame Viewer");
+        primaryStage.setTitle("IQ Link Game");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
 
         for(int i =0;i<24;i++) {

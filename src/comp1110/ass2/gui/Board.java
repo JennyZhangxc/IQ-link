@@ -373,7 +373,7 @@ public class Board extends Application{
 
     /**
      * Create the message to be displayed when the player completes the puzzle.
-     * @author Lei Huang,Weu Wei adapted from the Board class code of assignment 1
+     * @author Lei Huang,Wei Wei adapted from the Board class code of assignment 1
      */
     private void makeCompletion() {
         competionText.setFill(Color.RED);

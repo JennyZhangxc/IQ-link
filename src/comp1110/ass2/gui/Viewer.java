@@ -123,7 +123,7 @@ public class Viewer extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("LinkGame Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
-        
+
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){
                 Circle r = new Circle(((i%6)+1)*SQUARE_SIZE, (i/6)*ROW_HEIGHT +SQUARE_SIZE-ROW_HEIGHT / 2 + 7, 28);

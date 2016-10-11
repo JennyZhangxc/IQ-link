@@ -68,8 +68,9 @@ public class Board extends Application{
     MediaPlayer mediaPlayer = new MediaPlayer(sound);
     private boolean loopPlaying = false;
 
-    /* time count
-    yuqiang li
+
+    /** time count, a timer to calculate how long this game take
+     * @author yuqiang li
      */
     private Timeline timeline;
     private Label clock = new Label();
@@ -776,7 +777,7 @@ public class Board extends Application{
                 r.setFill(Color.LIGHTGREY);
                 pegs.add(r);}
         }
-        root.getChildren().add(timer(750, 160));
+        root.getChildren().add(timer(420, 20));
 
         pegs.forEach(peg -> root.getChildren().add(peg));
         root.getChildren().add(controls);

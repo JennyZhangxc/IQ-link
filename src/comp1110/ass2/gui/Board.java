@@ -676,13 +676,14 @@ public class Board extends Application{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
             alert.setTitle("IQ-Link Game");
-            alert.setHeaderText("Game Rule");
-            alert.setContentText("1.The goal of this game is to place all pieces on the borad.\n"+
-                    "2.Open rings and balls of different puzzle pieces can occupy the same place when you link them the right way.\n"+
-                    "3.You could rotate the piece by scroll your mouse or flip the piece by right click the piece.\n"+
-                    "4.Please orientate your piece before you drag them onto the board.\n"+"" +
-                    "5.There are 3 different difficult levels with various starting placements."+
-                    "6.You can start/stop background music by clicking music button.");
+            alert.setHeaderText("Game Rules");
+            alert.setContentText("1.The goal of this game is to place all pieces on the borad.\n" +
+                    "2.Open rings and balls of different puzzle pieces can occupy the same place when you link them the right way.\n" +
+                    "3.You could rotate the piece by scroll your mouse or flip the piece by right click the piece.\n" +
+                    "4.Please orientate your piece before you drag them onto the board.\n" +
+                    "5.There are 3 different difficult levels with various starting placements. \n" +
+                    "6.You can start/stop background music by clicking music button. \n" +
+                    "7.You can view/hide solution for current game played by clicking Hint/Clear Hint button or by press/release '/ ' key on keyboard.");
             alert.showAndWait();
         });
 

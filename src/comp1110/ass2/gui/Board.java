@@ -1,6 +1,8 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.LinkGame;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -10,10 +12,13 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -24,6 +29,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +66,56 @@ public class Board extends Application{
     Media sound = new Media(file.toURI().toString());
     MediaPlayer mediaPlayer = new MediaPlayer(sound);
     private boolean loopPlaying = false;
+
+    /* time count
+    yuqiang li
+     */
+    private Timeline timeline;
+    private Label clock = new Label();
+    private int secondCount = 0;
+    private Duration timer = Duration.ZERO;
+
+    public VBox timer(double vBoxX, double vBoxY){
+        //clock.textProperty().bind(secondCount);
+        clock.setText("0");
+        clock.setStyle("-fx-font-size: 3.5em");
+
+        clock.setTextFill(Color.NAVY);
+
+        Button button = new Button();
+        button.setText("START");
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Starting_placements(Start);
+                button.setText("RESTART");
+                if (timeline != null){
+                    Starting_placements(Start);
+                    //timer = Duration.ZERO;
+                    secondCount = 0;
+                }
+                else {
+                    timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            Duration duration = ((KeyFrame) event.getSource()).getTime();
+                            //timer = timer.add(duration);
+                            secondCount ++;
+
+                            clock.setText("" + secondCount);
+                        }
+                    }));
+                    timeline.setCycleCount(Timeline.INDEFINITE);
+                    timeline.play();
+                }
+            }
+        });
+        VBox vBox = new VBox();
+        vBox.setLayoutX(vBoxX);
+        vBox.setLayoutY(vBoxY);
+        vBox.getChildren().addAll(button, clock);
+        return vBox;
+    }
 
     /**
      * Set up the background music sound loop to by click the music button
@@ -463,7 +519,7 @@ public class Board extends Application{
         choiceBox.setTooltip(new Tooltip("Start Game Level"));
 
         Button button1 = new Button("Play");
-        Button button2 = new Button("Restart");
+        //Button button2 = new Button("Restart");
         Button button3 = new Button("Music");
 
         button1.setOnAction(event -> {
@@ -543,12 +599,12 @@ public class Board extends Application{
             setUpSoundLoop();
         });
 
-        button2.setOnAction(new EventHandler<ActionEvent>() {
+        /*button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 Starting_placements(Start);
             }
-        });
+        });*/
 
         button3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -558,7 +614,7 @@ public class Board extends Application{
         });
 
         HBox hBox = new HBox();
-        hBox.getChildren().addAll(label1, choiceBox, button1, button2,button3);
+        hBox.getChildren().addAll(label1, choiceBox, button1, /*button2,*/button3);
         hBox.setSpacing(10);
         hBox.setLayoutX(130);
         hBox.setLayoutY(BOARD_HEIGHT - 50);
@@ -692,6 +748,7 @@ public class Board extends Application{
                 r.setFill(Color.LIGHTGREY);
                 pegs.add(r);}
         }
+        root.getChildren().add(timer(750, 160));
 
         pegs.forEach(peg -> root.getChildren().add(peg));
         root.getChildren().add(controls);

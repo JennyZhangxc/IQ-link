@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
@@ -625,6 +626,32 @@ public class Board extends Application{
         root.getChildren().add(Hint_Group);
     }
 
+
+    /**
+     * When press and hold the "/" key to display the hint for current game played
+     * and after release the "/" key to hide the hint for current game played.
+     *
+     * @author Wei Wei adapted from the Board class code of assignment 1
+     * @param scene  The Scene used by the game.
+     */
+    private void setUpHandlers(Scene scene) {
+        /* create handlers for key press and release events */
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.SLASH) {
+                hint();
+                event.consume();
+            }
+        });
+
+        scene.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.SLASH) {
+                root.getChildren().remove(Hint_Group);
+                event.consume();
+            }
+        });
+    }
+
+
     /**
      * Show and Hide solution of current Game, and display the Game rules in the pop-up message box.
      * @author Wei Wei
@@ -697,6 +724,8 @@ public class Board extends Application{
         root.getChildren().add(controls);
 
         Starting_placements(Start);
+
+        setUpHandlers(scene);
 
         makeCompletion();
         hideCompletion();

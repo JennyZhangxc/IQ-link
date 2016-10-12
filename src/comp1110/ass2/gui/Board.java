@@ -492,25 +492,12 @@ public class Board extends Application{
         }
     }
 
-    /**
-     * Start a new game, resetting everything as necessary
-     * @author Lei Huang, Wei Wei adapted from the Board class code of assignment 1
-     */
     String Start="";
-    private void newGame() {
-        try {
-            Starting_placements(Start);
-        } catch (IllegalArgumentException e) {
-            System.err.println("Uh oh. "+ e);
-            Thread.dumpStack();
-            Platform.exit();
-        }
-    }
 
     /**
      * Generate interesting starting placements by select different game levels to play the Game,
      * and play background music when game started.
-     * @author Wei Wei
+     * @author Wei Wei, Lei Huang
      */
     private void startGameLevel() {
         Label label1 = new Label("Game Level:");
@@ -521,7 +508,7 @@ public class Board extends Application{
         choiceBox.setTooltip(new Tooltip("Start Game Level"));
 
         Button button1 = new Button("Play");
-        //Button button2 = new Button("Restart");
+        Button button2 = new Button("Restart");
         Button button3 = new Button("Music");
 
         button1.setOnAction(event -> {
@@ -601,12 +588,12 @@ public class Board extends Application{
             setUpSoundLoop();
         });
 
-        /*button2.setOnAction(new EventHandler<ActionEvent>() {
+        button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 Starting_placements(Start);
             }
-        });*/
+        });
 
         button3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -616,7 +603,7 @@ public class Board extends Application{
         });
 
         HBox hBox = new HBox();
-        hBox.getChildren().addAll(label1, choiceBox, button1, /*button2,*/button3);
+        hBox.getChildren().addAll(label1, choiceBox, button1,button2,button3);
         hBox.setSpacing(10);
         hBox.setLayoutX(130);
         hBox.setLayoutY(BOARD_HEIGHT - 50);
@@ -689,21 +676,26 @@ public class Board extends Application{
      * and after release the "/" key to hide the hint for current game played.
      *
      * @author Wei Wei adapted from the Board class code of assignment 1
+     *         Lei Huang, debugging for NullPointerExecption
      * @param scene  The Scene used by the game.
      */
     private void setUpHandlers(Scene scene) {
         /* create handlers for key press and release events */
         scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.SLASH) {
-                hint();
-                event.consume();
+            if(button_usable) {
+                if (event.getCode() == KeyCode.SLASH) {
+                    hint();
+                    event.consume();
+                }
             }
         });
 
         scene.setOnKeyReleased(event -> {
-            if (event.getCode() == KeyCode.SLASH) {
-                root.getChildren().remove(Hint_Group);
-                event.consume();
+            if(button_usable) {
+                if (event.getCode() == KeyCode.SLASH) {
+                    root.getChildren().remove(Hint_Group);
+                    event.consume();
+                }
             }
         });
     }
@@ -711,7 +703,7 @@ public class Board extends Application{
 
     /**
      * Show and Hide solution of current Game, and display the Game rules in the pop-up message box.
-     * @author Wei Wei
+     * @author Lei Huang,Wei Wei
      */
     Boolean button_usable=false;
     private void makecontrols(){
@@ -739,8 +731,9 @@ public class Board extends Application{
                     "3.You could rotate the piece by scroll your mouse or flip the piece by right click the piece.\n" +
                     "4.Please orientate your piece before you drag them onto the board.\n" +
                     "5.There are 3 different difficult levels with various starting placements. \n" +
-                    "6.You can start/stop background music by clicking music button. \n" +
-                    "7.You can view/hide solution for current game played by clicking Hint/Clear Hint button or by press/release '/ ' key on keyboard.");
+                    "6.You can start/stop background music by clicking \"Music\" button. \n" +
+                    "7.You can view/hide solution for current game played by clicking \"Hint/Clear Hint\" button or by press/release '/ ' key on keyboard.\n"+
+                    "8.You can restart current game by clicking \"Restart\" button");
             alert.showAndWait();
         });
 

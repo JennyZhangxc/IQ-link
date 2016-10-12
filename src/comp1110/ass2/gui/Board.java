@@ -770,7 +770,7 @@ public class Board extends Application{
                 r.setFill(Color.LIGHTGREY);
                 pegs.add(r);}
         }
-        root.getChildren().add(timer(420, 20));
+        root.getChildren().add(timer(50, 50));
 
         pegs.forEach(peg -> root.getChildren().add(peg));
         root.getChildren().add(controls);

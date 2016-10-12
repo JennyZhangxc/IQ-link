@@ -16,5 +16,6 @@ additional features...
  - Music feature, button to start/stop music at anytime
    Background music start when play button pressed, the music stops when the game is completed
  - Restart button to snap all movable pieces in current game back to its original starting position.
+ - Add timer feature to show the time used for current game. The timer stopped when the puzzle is completed.
 
 

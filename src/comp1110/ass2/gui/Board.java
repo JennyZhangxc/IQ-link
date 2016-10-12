@@ -482,7 +482,9 @@ public class Board extends Application{
     /**
      * Generate interesting starting placements by select different game levels to play the Game,
      * and play background music when game started.
-     * @author Wei Wei, Lei Huang
+     * @author Lei Huang, completed Play Button and Restart Button
+     *                    debugged for several exceptions
+     *         Wei Wei
      */
     private void startGameLevel() {
         Label label1 = new Label("Game Level:");
@@ -667,7 +669,7 @@ public class Board extends Application{
      * and after release the "/" key to hide the hint for current game played.
      *
      * @author Wei Wei adapted from the Board class code of assignment 1
-     *         Lei Huang, debugging for NullPointerExecption
+     *         Lei Huang, debug for NullPointerExecption
      * @param scene  The Scene used by the game.
      */
     private void setUpHandlers(Scene scene) {
@@ -697,7 +699,7 @@ public class Board extends Application{
      * @author Lei Huang,Wei Wei
      */
     Boolean button_usable=false;
-    private void makecontrols(){
+    private void makeControls(){
         Button button = new Button("Hint");
         Button button2 = new Button("Clear Hint");
         Button button3 = new Button("Help");
@@ -749,7 +751,7 @@ public class Board extends Application{
         primaryStage.setTitle("IQ Link Game");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
         root.getChildren().add(timer(50, 50));
-        makecontrols();
+        makeControls();
 
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){

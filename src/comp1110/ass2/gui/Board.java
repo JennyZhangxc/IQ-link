@@ -30,7 +30,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -360,7 +359,7 @@ public class Board extends Application{
      * @author Lei Huang, Wei Wei
      */
     private void showCompletion() {
-        mediaPlayer.stop();
+//        mediaPlayer.stop();
         timeline.stop();
         competionText.toFront();
         competionText.setOpacity(1);
@@ -495,7 +494,7 @@ public class Board extends Application{
                     break;
                 }
             }
-            setUpSoundLoop();
+//            setUpSoundLoop();
         });
 
         button2.setOnAction(new EventHandler<ActionEvent>() {
@@ -512,7 +511,7 @@ public class Board extends Application{
         button3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                toggleSoundLoop();
+//                toggleSoundLoop();
             }
         });
 
@@ -663,52 +662,52 @@ public class Board extends Application{
         startGameLevel();
     }
 
-    //Music feature:
-
-    /** media assets used to play and stop background music
-     * @author Wei Wei
-     */
-    String musicFile = "Misty-Bog.mp3";
-    File file = new File(musicFile);
-    Media sound = new Media(file.toURI().toString());
-    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-    private boolean loopPlaying = false;
-
-    /**
-     * Set up the background music sound loop to by click the music button
-     * @author Wei Wei,adapted from the board class code of assignment 1
-     */
-    private void setUpSoundLoop()
-    {
-        try{
-            loopPlaying = true;
-            mediaPlayer.setOnEndOfMedia(new Runnable()
-            {
-                public void run()
-                {
-                    mediaPlayer.seek(Duration.ZERO);
-                }
-            });
-
-            mediaPlayer.play();
-        }
-        catch(Exception e)
-        {
-            System.err.println(e.getStackTrace());
-        }
-    }
-
-    /**
-     * Turn the sound loop on or off
-     * @author Wei Wei,adapted from the board class code of assignment 1
-     */
-    private void toggleSoundLoop()
-    {
-        if(loopPlaying) mediaPlayer.stop();
-        else mediaPlayer.play();
-
-        loopPlaying = !loopPlaying;
-    }
+//    //Music feature:
+//
+//    /** media assets used to play and stop background music
+//     * @author Wei Wei
+//     */
+//    String musicFile = "Misty-Bog.mp3";
+//    File file = new File(musicFile);
+//    Media sound = new Media(file.toURI().toString());
+//    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+//    private boolean loopPlaying = false;
+//
+//    /**
+//     * Set up the background music sound loop to by click the music button
+//     * @author Wei Wei,adapted from the board class code of assignment 1
+//     */
+//    private void setUpSoundLoop()
+//    {
+//        try{
+//            loopPlaying = true;
+//            mediaPlayer.setOnEndOfMedia(new Runnable()
+//            {
+//                public void run()
+//                {
+//                    mediaPlayer.seek(Duration.ZERO);
+//                }
+//            });
+//
+//            mediaPlayer.play();
+//        }
+//        catch(Exception e)
+//        {
+//            System.err.println(e.getStackTrace());
+//        }
+//    }
+//
+//    /**
+//     * Turn the sound loop on or off
+//     * @author Wei Wei,adapted from the board class code of assignment 1
+//     */
+//    private void toggleSoundLoop()
+//    {
+//        if(loopPlaying) mediaPlayer.stop();
+//        else mediaPlayer.play();
+//
+//        loopPlaying = !loopPlaying;
+//    }
 
     //Timer feature
 
@@ -753,6 +752,7 @@ public class Board extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("IQ Link Game");
+
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
         root.getChildren().add(timer(50, 50));
         makeControls();

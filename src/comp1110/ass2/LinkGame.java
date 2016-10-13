@@ -329,9 +329,10 @@ public class LinkGame {
     public static boolean isPlacementValid(String placement) {
         //Initialize PEGS_BALL and PEGS_RING;
         Arrays.fill(PEGS_BALL,false);
-        //Arrays.fill(used_piece,false);
+        Arrays.fill(used_piece,false);
         for(int i=0;i<24;i++){
         Arrays.fill(PEGS_SURROUNDING[i],false);}
+
 
         //First judge whether the placement is well formed.
         if(!LinkGame.isPlacementWellFormed(placement)){return false;}
@@ -350,6 +351,11 @@ public class LinkGame {
             Orientation orientation_this=Orientation.valueOf(Character.toString(piece.charAt(2)));
 
             int[] positions=LinkGame.getPegsForPiecePlacement(piece);
+
+            if(!used_piece[p])
+                used_piece[p]=true;
+            else
+                return false;
 
             if (!Placements.get(p).contains(piece))
                 return false;
@@ -606,4 +612,5 @@ public class LinkGame {
         SOLUTION_used_piece[current_piece]=true;
         return NextSubsolutions;
     }
+
 }

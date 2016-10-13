@@ -404,7 +404,8 @@ public class Board extends Application{
      * and play background music when game started.
      * @author Lei Huang, completed Play Button and Restart Button
      *                    debugged for several exceptions
-     *         Wei Wei
+     *          Wei Wei, build code for generate interesting starting placements by select different
+     *          game levels to play the Game and play background music when game started.
      */
     private void startGameLevel() {
         Label label1 = new Label("Game Level:");

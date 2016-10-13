@@ -5,7 +5,8 @@ import java.util.HashSet;
 import java.util.Random;
 
 /**
- * Created by huanglei on 16/10/13.
+ * Build code for get starting placements randomly.
+ * @author Lei Huang,Wei Wei
  */
 public class Starting_placements {
     public static void main(String[] args) {
@@ -46,7 +47,6 @@ public class Starting_placements {
         System.out.println(s_temp);
         System.out.println(LinkGame.isPlacementValid(s_temp));
         System.out.println(LinkGame.getSolutions(s_temp).length);
-
     }
 }
 

@@ -75,47 +75,31 @@ public class Board extends Application{
     private Timeline timeline;
     private Label clock = new Label();
     private int secondCount = 0;
-    private Duration timer = Duration.ZERO;
 
     public VBox timer(double vBoxX, double vBoxY){
-        //clock.textProperty().bind(secondCount);
+
         clock.setText("0");
         clock.setStyle("-fx-font-size: 3.5em");
 
         clock.setTextFill(Color.NAVY);
-
-        Button button = new Button();
-        button.setText("START");
-        button.setOnAction(new EventHandler<ActionEvent>() {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Starting_placements(Start);
-                button.setText("RESTART");
-                if (timeline != null){
-                    Starting_placements(Start);
-                    timer = Duration.ZERO;
-                    secondCount = 0;
-                }
-                else {
-                    timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            Duration duration = ((KeyFrame) event.getSource()).getTime();
-                            timer = timer.add(duration);
-                            secondCount ++;
+                Duration duration = ((KeyFrame) event.getSource()).getTime();
+                //timer = timer.add(duration);
+                secondCount ++;
 
-                            clock.setText("" + secondCount);
-                        }
-                    }));
-                    timeline.setCycleCount(Timeline.INDEFINITE);
-                    timeline.play();
-                }
+                clock.setText("" + secondCount);
             }
-        });
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+        timeline.stop();
+
         VBox vBox = new VBox();
         vBox.setLayoutX(vBoxX);
         vBox.setLayoutY(vBoxY);
-        vBox.getChildren().addAll(button, clock);
+        vBox.getChildren().addAll(clock);
         return vBox;
     }
 
@@ -456,6 +440,7 @@ public class Board extends Application{
      */
     private void showCompletion() {
         mediaPlayer.stop();
+        timeline.stop();
         competionText.toFront();
         competionText.setOpacity(1);
     }
@@ -497,7 +482,9 @@ public class Board extends Application{
     /**
      * Generate interesting starting placements by select different game levels to play the Game,
      * and play background music when game started.
-     * @author Wei Wei, Lei Huang
+     * @author Lei Huang, completed Play Button and Restart Button
+     *                    debugged for several exceptions
+     *         Wei Wei
      */
     private void startGameLevel() {
         Label label1 = new Label("Game Level:");
@@ -513,12 +500,14 @@ public class Board extends Application{
 
         button1.setOnAction(event -> {
             root.getChildren().remove(Hint_Group);
-            button_usable=true;
             hideCompletion();
             ObservableValue selectedIndices = choiceBox.getSelectionModel().selectedIndexProperty();
-
             int i=(int)selectedIndices.getValue();
-
+            if (i!=-1){
+                button_usable=true;
+                secondCount = 0;
+                timeline.play();
+            }
             Random r= new Random();
             switch(i) {
                 case 0: {
@@ -591,7 +580,11 @@ public class Board extends Application{
         button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                secondCount = 0;
+                timeline.play();
                 Starting_placements(Start);
+                hideCompletion();
+                root.getChildren().remove(Hint_Group);
             }
         });
 
@@ -676,7 +669,7 @@ public class Board extends Application{
      * and after release the "/" key to hide the hint for current game played.
      *
      * @author Wei Wei adapted from the Board class code of assignment 1
-     *         Lei Huang, debugging for NullPointerExecption
+     *         Lei Huang, debug for NullPointerExecption
      * @param scene  The Scene used by the game.
      */
     private void setUpHandlers(Scene scene) {
@@ -706,7 +699,7 @@ public class Board extends Application{
      * @author Lei Huang,Wei Wei
      */
     Boolean button_usable=false;
-    private void makecontrols(){
+    private void makeControls(){
         Button button = new Button("Hint");
         Button button2 = new Button("Clear Hint");
         Button button3 = new Button("Help");
@@ -734,6 +727,7 @@ public class Board extends Application{
                     "6.You can start/stop background music by clicking \"Music\" button. \n" +
                     "7.You can view/hide solution for current game played by clicking \"Hint/Clear Hint\" button or by press/release '/ ' key on keyboard.\n"+
                     "8.You can restart current game by clicking \"Restart\" button");
+
             alert.showAndWait();
         });
 
@@ -756,8 +750,9 @@ public class Board extends Application{
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("IQ Link Game");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
+        root.getChildren().add(timer(50, 50));
+        makeControls();
 
-        makecontrols();
         for(int i =0;i<24;i++) {
             if((i/6)%2==0){
                 Peg r = new Peg(((i%6)+1)*SQUARE_SIZE/2+SQUARE_SIZE/4+SQUARE_SIZE/2+SQUARE_SIZE/2
@@ -770,7 +765,6 @@ public class Board extends Application{
                 r.setFill(Color.LIGHTGREY);
                 pegs.add(r);}
         }
-        root.getChildren().add(timer(50, 50));
 
         pegs.forEach(peg -> root.getChildren().add(peg));
         root.getChildren().add(controls);

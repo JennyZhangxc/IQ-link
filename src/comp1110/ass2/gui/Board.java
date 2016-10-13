@@ -59,85 +59,6 @@ public class Board extends Application{
     private final Group SET_UP_pieces=new Group();
     private final ArrayList<String>pieces = new ArrayList<>();
 
-    /** media assets used to play and stop background music
-     * @author Wei Wei
-     */
-    String musicFile = "Misty-Bog.mp3";
-    File file = new File(musicFile);
-    Media sound = new Media(file.toURI().toString());
-    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-    private boolean loopPlaying = false;
-
-
-    /** time count, a timer to calculate how long this game take
-     * @author yuqiang li
-     */
-    private Timeline timeline;
-    private Label clock = new Label();
-    private int secondCount = 0;
-
-    public VBox timer(double vBoxX, double vBoxY){
-
-        clock.setText("0");
-        clock.setStyle("-fx-font-size: 3.5em");
-
-        clock.setTextFill(Color.NAVY);
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Duration duration = ((KeyFrame) event.getSource()).getTime();
-                //timer = timer.add(duration);
-                secondCount ++;
-
-                clock.setText("" + secondCount);
-            }
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-        timeline.stop();
-
-        VBox vBox = new VBox();
-        vBox.setLayoutX(vBoxX);
-        vBox.setLayoutY(vBoxY);
-        vBox.getChildren().addAll(clock);
-        return vBox;
-    }
-
-    /**
-     * Set up the background music sound loop to by click the music button
-     * @author Wei Wei,adapted from the board class code of assignment 1
-     */
-    private void setUpSoundLoop()
-    {
-        try{
-            mediaPlayer.setOnEndOfMedia(new Runnable()
-            {
-                public void run()
-                {
-                    mediaPlayer.seek(Duration.ZERO);
-                }
-            });
-
-            mediaPlayer.play();
-        }
-        catch(Exception e)
-        {
-            System.err.println(e.getStackTrace());
-        }
-    }
-
-    /**
-     * Turn the sound loop on or off
-     * @author Wei Wei,adapted from the board class code of assignment 1
-     */
-    private void toggleSoundLoop()
-    {
-        if(loopPlaying) mediaPlayer.stop();
-        else mediaPlayer.play();
-
-        loopPlaying = !loopPlaying;
-    }
-
     /* message on completion */
     private final Text competionText = new Text("Well Done!");
 
@@ -167,7 +88,7 @@ public class Board extends Application{
             this.piece = piece;
             setFitHeight(PIECE_IMAGE_SIZE);
             setFitWidth(PIECE_IMAGE_SIZE);
-        }
+            }
         }
 
         /**
@@ -200,9 +121,9 @@ public class Board extends Application{
 
             setLayoutY(BOARD_Y + y * ROW_HEIGHT);
 
-            if (o>=6){
+            if (o>=6)
                 setScaleY(-1);
-            }
+
             setRotate(60 * (o%6));
         }
     }
@@ -740,6 +661,89 @@ public class Board extends Application{
         controls.getChildren().add(hb);
 
         startGameLevel();
+    }
+
+    //Music feature:
+
+    /** media assets used to play and stop background music
+     * @author Wei Wei
+     */
+    String musicFile = "Misty-Bog.mp3";
+    File file = new File(musicFile);
+    Media sound = new Media(file.toURI().toString());
+    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+    private boolean loopPlaying = false;
+
+    /**
+     * Set up the background music sound loop to by click the music button
+     * @author Wei Wei,adapted from the board class code of assignment 1
+     */
+    private void setUpSoundLoop()
+    {
+        try{
+            loopPlaying = true;
+            mediaPlayer.setOnEndOfMedia(new Runnable()
+            {
+                public void run()
+                {
+                    mediaPlayer.seek(Duration.ZERO);
+                }
+            });
+
+            mediaPlayer.play();
+        }
+        catch(Exception e)
+        {
+            System.err.println(e.getStackTrace());
+        }
+    }
+
+    /**
+     * Turn the sound loop on or off
+     * @author Wei Wei,adapted from the board class code of assignment 1
+     */
+    private void toggleSoundLoop()
+    {
+        if(loopPlaying) mediaPlayer.stop();
+        else mediaPlayer.play();
+
+        loopPlaying = !loopPlaying;
+    }
+
+    //Timer feature
+
+    /** time count, a timer to calculate how long this game take
+     * @author yuqiang li
+     */
+    private Timeline timeline;
+    private Label clock = new Label();
+    private int secondCount = 0;
+
+    public VBox timer(double vBoxX, double vBoxY){
+
+        clock.setText("0");
+        clock.setStyle("-fx-font-size: 3.5em");
+
+        clock.setTextFill(Color.NAVY);
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Duration duration = ((KeyFrame) event.getSource()).getTime();
+                //timer = timer.add(duration);
+                secondCount ++;
+
+                clock.setText("" + secondCount);
+            }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+        timeline.stop();
+
+        VBox vBox = new VBox();
+        vBox.setLayoutX(vBoxX);
+        vBox.setLayoutY(vBoxY);
+        vBox.getChildren().addAll(clock);
+        return vBox;
     }
 
     /**

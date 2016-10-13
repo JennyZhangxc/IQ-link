@@ -57,7 +57,7 @@ public class LinkGame {
      *  - each piece placement is well-formed
      *  - no piece appears more than once in the placement
      *
-     * @author Wei Wei
+     * @author Yuqiang Li
      * @param placement A string describing a placement of one or more pieces
      * @return True if the placement is well-formed
      */

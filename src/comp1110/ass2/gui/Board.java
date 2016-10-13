@@ -93,7 +93,7 @@ public class Board extends Application{
                 button.setText("RESTART");
                 if (timeline != null){
                     Starting_placements(Start);
-                    //timer = Duration.ZERO;
+                    timer = Duration.ZERO;
                     secondCount = 0;
                 }
                 else {
@@ -101,7 +101,7 @@ public class Board extends Application{
                         @Override
                         public void handle(ActionEvent event) {
                             Duration duration = ((KeyFrame) event.getSource()).getTime();
-                            //timer = timer.add(duration);
+                            timer = timer.add(duration);
                             secondCount ++;
 
                             clock.setText("" + secondCount);

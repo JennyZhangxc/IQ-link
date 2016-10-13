@@ -32,7 +32,7 @@ public class LinkGame {
      * - the third character is in the range A .. F if the second character is A, otherwise
      *   in the range A .. L
      *
-     * @author Wei Wei
+     * @author Yuqiang Li
      * @param piecePlacement A string describing a piece placement
      * @return True if the piece placement is well-formed
      */

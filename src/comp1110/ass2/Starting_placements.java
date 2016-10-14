@@ -6,7 +6,7 @@ import java.util.Random;
 
 /**
  * Build code for get starting placements randomly.
- * @author Lei Huang,Wei Wei
+ * @author Group together
  */
 public class Starting_placements {
     public static void main(String[] args) {

@@ -100,7 +100,7 @@ public class Viewer extends Application {
 
     /**
      * Create a basic text field for input and a refresh button.
-     * @author Wei Wei
+     * @author From the assignment2
      */
     private void makeControls() {
         Label label1 = new Label("Placement:");

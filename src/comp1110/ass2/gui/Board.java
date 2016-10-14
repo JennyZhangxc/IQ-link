@@ -748,7 +748,7 @@ public class Board extends Application{
 
     /**
      * Starting stage for player to play the game.
-     * @author Lei Huang, Wei Wei
+     * @author Group together
      */
     @Override
     public void start(Stage primaryStage) throws Exception {

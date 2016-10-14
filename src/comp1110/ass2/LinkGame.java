@@ -13,7 +13,7 @@ import static comp1110.ass2.Piece.A;
 public class LinkGame {
     /**
      * Build up the pre-defined dictionary for each placement
-     * @author Wei Wei
+     * @author Lei Huang
      */
     static HashSet<String> A_placements=new HashSet<>(Arrays.asList("BAD", "VAA", "UAD", "RAE", "OAB", "NAE", "OAF", "QAD", "NAA", "KAF", "PAC", "JAE", "GAF", "IAD", "HAC", "KAB", "JAA", "GAB", "DAA", "CAD", "RAF", "UAA", "QAE", "TAD", "NAF", "JAF", "RAB", "KAC", "PAD", "IAE", "NAB", "OAC", "QAA", "JAB", "HAD", "IAA", "GAC", "EAA", "DAD", "QAF", "WAD", "PAA", "KAD", "PAE", "RAC", "OAD", "QAB", "TAA", "IAF", "NAC", "HAE", "JAC", "IAB", "BAA", "HAA", "EAD", "WAA", "PAF", "VAD", "NAD", "OAA", "OAE", "QAC", "JAD", "HAF", "KAE", "PAB", "IAC", "GAE", "HAB", "KAA", "CAA"));
     static HashSet<String> B_placements=new HashSet<>(Arrays.asList("OBH", "KBL", "NBK", "QBJ", "IBJ", "JBG", "KBD", "PBE", "NBC", "GBH", "QBB", "TBA", "HBE", "IBB", "EBD", "DBG", "CBJ", "RBH", "WBA", "OBI", "VBD", "UBG", "QBK", "TBJ", "NBL", "OBA", "IBK", "KBE", "PBF", "JBH", "GBI", "QBC", "NBD", "HBF", "IBC", "CBA", "BBD", "WBJ", "OBJ", "PBG", "QBL", "RBI", "IBL", "NBE", "OBB", "JBI", "QBD", "HBG", "KBF", "IBD", "JBA", "GBB", "EBJ", "OBK", "TBD", "PBH", "OBC", "NBF", "JBJ", "GBK", "QBE", "HBH", "KBG", "UBA", "RBB", "IBE", "JBB", "GBC", "EBA", "DBD", "UBJ", "CBG", "BBJ", "PBI", "QBF", "RBK", "WBD", "VBG", "OBL", "JBK", "KBH", "PBA", "NBG", "GBL", "RBC", "HBI", "IBF", "OBD", "JBC", "BBA", "HBA", "PBJ", "QBG", "RBL", "KBI", "PBB", "JBL", "NBH", "HBJ", "OBE", "IBG", "KBA", "JBD", "GBE", "HBB", "EBG", "DBJ", "VBA", "QBH", "RBE", "UBD", "NBI", "TBG", "PBK", "HBK", "KBJ", "IBH", "NBA", "OBF", "JBE", "PBC", "GBF", "HBC", "KBB", "DBA", "CBD", "VBJ", "BBG", "QBI", "RBF", "NBJ", "PBL", "WBG", "QBA", "HBL", "KBK", "OBG", "IBI", "NBB", "PBD", "JBF", "HBD", "KBC", "IBA"));
@@ -36,7 +36,7 @@ public class LinkGame {
      * - the third character is in the range A .. F if the second character is A, otherwise
      *   in the range A .. L
      *
-     * @author Yuqiang Li
+     * @author Group together
      * @param piecePlacement A string describing a piece placement
      * @return True if the piece placement is well-formed
      */
@@ -61,7 +61,7 @@ public class LinkGame {
      *  - each piece placement is well-formed
      *  - no piece appears more than once in the placement
      *
-     * @author Yuqiang Li
+     * @author Group together
      * @param placement A string describing a placement of one or more pieces
      * @return True if the placement is well-formed
      */
@@ -99,7 +99,7 @@ public class LinkGame {
      * The code needs to account for the origin of the piece, the piece shape, and the piece
      * orientation.
      *
-     * @author Wei Wei
+     * @author Group together
      * @param piecePlacement A valid string describing a piece placement
      * @return An array of integers corresponding to the pegs which the piece placement touches,
      * listed in the normal order of units for that piece.   The value 0 corresponds to

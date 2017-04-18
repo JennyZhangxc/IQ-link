@@ -395,7 +395,7 @@ public class LinkGame {
      * @author Lei Huang
      * @param placement  A valid piece placement string.
      * @return An array of strings, each describing a solution to the game given the
-     * starting point provied by placement.
+     * starting point provided by placement.
      */
 
     final static boolean[]SOLUTION_PEGS_BALL=new boolean[24];
@@ -537,7 +537,7 @@ public class LinkGame {
      * @param test_sub  The string that represents the piece placement being tested.
      * @return A boolean represents whether the next piece placement is valid or not.
      *         True means the piece placement is valid.
-     *         False means the piece placment is invalid.
+     *         False means the piece placement is invalid.
      */
 
     static boolean isNextPiecePlacementValid(String test_sub){
@@ -575,7 +575,7 @@ public class LinkGame {
      * @param placement  The string that represents the placement being tested.
      * @return A boolean represents whether piece placement has used all pieces or not.
      *         True means the piece placement has finished.
-     *         False means the piece placment has not finished.
+     *         False means the piece placement has not finished.
      */
     public static boolean isPlacementComplete(String placement){
         return (placement.length()/3)==12;
